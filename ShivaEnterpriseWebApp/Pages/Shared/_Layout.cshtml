@@ -1,0 +1,599 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0043)http://shivaenterpriseind.in/dashboard.html -->
+<html lang="en">
+@* <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ShivaEnterpriseWebApp</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ShivaEnterpriseWebApp.styles.css" asp-append-version="true" />
+</head> *@
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Required meta tags -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Shiva Enterprise-Admin Panel</title>
+    <!-- base:css -->
+    <link href="~/css/materialdesignicons.min.css" rel="stylesheet" />
+    <link href="~/css/vendor.bundle.base.css" rel="stylesheet" />
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link href="~/css/datatables.bootstrap4.css" rel="stylesheet" />
+    <link href="~/css/mystyles.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+
+
+    <!-- endinject -->
+    <link rel="shortcut icon" href="http://shivaenterpriseind.in/images/favicon.png">
+
+</head>
+<body>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+        <ul class="navbar-nav flex-grow-1">
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+            </li>
+        </ul>
+    </div>
+    <div class="container-scroller">
+        <!-- partial:partials/_navbar.html -->
+        <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+            <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-between">
+                <a class="navbar-brand brand-logo" href="http://shivaenterpriseind.in/dashboard.html"><img src="~/img/shiva enterprise.jpg" alt="logo" height="1500px"> </a>
+                <a class="navbar-brand brand-logo-mini" href="http://shivaenterpriseind.in/dashboard.html"><img src="~/img/logo-mini.svg" alt="logo"></a>
+                <div class="notification">  </div>
+            </div>
+            <div class="navbar-menu-wrapper d-flex align-items-center justify-content-between">
+                <div class="d-none d-lg-flex">
+                    <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+                        <span class="mdi mdi-menu"></span>
+                    </button>
+                    <!-- <ul class="navbar-nav mr-lg-2">
+                       <li class="nav-item dropdown nav-dropdown mr-3">
+                         <a class="dropdown-toggle btn" href="#" data-toggle="dropdown" id="dashDropdown">
+                             Company
+                         </a>-->
+                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="dashDropdown">
+                        <a class="dropdown-item">
+                            <i class="mdi mdi-airplay text-primary"></i>
+                            Company Year
+                        </a>
+                        <!-- <a class="dropdown-item">
+                           <i class="mdi mdi-view-headline text-primary"></i>
+                           Branch
+                         </a>-->
+                    </div>
+
+                    <!-- <li class="nav-item dropdown nav-dropdown">
+                       <a class="dropdown-toggle btn" href="#" data-toggle="dropdown" id="actionDropdown">
+                           User
+                       </a>
+                       <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="actionDropdown">
+                         <a class="dropdown-item">
+                           <i class="mdi mdi-inbox text-primary"></i>
+                           Recieved
+                         </a>
+                         <a class="dropdown-item">
+                           <i class="mdi mdi-forward text-primary"></i>
+                           Sent
+                         </a>
+                         <a class="dropdown-item">
+                           <i class="mdi mdi-content-cut text-primary"></i>
+                           Pending
+                         </a>
+                       </div>
+                     </li>-->
+
+                </div>
+                <div class="navbar-social-link d-none d-xl-flex align-items-center ">
+                    <!--<a href="#" class="btn btn-outline-light navbar-mail-btn">Sign up with email</a>
+                    <span class="mr-2 ml-2">or</span>
+                    <button type="button" class="btn btn-social-icon btn-facebook mr-2"><i class="mdi mdi-facebook"></i></button>
+                    <button type="button" class="btn btn-social-icon btn-outline-google bg-white border-0 text-warning"><img src="https://via.placeholder.com/142x105" alt="googel plus"></button>-->
+
+                </div>
+                <ul class="navbar-nav navbar-nav-right">
+
+                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="cartDropdown">
+                        <div class="dropdown-item preview-item">
+                            <div class="preview-thumbnail bg-info">
+                                <i class="mdi mdi-cake"></i>
+                            </div>
+                            <div class="preview-item-content flex-grow">
+                                <h6 class="preview-subject ellipsis font-weight-medium mb-1 text-dark">
+                                    Cake
+                                </h6>
+                                <p class="font-weight-light small-text text-muted mb-0">
+                                    <span class="mr-2 text-dark">$5.00</span> <span>quantity : 1</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="dropdown-item preview-item">
+                            <div class="preview-thumbnail bg-success text-light">
+                                <i class="mdi mdi-television"></i>
+                            </div>
+                            <div class="preview-item-content flex-grow">
+                                <h6 class="preview-subject ellipsis font-weight-medium mb-1 text-dark">
+                                    Television
+                                </h6>
+                                <p class="font-weight-light small-text text-muted mb-0">
+                                    <span class="mr-2 text-dark">$750.00</span> <span>quantity : 1</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="dropdown-item preview-item">
+                            <div class="preview-thumbnail bg-warning text-light">
+                                <i class="mdi mdi-cellphone-iphone"></i>
+                            </div>
+                            <div class="preview-item-content flex-grow">
+                                <h6 class="preview-subject ellipsis font-weight-medium mb-1 text-dark">
+                                    iphone
+                                </h6>
+                                <p class="font-weight-light small-text text-muted mb-0">
+                                    <span class="mr-2 text-dark">$1000.00</span> <span>quantity : 1</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <li class="nav-item nav-profile dropdown">
+                        <div class="nav-link" data-toggle="dropdown" id="profileDropdown" aria-expanded="false">
+                            <span>Hi, <span class="nav-profile-name">Darshan</span></span>
+                            <span class="user-icon">D</span>
+                        </div>
+                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown user-profile-action" aria-labelledby="profileDropdown">
+                            <div class="p-3 text-center bg-success">
+                                <img class="img-avatar img-avatar48 img-avatar-thumb" src="./Shiva Enterprise-Admin Panel_files/36x36" alt="">
+                            </div>
+                            <div class="p-3">
+                                <h5 class="dropdown-header text-uppercase pl-2 text-dark">User Options</h5>
+                                <a class="dropdown-item py-1 px-2 d-flex align-items-center justify-content-between" href="http://shivaenterpriseind.in/dashboard.html#">
+                                    <span>Inbox</span>
+                                    <span class="p-0">
+                                        <span class="badge badge-primary">3</span>
+                                        <i class="mdi mdi-email-open-outline ml-1"></i>
+                                    </span>
+                                </a>
+                                <a class="dropdown-item py-1 px-2 d-flex align-items-center justify-content-between" href="http://shivaenterpriseind.in/dashboard.html#">
+                                    <span>Profile</span>
+                                    <span class="p-0">
+                                        <span class="badge badge-success">1</span>
+                                        <i class="mdi mdi-account-outline ml-1"></i>
+                                    </span>
+                                </a>
+                                <a class="dropdown-item py-1 px-2 d-flex align-items-center justify-content-between" href="javascript:void(0)">
+                                    <span>Settings</span>
+                                    <i class="mdi mdi-settings"></i>
+                                </a>
+                                <div role="separator" class="dropdown-divider"></div>
+                                <h5 class="dropdown-header text-uppercase  pl-2 text-dark mt-2">Actions</h5>
+                                <a class="dropdown-item py-1 px-2 d-flex align-items-center justify-content-between" href="http://shivaenterpriseind.in/dashboard.html#">
+                                    <span>Lock Account</span>
+                                    <i class="mdi mdi-lock ml-1"></i>
+                                </a>
+                                <a class="dropdown-item py-1  px-2 d-flex align-items-center justify-content-between" href="http://shivaenterpriseind.in/dashboard.html#">
+                                    <span>Log Out</span>
+                                    <i class="mdi mdi-logout ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+                    <span class="mdi mdi-menu"></span>
+                </button>
+            </div>
+        </nav>
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+            <!-- partial:partials/_settings-panel.html -->
+            <div class="theme-setting-wrapper">
+                <div id="settings-trigger"><i class="mdi mdi-settings"></i></div>
+                <div id="theme-settings" class="settings-panel">
+                    <i class="settings-close mdi mdi-close"></i>
+                    <p class="settings-heading">SIDEBAR SKINS</p>
+                    <div class="sidebar-bg-options" id="sidebar-light-theme"><div class="img-ss rounded-circle bg-light border mr-3"></div>Light</div>
+                    <div class="sidebar-bg-options selected" id="sidebar-dark-theme"><div class="img-ss rounded-circle bg-dark border mr-3"></div>Dark</div>
+                    <p class="settings-heading mt-2">HEADER SKINS</p>
+                    <div class="color-tiles mx-0 px-4">
+                        <div class="tiles success"></div>
+                        <div class="tiles warning"></div>
+                        <div class="tiles danger"></div>
+                        <div class="tiles light"></div>
+                        <div class="tiles info"></div>
+                        <div class="tiles dark"></div>
+                        <div class="tiles default"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- partial -->
+            <!-- partial:partials/_sidebar.html -->
+            <nav class="sidebar sidebar-offcanvas" id="sidebar">
+                <ul class="nav">
+                    <li class="nav-item sidebar-profile mt-4">
+                        <a href="http://shivaenterpriseind.in/dashboard.html#">
+                            <div>
+                                <div class="profile-thumb">
+                                    <img src="./Shiva Enterprise-Admin Panel_files/36x36" alt="profile">
+                                </div>
+                                <div class="mt-2">
+                                    <h3 class="mb-1 profile-name">Darshan Parikh</h3>
+                                    <p class="profile-description">User 1</p>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link collapsed" data-toggle="collapse" asp-page="/Index" aria-expanded="false" aria-controls="ui-basic">
+                            <i class="mdi mdi-layers menu-icon"></i>
+                            <span class="menu-title">Company</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="ui-basic" style="">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-page="/Index"><b>Company</b></a>
+                                </li>
+                                <li class="nav-item"> <a class="nav-link" href="http://shivaenterpriseind.in/Company_Year.html">Company Year</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="http://shivaenterpriseind.in/Branch.html">Branch</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="http://shivaenterpriseind.in/dashboard.html#ui-advanced" aria-expanded="false" aria-controls="ui-advanced">
+                            <i class="mdi mdi-layers menu-icon"></i>
+                            <span class="menu-title">Users</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="ui-advanced">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link" href="http://shivaenterpriseind.in/Add_Users.html">Add User</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="http://shivaenterpriseind.in/Password.html">Login/Password</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="http://shivaenterpriseind.in/Delete_User.html">Delete User</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="http://shivaenterpriseind.in/Roles_Assign.html">Roles Assign</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="http://shivaenterpriseind.in/dashboard.html#form-elements" aria-expanded="false" aria-controls="form-elements">
+                            <i class="mdi mdi-layers menu-icon"></i>
+                            <span class="menu-title">Account</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="form-elements">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"><a class="nav-link" href="http://shivaenterpriseind.in/Account.html">Account</a></li>
+                                <li class="nav-item"><a class="nav-link" href="http://shivaenterpriseind.in/Account_Group.html">Account Group</a></li>
+                                <li class="nav-item"><a class="nav-link" href="http://shivaenterpriseind.in/Account_Type.html">Account Type</a></li>
+                                <li class="nav-item"><a class="nav-link" href="http://shivaenterpriseind.in/Account_Category.html">Account Category</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="http://shivaenterpriseind.in/dashboard.html#charts" aria-expanded="false" aria-controls="charts">
+                            <i class="mdi mdi-layers menu-icon"></i>
+                            <span class="menu-title">Country</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="charts">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link" href="http://shivaenterpriseind.in/Country.html">Country</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="http://shivaenterpriseind.in/State.html">State</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="http://shivaenterpriseind.in/City.html">City</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="http://shivaenterpriseind.in/dashboard.html#editors" aria-expanded="false" aria-controls="editors">
+                            <i class="mdi mdi-layers menu-icon"></i>
+                            <span class="menu-title">Product</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="editors">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"><a class="nav-link" href="http://shivaenterpriseind.in/Products.html">Product</a></li>
+                                <li class="nav-item"><a class="nav-link" href="http://shivaenterpriseind.in/Product_Group.html">Product Group</a></li>
+                                <li class="nav-item"><a class="nav-link" href="http://shivaenterpriseind.in/Product_Category.html">Product Category</a></li>
+                                <li class="nav-item"><a class="nav-link" href="http://shivaenterpriseind.in/Product_Type.html">Product Type</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="http://shivaenterpriseind.in/dashboard.html#tables" aria-expanded="false" aria-controls="tables">
+                            <i class="mdi mdi-layers menu-icon"></i>
+                            <span class="menu-title">Tax</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="tables">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link" href="http://shivaenterpriseind.in/Tax.html">Tax</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="http://shivaenterpriseind.in/Tax_Class.html">Tax Class</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="http://shivaenterpriseind.in/dashboard.html#tables" aria-expanded="false" aria-controls="tables">
+                            <i class="mdi mdi-layers menu-icon"></i>
+                            <span class="menu-title">Transport</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="tables">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link" href="http://shivaenterpriseind.in/Transport_Type.html">Transport Type</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="http://shivaenterpriseind.in/Transport_Series.html">Transport Series</a></li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="http://shivaenterpriseind.in/dashboard.html#tables" aria-expanded="false" aria-controls="tables">
+                            <i class="mdi mdi-layers menu-icon"></i>
+                            <span class="menu-title">Purchase/Sales</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="tables">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link" href="http://shivaenterpriseind.in/Purchase.html">Purchase</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="http://shivaenterpriseind.in/Purchase_Return.html">Purchase Return</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="http://shivaenterpriseind.in/Sales.html">Sales</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="http://shivaenterpriseind.in/Sales_Return.html">Sales Return</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://shivaenterpriseind.in/Counter.html">
+                            <i class="mdi mdi-layers menu-icon"></i>
+                            <span class="menu-title">Counter</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://shivaenterpriseind.in/Salesman_Agent.html">
+                            <i class="mdi mdi-layers menu-icon"></i>
+                            <span class="menu-title">Salesman Agent</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://shivaenterpriseind.in/Location.html">
+                            <i class="mdi mdi-layers menu-icon"></i>
+                            <span class="menu-title">Location</span>
+                        </a>
+                    </li>
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://shivaenterpriseind.in/Mode_Of_Payment.html">
+                            <i class="mdi mdi-layers menu-icon"></i>
+                            <span class="menu-title">Mode of Payment</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://shivaenterpriseind.in/Bank.html">
+                            <i class="mdi mdi-layers menu-icon"></i>
+                            <span class="menu-title">Bank</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://shivaenterpriseind.in/Brand.html">
+                            <i class="mdi mdi-layers menu-icon"></i>
+                            <span class="menu-title">Brand</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://shivaenterpriseind.in/Unit.html">
+                            <i class="mdi mdi-layers menu-icon"></i>
+                            <span class="menu-title">Unit</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://shivaenterpriseind.in/Receipt.html">
+                            <i class="mdi mdi-layers menu-icon"></i>
+                            <span class="menu-title">Receipt</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://shivaenterpriseind.in/Contra.html">
+                            <i class="mdi mdi-layers menu-icon"></i>
+                            <span class="menu-title">Contra</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://shivaenterpriseind.in/Journal_Voucher.html">
+                            <i class="mdi mdi-layers menu-icon"></i>
+                            <span class="menu-title">Journal Voucher</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://shivaenterpriseind.in/Inward.html">
+                            <i class="mdi mdi-layers menu-icon"></i>
+                            <span class="menu-title">Inward</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://shivaenterpriseind.in/Issues.html">
+                            <i class="mdi mdi-layers menu-icon"></i>
+                            <span class="menu-title">Issues</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://shivaenterpriseind.in/Outward.html">
+                            <i class="mdi mdi-layers menu-icon"></i>
+                            <span class="menu-title">Outward</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://shivaenterpriseind.in/Production.html">
+                            <i class="mdi mdi-layers menu-icon"></i>
+                            <span class="menu-title">Production</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://shivaenterpriseind.in/Consumption.html">
+                            <i class="mdi mdi-layers menu-icon"></i>
+                            <span class="menu-title">Consumption</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://shivaenterpriseind.in/Adjustment_Plus_Minus.html">
+                            <i class="mdi mdi-layers menu-icon"></i>
+                            <span class="menu-title">Adjustment Plus-Minus</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://shivaenterpriseind.in/Transfer.html">
+                            <i class="mdi mdi-layers menu-icon"></i>
+                            <span class="menu-title">Transfer</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://shivaenterpriseind.in/Wastage.html">
+                            <i class="mdi mdi-layers menu-icon"></i>
+                            <span class="menu-title">Wastage</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://shivaenterpriseind.in/Parameter.html">
+                            <i class="mdi mdi-layers menu-icon"></i>
+                            <span class="menu-title">Parameter</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://shivaenterpriseind.in/Setting.html">
+                            <i class="mdi mdi-layers menu-icon"></i>
+                            <span class="menu-title">Setting</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://shivaenterpriseind.in/Opening_Stock.html">
+                            <i class="mdi mdi-layers menu-icon"></i>
+                            <span class="menu-title">Opening Stock</span>
+                        </a>
+                    </li>
+
+
+                </ul>
+            </nav>
+            <!-- partial -->
+            <!-- partial -->
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Company</h4>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="table-responsive">
+                                        <div id="order-listing_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                            <div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="order-listing_length"><label>Show <select name="order-listing_length" aria-controls="order-listing" class="custom-select custom-select-sm form-control"><option value="5">5</option><option value="10">10</option><option value="15">15</option><option value="-1">All</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="order-listing_filter" class="dataTables_filter"><label><input type="search" class="form-control" placeholder="Search" aria-controls="order-listing"></label></div></div></div><div class="row">
+                                                <div class="col-sm-12">
+                                                    <table id="order-listing" class="table dataTable no-footer" role="grid" aria-describedby="order-listing_info">
+                                                        <thead>
+                                                            <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="order-listing" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Order : activate to sort column descending" style="width: 79.9167px;">Order </th><th class="sorting" tabindex="0" aria-controls="order-listing" rowspan="1" colspan="1" aria-label="Code: activate to sort column ascending" style="width: 76.0938px;">Code</th><th class="sorting" tabindex="0" aria-controls="order-listing" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 146.865px;">Name</th><th class="sorting" tabindex="0" aria-controls="order-listing" rowspan="1" colspan="1" aria-label="Billing Name: activate to sort column ascending" style="width: 155.281px;">Billing Name</th><th class="sorting" tabindex="0" aria-controls="order-listing" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 89.2396px;">Status</th><th class="sorting" tabindex="0" aria-controls="order-listing" rowspan="1" colspan="1" aria-label="Actions: activate to sort column ascending" style="width: 101.938px;">Actions</th></tr>
+                                                        </thead>
+                                                        <tbody>
+
+                                                            <tr role="row" class="odd">
+                                                                <td class="sorting_1">1</td>
+                                                                <td>SE01</td>
+                                                                <td>Shiva Enterprise</td>
+                                                                <td>Shiva Enterprise</td>
+
+                                                                <td>
+                                                                    <label class="badge badge-info">Active</label>
+                                                                </td>
+                                                                <td>
+                                                                    <button class="btn btn-outline-primary">View</button>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="order-listing_info" role="status" aria-live="polite">Showing 1 to 1 of 1 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="order-listing_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="order-listing_previous"><a href="http://shivaenterpriseind.in/dashboard.html#" aria-controls="order-listing" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="http://shivaenterpriseind.in/dashboard.html#" aria-controls="order-listing" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item next disabled" id="order-listing_next"><a href="http://shivaenterpriseind.in/dashboard.html#" aria-controls="order-listing" data-dt-idx="2" tabindex="0" class="page-link">Next</a></li></ul></div></div></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- content-wrapper ends -->
+                <!-- partial:partials/_footer.html -->
+                <footer class="footer">
+                    <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2019 <a href="http://shivaenterpriseind.in/dashboard.html" target="_blank">Shiva Enterprise</a>. All rights reserved. Terms of use | Privacy Policy</span>
+                        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Designed &amp; Developed By Say It Social</span>
+                    </div>
+                </footer>
+                <!-- partial -->
+            </div>
+            <!-- main-panel ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- base:js -->
+    <script src="./Shiva Enterprise-Admin Panel_files/vendor.bundle.base.js.download"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page-->
+    <!-- End plugin js for this page-->
+    <!-- inject:js -->
+    <script src="./Shiva Enterprise-Admin Panel_files/off-canvas.js.download"></script>
+    <script src="./Shiva Enterprise-Admin Panel_files/hoverable-collapse.js.download"></script>
+    <script src="./Shiva Enterprise-Admin Panel_files/template.js.download"></script>
+    <script src="./Shiva Enterprise-Admin Panel_files/settings.js.download"></script>
+    <script src="./Shiva Enterprise-Admin Panel_files/todolist.js.download"></script>
+    <!-- endinject -->
+    <!-- plugin js for this page -->
+    <script src="./Shiva Enterprise-Admin Panel_files/progressbar.min.js.download"></script>
+    <script src="./Shiva Enterprise-Admin Panel_files/jquery.flot.js.download"></script>
+    <script src="./Shiva Enterprise-Admin Panel_files/jquery.flot.resize.js.download"></script>
+    <script src="./Shiva Enterprise-Admin Panel_files/Chart.min.js.download"></script>
+    <!-- End plugin js for this page -->
+    <!-- Custom js for this page-->
+    <script src="./Shiva Enterprise-Admin Panel_files/jquery.dataTables.js.download"></script>
+    <script src="./Shiva Enterprise-Admin Panel_files/dataTables.bootstrap4.js.download"></script>
+    <!-- End plugin js for this page -->
+    <!-- Custom js for this page-->
+    <script src="./Shiva Enterprise-Admin Panel_files/data-table.js.download"></script>
+    <script src="./Shiva Enterprise-Admin Panel_files/chart.flot.sampledata.js.download"></script>
+    <script src="./Shiva Enterprise-Admin Panel_files/dashboard.sampledata.js.download"></script>
+    <script src="./Shiva Enterprise-Admin Panel_files/patternomaly.js.download"></script>
+    <script src="./Shiva Enterprise-Admin Panel_files/dashboard.js.download"></script>
+    <!-- End custom js for this page-->
+
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2023 - ShivaEnterpriseWebApp - <a asp-area="" asp-page="/Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+
+</html>
+
+
+
+
+

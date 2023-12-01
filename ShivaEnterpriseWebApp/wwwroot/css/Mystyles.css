@@ -1,0 +1,30 @@
+﻿#order-listing th, #order-listing td, .card-body .dataTables_info {
+    color: #000000 !important;
+}
+
+.dataTables_filter input {
+    color: #000000 !important;
+    border-color: #000;
+}
+
+div#order-listing_length * {
+    color: #000000 !important;
+}
+
+div#order-listing_length select {
+    min-width: 50px;
+}
+
+div#settings-trigger {
+    display: none;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+a.navbar-brand.brand-logo {
+    width: 100%;
+}
+
+    a.navbar-brand.brand-logo img {
+        width: 100% !important;
+    }
