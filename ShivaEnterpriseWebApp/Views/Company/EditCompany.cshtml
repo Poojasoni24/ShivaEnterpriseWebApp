@@ -1,0 +1,65 @@
+﻿@model ShivaEnterpriseWebApp.DTOs.CompanyDTO
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="card-body">
+        <div class="form">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-row">
+                    <label asp-for="Company_Id" class="control-label"></label>
+                    <input asp-for="Company_Id" class="form-control" />
+                    <span asp-validation-for="Company_Id" class="text-danger"></span>
+                </div>
+                <div class="form-row">
+                    <label asp-for="Company_Code" class="control-label"></label>
+                    <input asp-for="Company_Code" class="form-control" />
+                    <span asp-validation-for="Company_Code" class="text-danger"></span>
+                </div>
+                <div class="form-row">
+                    <label asp-for="Company_Name" class="control-label"></label>
+                    <input asp-for="Company_Name" class="form-control" />
+                    <span asp-validation-for="Company_Name" class="text-danger"></span>
+                </div>
+                <div class="form-row">
+                    <label asp-for="Company_Startyear" class="control-label"></label>
+                    <input asp-for="Company_Startyear" class="form-control" />
+                    <span asp-validation-for="Company_Startyear" class="text-danger"></span>
+                </div>
+                <div class="form-row">
+                    <label asp-for="Company_Endyear" class="control-label"></label>
+                    <input asp-for="Company_Endyear" class="form-control" />
+                    <span asp-validation-for="Company_Endyear" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="IsActive" class="control-label"></label>
+                    <input asp-for="IsActive" class="form-control" />
+                    <span asp-validation-for="IsActive" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                    @* <input type="button" value="Back to List" class="btn btn-info" asp-action="Index" asp-controller="Company"> *@
+                </div>
+                <div>
+                    <a asp-action="Index">Back to List</a>
+                </div>    
+        </div>
+    </div>
+
+}
+
+
+
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

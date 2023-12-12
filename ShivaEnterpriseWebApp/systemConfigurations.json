@@ -1,0 +1,8 @@
+{
+  "baseUrl": "https://localhost:44362",
+  "GetCompaniesUrl": "/api/Company/GetCompanies",
+  "GetCompanyByIdUrl": "/api/Company/GetCompanyById",
+  "AddCompaniesUrl": "/api/Company/AddCompany",
+  "EditCompaniesUrl": "/api/Company/EditCompany",
+  "DeleteCompanyUrl": "/api/Company/DeleteCompany"
+}
