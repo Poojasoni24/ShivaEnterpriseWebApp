@@ -23936,7 +23936,7 @@ code {
 .jsgrid .jsgrid-table .jsgrid-filter-row select, .jsgrid .jsgrid-table .jsgrid-filter-row input[type=number], .select2-container--default .select2-selection--single, .select2-container--default .select2-selection--single .select2-search__field, .typeahead,
 .tt-query,
 .tt-hint {
-    border: 1px solid #f3f3f3;
+    border: 1px solid #000;
     font-weight: 400;
     font-size: 0.875rem;
     height: auto;
@@ -29700,7 +29700,7 @@ div.tagsinput {
 
 .main-panel {
     transition: width 0.25s ease, margin 0.25s ease;
-    width: calc(100% - 240px);
+    width: calc(100% - 0px);
     min-height: calc(100vh - 79px);
     display: -webkit-flex;
     display: flex;
@@ -33110,3 +33110,10 @@ div.tagsinput {
 
 
 /*# sourceMappingURL=../maps/vertical-layout-light/style.css.map */
+
+
+
+/*custom css*/
+.compnay_btn {position: absolute;right: 5%;top: 5%;transform: translate(-5%, -5%);}
+.table-responsive #order-listing_wrapper #order-listing th{white-space:nowrap;}
+.table-responsive #order-listing th{text-align:center !important}
