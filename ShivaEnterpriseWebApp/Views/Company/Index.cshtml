@@ -1,6 +1,6 @@
 ﻿@using Newtonsoft.Json
-@using ShivaEnterpriseWebApp.DTOs
-@model List<ShivaEnterpriseWebApp.DTOs.CompanyDTO>
+@using ShivaEnterpriseWebApp.Model;
+@model List<ShivaEnterpriseWebApp.Model.Company>
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -8,8 +8,6 @@
 }
 <!DOCTYPE html>
 <html lang="en">
-
-
 <body>
     <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -35,10 +33,10 @@
                                         <tr>
                                             <th>Company Code</th>
                                             <th>Company Name</th>
-                                            <th>Company Starting Year</th>
-                                            <th>Company Ending Year</th>
+                                            <th>Company Starting Date</th>
+                                            <th>Company Ending Date</th>
                                             <th>Status</th>
-                                            <th colspan="2">Actions</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -50,7 +48,7 @@
                                                 <tr>
                                                     <td>@item.Company_Code</td>
                                                     <td>@item.Company_Name</td>
-                                                    <td>@item.Company_Startyear.</td>
+                                                    <td>@item.Company_Startyear</td>
                                                     @if (item.Company_Endyear.HasValue)
                                                     {
                                                         <td>@item.Company_Endyear</td>
@@ -60,7 +58,7 @@
                                                         <td>Not ended yet</td>
                                                     }
                                                     <td>
-                                                        <label class="badge badge-info">@item.IsActive</label>
+                                                        <label class="badge badge-info">@(item.IsActive ?"Active":"InActive")</label>
                                                     </td>
                                                     <td>
                                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" onclick="loadPartial(@(JsonConvert.SerializeObject(item.Company_Id)))">

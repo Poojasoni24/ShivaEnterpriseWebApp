@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ShivaEnterpriseWebApp.DTOs;
+using ShivaEnterpriseWebApp.Model;
 using ShivaEnterpriseWebApp.Services.Implementation;
 using ShivaEnterpriseWebApp.Services.Interface;
+using System.Security.Claims;
 using System.Security.Policy;
 
 namespace ShivaEnterpriseWebApp.Controllers
@@ -12,14 +13,17 @@ namespace ShivaEnterpriseWebApp.Controllers
         ICompany companyobject = new CompanyServiceImpl();
         public async Task<ActionResult> Index()
         {
-            var companyallData = await companyobject.GetCompanyDetailsAsync();            
+            string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
+            var companyallData = await companyobject.GetCompanyDetailsAsync(authToken);            
             return View("Index", companyallData);
         }
 
         public async Task<ActionResult> Details(Guid companyId)
         {
-            var companyData = await companyobject.GetCompanyDetailById(companyId);
-            return PartialView("_companyDetails", new CompanyDTO() {
+            string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
+
+            var companyData = await companyobject.GetCompanyDetailById(companyId, authToken);
+            return PartialView("_companyDetails", new Company() {
                 Company_Id = companyId,
                 Company_Code = companyData.Company_Code,
                 Company_Name = companyData.Company_Name,
@@ -37,12 +41,13 @@ namespace ShivaEnterpriseWebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddCompany(CompanyDTO companyDTO)
+        public async Task<ActionResult> AddCompany(Company companyDTO)
         {
             try
             {
+                string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
                 companyDTO.IsActive = true;
-                var companyData = await companyobject.AddCompanyDetailsAsync(companyDTO);
+                var companyData = await companyobject.AddCompanyDetailsAsync(companyDTO, authToken);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -54,16 +59,19 @@ namespace ShivaEnterpriseWebApp.Controllers
         [HttpGet]
         public async Task<ActionResult> EditCompany(Guid id)
         {
-            var editData = await companyobject.GetCompanyDetailById(id);
+            string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
+            var editData = await companyobject.GetCompanyDetailById(id,authToken);
             return View("EditCompany",editData);
         }
 
         [HttpPost]
-        public async Task<ActionResult> EditCompany(Guid id, CompanyDTO companyDTO)             
+        public async Task<ActionResult> EditCompany(Guid id, Company companyDTO)             
         {
             try
             {
-                var result = await companyobject.EditCompanyDetailsAsync(id, companyDTO);
+                companyDTO.Company_Id = id;
+                string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
+                var result = await companyobject.EditCompanyDetailsAsync(companyDTO, authToken);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -77,13 +85,14 @@ namespace ShivaEnterpriseWebApp.Controllers
         {
             try
             {
-                var response = await companyobject.DeleteCompany(companyId);
+                string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
+                var response = await companyobject.DeleteCompany(companyId, authToken);
 
                 return Json(new { success = response.successs, message = response.message });
             }
             catch (Exception ex)
             {
-                return Json(new { success = false, message = "An error occured while remove organization." });
+                return Json(new { success = false, message = "An error occured while remove company." });
             }
         }
     }

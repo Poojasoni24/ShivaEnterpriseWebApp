@@ -8,7 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Shiva Enterprise-Admin Panel</title>
     <!-- base:css -->
-    <link href="~/css/materialdesignicons.min.css" rel="stylesheet" />
     <link href="~/css/vendor.bundle.base.css" rel="stylesheet" />
     <!-- endinject -->
     <!-- plugin css for this page -->
@@ -18,6 +17,7 @@
     <link href="~/css/mystyles.css" rel="stylesheet" />
     <link href="~/css/site.css" rel="stylesheet" />
     <link href="~/snackbar/snackbar.min.css" rel="stylesheet">
+    <link href="~/lib/fontawesome-iconpicker/css/fontawesome-iconpicker.min.css" rel="stylesheet" />
 
 
     <!-- endinject -->
@@ -38,7 +38,7 @@
             <div id="content">
                 <partial name="~/Views/Shared/_Header.cshtml" />
                 <!-- Begin Page Content -->
-                <div class="container-fluid page-body-wrapper">
+                <div class="container-fluid page-body-wrapper company_details">
                     @RenderBody()
 
                 </div>
@@ -95,7 +95,7 @@
     
     <script src="~/js/dashboard.js"></script>
     <script src="~/js/dashboard.sampledata.js"></script>
-    
+    <script src="~/lib/fontawesome-iconpicker/js/fontawesome-iconpicker.min.js"></script>
      @* <script src="~/js/datatables.bootstrap4.js"></script> *@
 
     <!-- End custom js for this page-->

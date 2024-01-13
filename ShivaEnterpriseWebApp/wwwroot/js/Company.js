@@ -1,6 +1,8 @@
-$(document).ready(function () {
-    // Your code here
+$(() => {
+    debugger;
+    console.log("Hello World!");
 });
+
 
 //#region DELETE
 

@@ -16,12 +16,12 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
         {
             urlCollections = JObject.Parse(File.ReadAllText("systemConfigurations.json"));
         }
-        public async Task<List<CompanyDTO>> GetCompanyDetailsAsync()
+        public async Task<List<Company>> GetCompanyDetailsAsync(string authToken)
         {
             var url = urlCollections["baseUrl"].ToString() + urlCollections["GetCompaniesUrl"].ToString();
             var client = new HttpClient();
             var request = new HttpRequestMessage(new HttpMethod("GET"), url);
-            //request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + AuthToken);
+            request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
 
             //Pass in the full URL and the json string content
             var response = await client.SendAsync(request);
@@ -32,21 +32,18 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             //close out the client
             client.Dispose();
 
-            var companies = JsonConvert.DeserializeObject<List<CompanyDTO>>(result);
+            var companies = JsonConvert.DeserializeObject<List<Company>>(result);
 
             return companies;
         }
 
-        public async Task<CompanyDTO> GetCompanyDetailById(Guid companyId)
+        public async Task<Company> GetCompanyDetailById(Guid companyId, string authToken)
         {
-            string json = "{ \"companyId\": \"" + companyId + "\" }";
-            StringContent data = new StringContent(json, Encoding.UTF8, "application/json");
             var url = urlCollections["baseUrl"].ToString() + urlCollections["GetCompanyByIdUrl"] +"?CompanyId="+companyId.ToString();
             var client = new HttpClient();
 
             var request = new HttpRequestMessage(new HttpMethod("GET"), url);
-            //request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + AuthToken);
-            //request.Content = new StringContent(data);
+            request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
                 
 
             //Pass in the full URL and the json string content
@@ -58,19 +55,19 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             //close out the client
             client.Dispose();
 
-            var companies = JsonConvert.DeserializeObject<CompanyDTO>(result);
+            var companies = JsonConvert.DeserializeObject<Company>(result);
 
             return companies;
         }
 
-        public async Task<(bool successs,string message)> DeleteCompany(Guid companyId)
+        public async Task<(bool successs,string message)> DeleteCompany(Guid companyId, string authToken)
         {
             string json = "{ \"CompanyId\": \"" + companyId + "\" }";
             StringContent data = new StringContent(json, Encoding.UTF8, "application/json");
             var url = urlCollections["baseUrl"].ToString() + urlCollections["DeleteCompanyUrl"] + "?CompanyId=" + companyId.ToString();
             var client = new HttpClient();
             var request = new HttpRequestMessage(new HttpMethod("POST"), url);
-            //request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + AuthToken);
+            request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
             request.Content = data;
 
             //Pass in the full URL and the json string content
@@ -88,7 +85,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             return (true, result);
         }
 
-        public async Task<(bool success, string message)> AddCompanyDetailsAsync(CompanyDTO company)
+        public async Task<(bool success, string message)> AddCompanyDetailsAsync(Company company ,string authToken)
         {
             try
             {
@@ -99,7 +96,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
                 var url = urlCollections["baseUrl"].ToString() + urlCollections["AddCompaniesUrl"].ToString();
                 var client = new HttpClient();
                 var request = new HttpRequestMessage(new HttpMethod("POST"), url);
-                //request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + AuthToken);
+                request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
                 request.Content = data;
 
                 //Pass in the full URL and the json string content
@@ -122,7 +119,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             }
         }
 
-        public async Task<(bool success, string message)> EditCompanyDetailsAsync(Guid id,CompanyDTO company)
+        public async Task<(bool success, string message)> EditCompanyDetailsAsync(Company company, string authToken)
         {
             try
             {
@@ -130,10 +127,10 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
                 string json = JsonConvert.SerializeObject(company);
 
                 StringContent data = new StringContent(json, Encoding.UTF8, "application/json");
-                var url = urlCollections["baseUrl"].ToString() + urlCollections["EditCompaniesUrl"] + "?id=" + id.ToString();
+                var url = urlCollections["baseUrl"].ToString() + urlCollections["EditCompaniesUrl"] + "?id=" + company.Company_Id.ToString();
                 var client = new HttpClient();
                 var request = new HttpRequestMessage(new HttpMethod("PUT"), url);
-                //request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + AuthToken);
+                request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
                 request.Content = data;
 
                 //Pass in the full URL and the json string content
@@ -145,7 +142,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
                 //close out the client
                 client.Dispose();
 
-                if (response.StatusCode != HttpStatusCode.OK)
+                if (response.StatusCode != HttpStatusCode.NoContent)
                     return (false, result);
 
                 return (true, result);

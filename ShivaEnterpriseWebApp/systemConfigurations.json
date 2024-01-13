@@ -4,5 +4,19 @@
   "GetCompanyByIdUrl": "/api/Company/GetCompanyById",
   "AddCompaniesUrl": "/api/Company/AddCompany",
   "EditCompaniesUrl": "/api/Company/EditCompany",
-  "DeleteCompanyUrl": "/api/Company/DeleteCompany"
+  "DeleteCompanyUrl": "/api/Company/DeleteCompany",
+  "authUrl": "/api/Authenticate/login",
+  "getUserDetail": "/api/Authenticate/getuserbyname",
+  "getalluserUrl": "/api/User/GetAllUser",
+  "getuserbyIdUrl": "/api/User/GetUserById",
+  "registerUserUrl": "/api/User/register",
+  "deleteuserUrl": "/api/User/DeleteUser",
+  "edituserUrl": "/api/User/EditUser",
+  "getallbranchUrl": "/api/Branch/GetAllBranch",
+  "getbranchbyIdUrl": "/api/Branch/GetBranchById",
+  "addbranchUrl": "/api/Branch/AddBranch",
+  "deletebranchUrl": "/api/Branch/DeleteBranch",
+  "editbranchUrl": "/api/Branch/EditBranch"
+
+
 }

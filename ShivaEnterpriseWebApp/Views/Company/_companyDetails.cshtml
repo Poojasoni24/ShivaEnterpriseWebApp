@@ -1,4 +1,4 @@
-﻿@model ShivaEnterpriseWebApp.DTOs.CompanyDTO
+﻿@model ShivaEnterpriseWebApp.Model.Company
 @{
     ViewData["Title"] = "Details";
 }
@@ -28,7 +28,7 @@
                     @Html.DisplayNameFor(model => model.Company_Startyear)
                 </dt>
                 <dd class="col-sm-8">
-                    @Html.DisplayFor(model => model.Company_Startyear.Value.Year)
+                    @Html.DisplayFor(model => model.Company_Startyear)
                 </dd>
                 <dt class="col-sm-3">
                     @Html.DisplayNameFor(model => model.Company_Endyear)

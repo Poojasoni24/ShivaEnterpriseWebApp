@@ -21077,6 +21077,9 @@ code {
 
 /* Footer */
 .footer {
+    position:fixed;
+    width:90%;
+    bottom:0;
     background: #f6f7fb;
     padding: 30px 1rem;
     transition: all 0.25s ease;

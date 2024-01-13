@@ -8,44 +8,38 @@
                         <img src="https://via.placeholder.com/36x36" alt="profile">
                     </div>
                     <div class="mt-2">
-                        <h3 class="mb-1 profile-name">Darshan Parikh</h3>
-                        <p class="profile-description">User 1</p>
+                        <h3 class="mb-1 profile-name">@(User != null && User.Identity != null? User.Identity.Name : string.Empty)</h3>
+                        <p class="profile-description">Admin</p>
                     </div>
                 </div>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href= "/" aria-expanded="false" aria-controls="ui-basic">
-                <i class="mdi mdi-layers menu-icon"></i>
+            <a class="nav-link" data-toggle="collapse" href="#ui-company" aria-expanded="false" aria-controls="ui-basic">
                 <span class="menu-title">Company</span>
                 <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="ui-basic">
+            <div class="collapse" id="ui-company">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item"> <a class="nav-link" href="/"><b>Company</b></a></li>
-                    <li class="nav-item"> <a class="nav-link" href="Company_Year.html">Company Year</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="Branch.html">Branch</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="Branch">Branch</a></li>
                 </ul>
             </div>
         </li>
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-advanced" aria-expanded="false" aria-controls="ui-advanced">
-                <i class="mdi mdi-layers menu-icon"></i>
                 <span class="menu-title">Users</span>
                 <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="ui-advanced">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="Add_Users.html">Add User</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="Password.html">Login/Password</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="Delete_User.html">Delete User</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="User">Users</a></li>
                     <li class="nav-item"> <a class="nav-link" href="Roles_Assign.html">Roles Assign</a></li>
                 </ul>
             </div>
         </li>
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
-                <i class="mdi mdi-layers menu-icon"></i>
                 <span class="menu-title">Account</span>
                 <i class="menu-arrow"></i>
             </a>
@@ -60,7 +54,6 @@
         </li>
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">
-                <i class="mdi mdi-layers menu-icon"></i>
                 <span class="menu-title">Country</span>
                 <i class="menu-arrow"></i>
             </a>
@@ -74,7 +67,6 @@
         </li>
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#editors" aria-expanded="false" aria-controls="editors">
-                <i class="mdi mdi-layers menu-icon"></i>
                 <span class="menu-title">Product</span>
                 <i class="menu-arrow"></i>
             </a>
@@ -89,7 +81,6 @@
         </li>
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
-                <i class="mdi mdi-layers menu-icon"></i>
                 <span class="menu-title">Tax</span>
                 <i class="menu-arrow"></i>
             </a>
@@ -102,7 +93,6 @@
         </li>
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
-                <i class="mdi mdi-layers menu-icon"></i>
                 <span class="menu-title">Transport</span>
                 <i class="menu-arrow"></i>
             </a>
@@ -116,7 +106,6 @@
 
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
-                <i class="mdi mdi-layers menu-icon"></i>
                 <span class="menu-title">Purchase/Sales</span>
                 <i class="menu-arrow"></i>
             </a>
@@ -130,20 +119,19 @@
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="Counter.html">
-                <i class="mdi mdi-layers menu-icon"></i>
+            <a class="nav-link" href="Counter.html">              
                 <span class="menu-title">Counter</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="Salesman_Agent.html">
-                <i class="mdi mdi-layers menu-icon"></i>
+              
                 <span class="menu-title">Salesman Agent</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="Location.html">
-                <i class="mdi mdi-layers menu-icon"></i>
+              
                 <span class="menu-title">Location</span>
             </a>
         </li>
@@ -151,111 +139,111 @@
 
         <li class="nav-item">
             <a class="nav-link" href="Mode_Of_Payment.html">
-                <i class="mdi mdi-layers menu-icon"></i>
+              
                 <span class="menu-title">Mode of Payment</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="Bank.html">
-                <i class="mdi mdi-layers menu-icon"></i>
+              
                 <span class="menu-title">Bank</span>
             </a>
         </li>
 
         <li class="nav-item">
             <a class="nav-link" href="Brand.html">
-                <i class="mdi mdi-layers menu-icon"></i>
+              
                 <span class="menu-title">Brand</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="Unit.html">
-                <i class="mdi mdi-layers menu-icon"></i>
+              
                 <span class="menu-title">Unit</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="Receipt.html">
-                <i class="mdi mdi-layers menu-icon"></i>
+              
                 <span class="menu-title">Receipt</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="Contra.html">
-                <i class="mdi mdi-layers menu-icon"></i>
+              
                 <span class="menu-title">Contra</span>
             </a>
         </li>
 
         <li class="nav-item">
             <a class="nav-link" href="Journal_Voucher.html">
-                <i class="mdi mdi-layers menu-icon"></i>
+              
                 <span class="menu-title">Journal Voucher</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="Inward.html">
-                <i class="mdi mdi-layers menu-icon"></i>
+              
                 <span class="menu-title">Inward</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="Issues.html">
-                <i class="mdi mdi-layers menu-icon"></i>
+              
                 <span class="menu-title">Issues</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="Outward.html">
-                <i class="mdi mdi-layers menu-icon"></i>
+              
                 <span class="menu-title">Outward</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="Production.html">
-                <i class="mdi mdi-layers menu-icon"></i>
+              
                 <span class="menu-title">Production</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="Consumption.html">
-                <i class="mdi mdi-layers menu-icon"></i>
+              
                 <span class="menu-title">Consumption</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="Adjustment_Plus_Minus.html">
-                <i class="mdi mdi-layers menu-icon"></i>
+              
                 <span class="menu-title">Adjustment Plus-Minus</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="Transfer.html">
-                <i class="mdi mdi-layers menu-icon"></i>
+              
                 <span class="menu-title">Transfer</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="Wastage.html">
-                <i class="mdi mdi-layers menu-icon"></i>
+              
                 <span class="menu-title">Wastage</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="Parameter.html">
-                <i class="mdi mdi-layers menu-icon"></i>
+              
                 <span class="menu-title">Parameter</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="Setting.html">
-                <i class="mdi mdi-layers menu-icon"></i>
+              
                 <span class="menu-title">Setting</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="Opening_Stock.html">
-                <i class="mdi mdi-layers menu-icon"></i>
+              
                 <span class="menu-title">Opening Stock</span>
             </a>
         </li>

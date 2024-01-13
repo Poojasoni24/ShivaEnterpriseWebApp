@@ -1,0 +1,17 @@
+﻿body {
+}
+.page-body-wrapper{}
+.company_from {
+    margin: 0 auto;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    margin-top:3%;
+}
+.company_details{align-items:center;justify-content:center;margin-top:2%}
+.company_details h2{font-size:30px;line-height:40px;margin-bottom:20px;text-align:center;color:#423898;}
+.company_details form{max-width:550px;width:100%}
+.company_from .form .form-group.row {
+    
+    align-items: center;
+    justify-content: center;
+}
+.form-group label{vertical-align:middle;margin-bottom:0;color:#000;}

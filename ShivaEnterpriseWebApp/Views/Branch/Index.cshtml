@@ -1,0 +1,80 @@
+﻿@using Newtonsoft.Json
+@using ShivaEnterpriseWebApp.Model
+@model List<ShivaEnterpriseWebApp.Model.Branch>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Index";
+}
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div id="branchDetailDiv">
+            </div>
+        </div>
+    </div>
+
+    <!-- partial -->
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Branch</h4>
+                    <div class="compnay_btn">
+                        <input class="btn btn-success" type="button" value="Add Branch" onclick="window.location.href='Branch/AddorEditBranch'" />
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <table id="order-listing" class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Branch Code</th>
+                                            <th>Branch Name</th>
+                                            <th>Company Name</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model != null)
+                                        {
+                                            @foreach (var item in Model)
+                                            {
+
+                                                <tr>
+                                                    <td>@item.Branch_Code</td>
+                                                    <td>@item.Branch_Name</td>
+                                                    <td>@item.Company.Company_Name</td>                                                   
+                                                    <td>
+                                                        <label class="badge badge-info">@(item.IsActive ? "Active" : "InActive")</label>
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" onclick="loadBranchPartial(@(JsonConvert.SerializeObject(item.Branch_Id)))">
+                                                            view
+                                                        </button>
+                                                        <input class="btn btn-outline-danger" type="button" value="Delete" onclick="onDeleteBranch(@(JsonConvert.SerializeObject(item)))" />
+
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- content-wrapper ends -->
+    </div>
+
+
+</body>
+
+</html>
+
+<script src="~/js/branch.js"></script>
