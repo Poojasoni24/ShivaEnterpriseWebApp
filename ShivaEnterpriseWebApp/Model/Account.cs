@@ -12,9 +12,17 @@ namespace ShivaEnterpriseWebApp.Model
         public string AccountGroupId { get; set; }
         public string AccountTypeId { get; set; }
         public string AccountCategoryId { get; set; }
+
+
         public List<SelectListItem> AccountGroupList { get; set; }
+
+        public AccountGroup AccountGroup { get; set; }
         public List<SelectListItem> AccountCategoryList { get; set; }
+
+        public AccountCategory AccountCategory { get; set; }
         public List<SelectListItem> AccountTypeList { get; set; }
+
+        public AccountType AccountType { get; set; }
 
     }
 }
