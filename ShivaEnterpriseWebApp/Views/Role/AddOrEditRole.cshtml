@@ -1,0 +1,49 @@
+﻿@model ShivaEnterpriseWebApp.Model.Role
+
+@{
+    ViewData["Title"] = "AddorEdit";
+}
+<link href="~/css/company.css" rel="stylesheet" />
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <h2>@(Model != null && string.IsNullOrEmpty(Model.Id) ? "Edit Role" : "Add Role")</h2>
+    <div class="card-body company_from">
+        <div class="form">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <label asp-for="Name" class="control-label"></label>
+                <div class="col-md-9">
+                    <input asp-for="Name" class="form-control" autocomplete="off" />
+                </div>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+           
+           
+            <div class="form-group row">
+                <label asp-for="IsActive" class="control-label"></label>
+                <div class="col-md-9">
+                    @* @Html.CheckBoxFor(model => model.IsActive) *@
+                    <input asp-for="IsActive" class="form-control" type="checkbox" />
+                </div>
+                <span asp-validation-for="IsActive" class="text-danger"></span>
+            </div>
+            <input asp-for="CreatedDateTime" class="form-control" type="hidden" />
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                @* <input type="button" value="Back to List" class="btn btn-info" asp-action="Index" asp-controller="Company"> *@
+                <button type="button" class="btn btn-info"> <a asp-action="Index">Back to List</a></button>
+            </div>
+        </div>
+    </div>
+
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

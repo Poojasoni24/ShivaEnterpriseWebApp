@@ -5,18 +5,99 @@
   "AddCompaniesUrl": "/api/Company/AddCompany",
   "EditCompaniesUrl": "/api/Company/EditCompany",
   "DeleteCompanyUrl": "/api/Company/DeleteCompany",
+
   "authUrl": "/api/Authenticate/login",
   "getUserDetail": "/api/Authenticate/getuserbyname",
+
   "getalluserUrl": "/api/User/GetAllUser",
   "getuserbyIdUrl": "/api/User/GetUserById",
   "registerUserUrl": "/api/User/register",
   "deleteuserUrl": "/api/User/DeleteUser",
   "edituserUrl": "/api/User/EditUser",
+
   "getallbranchUrl": "/api/Branch/GetAllBranch",
   "getbranchbyIdUrl": "/api/Branch/GetBranchById",
   "addbranchUrl": "/api/Branch/AddBranch",
   "deletebranchUrl": "/api/Branch/DeleteBranch",
-  "editbranchUrl": "/api/Branch/EditBranch"
+  "editbranchUrl": "/api/Branch/EditBranch",
+
+  "getallroleUrl": "/api/Role/GetRoles",
+  "getrolebyIdUrl": "/api/Role/GetRoleById",
+  "addroleUrl": "/api/Role/CreateRole",
+  "deleteroleUrl": "/api/Role/DeleteRole",
+  "editroleUrl": "/api/Role/UpdateRole",
+
+  "getAllCountryUrl": "/api/Country/GetAllCountry",
+  "getcountrybyidUrl": "/api/Country/GetCountryById",
+  "addcountryUrl": "/api/Country/AddCountry",
+  "deletecountryUrl": "/api/Country/DeleteCountry",
+  "editcountryUrl": "/api/Country/EditCountryDetail",
+
+  "getallstateUrl": "/api/State/GetAllState",
+  "getstatebyidUrl": "/api/State/GetStateById",
+  "addstateUrl": "/api/State/AddState",
+  "deletestateUrl": "/api/State/DeleteState",
+  "editstateUrl": "/api/State/EditStateDetail",
+
+  "getallcityUrl": "/api/City/GetAllCity",
+  "getcitybyidUrl": "/api/City/GetCityById",
+  "addcityUrl": "/api/City/AddCity",
+  "deletecityUrl": "/api/City/DeleteCity",
+  "editcityUrl": "/api/City/EditCityDetail",
+  //Account
+  "getallaccountUrl": "/api/Account/GetAccount",
+  "getaccountbyidUrl": "/api/Account/GetAccountById",
+  "addaccountUrl": "/api/Account/AddAccount",
+  "deleteaccountUrl": "/api/Account/DeleteAccount",
+  "editaccountUrl": "/api/Account/EditAccount",
+  //AccountCategory
+  "getallaccountcategoryUrl": "/api/AccountCategory/GetAccountCategory",
+  "getaccountcategorybyidUrl": "/api/AccountCategory/GetAccountCategoryById",
+  "addaccountcategoryUrl": "/api/AccountCategory/AddAccountCategory",
+  "deleteaccountcategoryUrl": "/api/AccountCategory/DeleteAccountCategory",
+  "editaccountcategoryUrl": "/api/AccountCategory/EditAccountCategory",
+  //AccountGroup
+  "getallaccountgroupUrl": "/api/AccountGroup/GetAccountGroup",
+  "getaccountgroupbyidUrl": "/api/AccountGroup/GetAccountGroupById",
+  "addaccountgroupUrl": "/api/AccountGroup/AddAccountGroup",
+  "deleteaccountgroupUrl": "/api/AccountGroup/DeleteAccountGroup",
+  "editaccountgroupUrl": "/api/AccountGroup/EditAccountGroup",
+  //Account Type
+  "getallaccounttypeUrl": "/api/AccountType/GetAccountType",
+  "getaccounttypebyidUrl": "/api/AccountType/GetAccountTypeById",
+  "addaccounttypeUrl": "/api/AccountType/AddAccountType",
+  "deleteaccounttypeUrl": "/api/AccountType/DeleteAccountType",
+  "editaccounttypeUrl": "/api/AccountType/EditAccountType",
+  //Product
+  "getallproductUrl": "/api/Product/GetProduct",
+  "getproductbyidUrl": "/api/Product/GetProductById",
+  "addproductUrl": "/api/Product/AddProduct",
+  "deleteproductUrl": "/api/Product/DeleteProduct",
+  "editproductUrl": "/api/Product/EditProduct",
+  //Product Category
+  "getallproductcategoryUrl": "/api/ProductCategory/GetProductCategory",
+  "getproductcategorybyidUrl": "/api/ProductCategory/GetProductCategoryById",
+  "addproductcategoryUrl": "/api/ProductCategory/AddProductCategory",
+  "deleteproductcategoryUrl": "/api/ProductCategory/DeleteProductCategory",
+  "editproductcategoryUrl": "/api/ProductCategory/EditProductCategory",
+  //Product Group
+  "getallproductgroupUrl": "/api/ProductGroup/GetProductGroup",
+  "getproductgroupbyidUrl": "/api/ProductGroup/GetProductGroupById",
+  "addproductgroupUrl": "/api/ProductGroup/AddProductGroup",
+  "deleteproductgroupUrl": "/api/ProductGroup/DeleteProductGroup",
+  "editproductgroupUrl": "/api/ProductGroup/EditProductGroup",
+  //Product Type
+  "getallproducttypeUrl": "/api/ProductType/GetProductType",
+  "getproducttypebyidUrl": "/api/ProductType/GetProductTypeById",
+  "addproducttypeUrl": "/api/ProductType/AddProductType",
+  "deleteproducttypeUrl": "/api/ProductType/DeleteProductType",
+  "editproducttypeUrl": "/api/ProductType/EditProductType",
+  //Salesman Agent
+  "getallsalesmanagentUrl": "/api/SalesmanAgent/GetAllSalesmanAgent",
+  "getsalesmanagentbyidUrl": "/api/SalesmanAgent/GetSalesmanAgentById",
+  "addsalesmanagentUrl": "/api/SalesmanAgent/AddsalesmanAgent",
+  "deletesalesmanagentUrl": "/api/SalesmanAgent/DeleteSalesmanAgent",
+  "editsalesmanagentUrl": "/api/SalesmanAgent/EditsalesmanAgent"
 
 
 }
