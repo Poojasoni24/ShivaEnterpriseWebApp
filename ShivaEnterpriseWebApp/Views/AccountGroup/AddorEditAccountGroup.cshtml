@@ -1,0 +1,68 @@
+﻿@model ShivaEnterpriseWebApp.Model.AccountGroup
+
+@{
+    ViewData["Title"] = "AddorEdit";
+    SelectList yourDropdownList = ViewBag.SelectList;
+}
+<link href="~/css/company.css" rel="stylesheet" />
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <h2>@(Model != null && Model.AccountGroupId != Guid.Empty ? "Edit AccountCategory" : "Add AccountCategory")</h2>
+    <div class="card-body company_from">
+        <div class="form">
+            <a href="d:\shiva enterprise\shivaenterprisewebapp\shivaenterprisewebapp\views\accountgroup\addoreditaccountgroup.cshtml">d:\shiva enterprise\shivaenterprisewebapp\shivaenterprisewebapp\views\branch\addoreditbranch.cshtml</a>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <label asp-for="AccountGroupCode" class="control-label"></label>
+                <div class="col-md-9">
+                    <input asp-for="AccountGroupCode" class="form-control" />
+                </div>
+                <span asp-validation-for="AccountGroupCode" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <label asp-for="AccountGroupName" class="control-label"></label>
+                <div class="col-md-9">
+                    <input asp-for="AccountGroupName" class="form-control" />
+                </div>
+                <span asp-validation-for="AccountGroupName" class="text-danger"></span>
+            </div>
+            @*   <div class="form-group row">
+        <label asp-for="Company" class="control-label"></label>
+        <div class="col-md-9">
+        @Html.DropDownListFor(model => model.Company_Id, yourDropdownList, "Select an option", new { @class = "form-control" })
+        </div>
+        </div>*@
+            <div class="form-group row">
+                <label asp-for="AccountGroupDescription" class="control-label"></label>
+                <div class="col-md-9">
+                    <input asp-for="AccountGroupDescription" class="form-control" />
+                </div>
+                <span asp-validation-for="AccountGroupDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <label asp-for="AccountGroupStatus" class="control-label"></label>
+                <div class="col-md-9">
+                    @* @Html.CheckBoxFor(model => model.IsActive) *@
+                    <input asp-for="AccountGroupStatus" class="form-control" />
+                </div>
+                <span asp-validation-for="AccountGroupStatus" class="text-danger"></span>
+            </div>
+            @* <input asp-for="CreatedDateTime" class="form-control" type="hidden" />*@
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                @* <input type="button" value="Back to List" class="btn btn-info" asp-action="Index" asp-controller="Company"> *@
+                <button type="button" class="btn btn-info"> <a asp-action="Index">Back to List</a></button>
+            </div>
+        </div>
+    </div>
+
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

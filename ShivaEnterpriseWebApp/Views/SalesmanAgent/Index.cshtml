@@ -1,6 +1,6 @@
 ﻿@using Newtonsoft.Json
 @using ShivaEnterpriseWebApp.Model
-@model List<ShivaEnterpriseWebApp.Model.AccountCategory>
+@model List<ShivaEnterpriseWebApp.Model.SalesmanAgent>
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -11,7 +11,7 @@
 <body>
     <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <div id="accountcategoryDetailDiv">
+            <div id="salesmanagentDetailDiv">
             </div>
         </div>
     </div>
@@ -21,9 +21,9 @@
         <div class="content-wrapper">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">AccountCategory Detail</h4>
+                    <h4 class="card-title">SalesmanAgent Detail</h4>
                     <div class="compnay_btn">
-                        <input class="btn btn-success" type="button" value="Add AccountCategory" onclick="window.location.href='AccountCategory/AddorEditUser'" />
+                        <input class="btn btn-success" type="button" value="Add SalesmanAgent" onclick="window.location.href='SalesmanAgent/AddorEditSalesmanAgent'" />
                     </div>
                     <div class="row">
                         <div class="col-12">
@@ -31,11 +31,11 @@
                                 <table id="order-listing" class="table">
                                     <thead>
                                         <tr>
-                                            <th>AccountCategoryCode</th>
-                                            <th>AccountCategoryName</th>
-                                            <th>AccountCategoryDescription</th>
-                                            <th>AccountCategoryStatus</th>
-                                            
+                                            <th>Salesman Code</th>
+                                            <th>Salesman Name</th>
+                                            <th>Salesman email</th>
+                                            <th>Salesman Phoneno</th>
+                                            <th>Salesman Status</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -46,19 +46,20 @@
                                             {
 
                                                 <tr>
-                                                    <td>@item.AccountCategoryCode</td>
-                                                    <td>@item.AccountCategoryName</td>
-                                                    <td>@item.AccountCategoryDescription </td>
-                                                    <td>@item.AccountCategoryStatus</td>
+                                                    <td>@item.Salesmancode</td>
+                                                    <td>@item.SalesmanName</td>
+                                                    <td>@item.Salesmanemail </td>
+                                                    <td>@item.Salesmanphone</td>
                                                     
+
                                                     <td>
-                                                        <label class="badge badge-info">@(item.AccountCategoryStatus ? "Active" : "InActive")</label>
+                                                        <label class="badge badge-info">@(item.SalesmanStatus ? "Active" : "InActive")</label>
                                                     </td>
                                                     <td>
-                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" onclick="loadAccountCategoryPartial(@(JsonConvert.SerializeObject(item.AccountCategoryId)))">
+                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" onclick="loadSalesmanAgentPartial(@(JsonConvert.SerializeObject(item.SalesmanAgentID)))">
                                                             view
                                                         </button>
-                                                        <input class="btn btn-outline-danger" type="button" value="Delete" onclick="onDeleteAccountCategory(@(JsonConvert.SerializeObject(item)))" />
+                                                        <input class="btn btn-outline-danger" type="button" value="Delete" onclick="onDeleteSalesmanAgent(@(JsonConvert.SerializeObject(item)))" />
 
                                                     </td>
                                                 </tr>
@@ -80,4 +81,5 @@
 
 </html>
 
-<script src="~/js/AccountCategory.js"></script>
+<script src="~/js/SalesmanAgent.js"></script>
+

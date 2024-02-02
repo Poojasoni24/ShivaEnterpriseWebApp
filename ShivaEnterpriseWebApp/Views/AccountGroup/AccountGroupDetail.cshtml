@@ -1,0 +1,56 @@
+﻿@model ShivaEnterpriseWebApp.Model.AccountGroup
+@{
+    ViewData["Title"] = "Details";
+}
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">@Model.AccountGroupName</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div>
+            <dl class="row">
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.AccountGroupCode)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.AccountGroupCode)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.AccountGroupName)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.AccountGroupName)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.AccountGroupDescription)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.AccountGroupDescription)
+                </dd>
+                @* <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Company.Company_Name)
+                </dt>
+                <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Company.Company_Name)
+                </dd>*@
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.AccountGroupStatus)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.AccountGroupStatus)
+                </dd>
+            </dl>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modalclose" onclick="modalclose()">Close</button>
+        <input type="button" class="btn btn-primary" value="Edit" onclick="window.location.href='AccountGroup/AddorEditAccountGroup?id=@Model.AccountGroupId'" />
+        @* @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) | *@
+    </div>
+</div>
+@section script {
+    <script src="~/js/AccountGroup.js"></script>
+}

@@ -58,12 +58,12 @@ namespace ShivaEnterpriseWebApp.Controllers.Accounts
         }
 
         [HttpPost]
-        public async Task<ActionResult> RemoveAccountCatgory(string accountId)
+        public async Task<ActionResult> RemoveAccountCatgory(string accountCategoryId)
         {
             try
             {
                 string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
-                var response = await accountCategoryService.DeleteAccountCategory(accountId, authToken);
+                var response = await accountCategoryService.DeleteAccountCategory(accountCategoryId, authToken);
 
                 return Json(new { success = response.successs, message = response.message });
             }
