@@ -16,7 +16,14 @@ namespace ShivaEnterpriseWebApp.Model
         public string ProductGroupId { get; set; }
         public string ProductTypeId { get; set; }
         public List<SelectListItem> ProductsCategoryId { get; set;}
+
+        public ProductCategory ProductCategory { get; set; }
+
         public List<SelectListItem> ProductsGroupId { get; set;}
+
+        public ProductGroup ProductGroup { get; set; }
         public List<SelectListItem> ProductsTypeId { get; set;}
+
+        public ProductType ProductType { get; set; }
     }
 }
