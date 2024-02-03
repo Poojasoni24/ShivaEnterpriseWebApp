@@ -31,12 +31,12 @@ function onDeleteState(State) {
 }
 
 //AJAX call for delete organization
-function deleteBranchAJAX(branchId) {
+function deleteStateAJAX(stateId) {
     debugger;
     $.ajax({
-        url: `/Branch/RemoveBranch`,
+        url: `/State/RemoveState`,
         type: 'POST',
-        data: { branchId: branchId },
+        data: { stateId: stateId },
         success: function (res) {
             if (res.success) {
                 debugger;
@@ -57,15 +57,15 @@ function deleteBranchAJAX(branchId) {
 function modalclose() {
     window.location.reload();
 }
-function loadStatePartial(branchId) {
+function loadStatePartial(stateId) {
     $.ajax({
-        url: `/Branch/BranchDetails?branchId=${branchId}`,
+        url: `/State/stateDetail?stateId=${stateId}`,
         type: 'GET',
         success: function (res) {
             debugger;
-            $('#exampleModalLong').modal('show')
+            $('#stateModalLong').modal('show')
             useJQueryNoConflict();
-            $('#branchDetailDiv').html(res)
+            $('#stateDetailDiv').html(res)
             //document.getElementById("CompanyDetailDiv")
             //    .innerHTML += res
         },

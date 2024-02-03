@@ -7,23 +7,22 @@ using System.Text;
 
 namespace ShivaEnterpriseWebApp.Services.Implementation
 {
-    public class StateServiceImpl : IStateServiceImpl
+    public class BankServiceImpl : IBankServiceImpl
     {
         private readonly JObject urlCollections;
-
-        public StateServiceImpl()
+        public BankServiceImpl()
         {
             urlCollections = JObject.Parse(File.ReadAllText("systemConfigurations.json"));
         }
-        public async Task<(bool success, string message)> AddStateDetailsAsync(State state, string authToken)
+        public async Task<(bool success, string message)> AddBankDetailsAsync(Bank Bank, string authToken)
         {
             try
             {
                 //Create json string to prepare input for api                
-                string json = JsonConvert.SerializeObject(state);
+                string json = JsonConvert.SerializeObject(Bank);
 
                 StringContent data = new StringContent(json, Encoding.UTF8, "application/json");
-                var url = urlCollections["baseUrl"].ToString() + urlCollections["addstateUrl"].ToString();
+                var url = urlCollections["baseUrl"].ToString() + urlCollections["addbankUrl"].ToString();
                 var client = new HttpClient();
                 var request = new HttpRequestMessage(new HttpMethod("POST"), url);
                 request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
@@ -49,11 +48,11 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             }
         }
 
-        public async Task<(bool successs, string message)> DeleteState(string stateId, string authToken)
+        public async Task<(bool successs, string message)> DeleteBank(string BankId, string authToken)
         {
-            string json = "{ \"stateId\": \"" + stateId + "\" }";
+            string json = "{ \"BankId\": \"" + BankId + "\" }";
             StringContent data = new StringContent(json, Encoding.UTF8, "application/json");
-            var url = urlCollections["baseUrl"].ToString() + urlCollections["deletestateUrl"] + "?stateId=" + stateId.ToString();
+            var url = urlCollections["baseUrl"].ToString() + urlCollections["deletebankUrl"] + "?BankId=" + BankId;
             var client = new HttpClient();
             var request = new HttpRequestMessage(new HttpMethod("POST"), url);
             request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
@@ -74,15 +73,15 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             return (true, result);
         }
 
-        public async Task<(bool success, string message)> EditStateDetailsAsync(State state, string authToken)
+        public async Task<(bool success, string message)> EditBankDetailsAsync(Bank Bank, string authToken)
         {
             try
             {
                 //Create json string to prepare input for api                
-                string json = JsonConvert.SerializeObject(state);
+                string json = JsonConvert.SerializeObject(Bank);
 
                 StringContent data = new StringContent(json, Encoding.UTF8, "application/json");
-                var url = urlCollections["baseUrl"].ToString() + urlCollections["editstateUrl"] + "?id=" + state.State_Id;
+                var url = urlCollections["baseUrl"].ToString() + urlCollections["editbankUrl"] + "?id=" + Bank.BankId.ToString();
                 var client = new HttpClient();
                 var request = new HttpRequestMessage(new HttpMethod("PUT"), url);
                 request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
@@ -108,13 +107,14 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             }
         }
 
-        public async Task<State> GetStateById(string stateId, string authToken)
+        public async Task<Bank> GetBankById(string BankId, string authToken)
         {
-            var url = urlCollections["baseUrl"].ToString() + urlCollections["getstatebyidUrl"] + "?stateId=" + stateId;
+            var url = urlCollections["baseUrl"].ToString() + urlCollections["getbankbyidUrl"] + "?BankId=" + BankId;
             var client = new HttpClient();
 
             var request = new HttpRequestMessage(new HttpMethod("GET"), url);
             request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
+
 
             //Pass in the full URL and the json string content
             var response = await client.SendAsync(request);
@@ -125,14 +125,14 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             //close out the client
             client.Dispose();
 
-            var stateDetail = JsonConvert.DeserializeObject<State>(result);
+            var bankDetail = JsonConvert.DeserializeObject<Bank>(result);
 
-            return stateDetail;
+            return bankDetail;
         }
 
-        public async Task<List<State>> GetStateList(string authToken)
+        public async Task<List<Bank>> GetBankList(string authToken)
         {
-            var url = urlCollections["baseUrl"].ToString() + urlCollections["getallstateUrl"].ToString();
+            var url = urlCollections["baseUrl"].ToString() + urlCollections["getallbankUrl"].ToString();
             var client = new HttpClient();
             var request = new HttpRequestMessage(new HttpMethod("GET"), url);
             request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
@@ -146,9 +146,9 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             //close out the client
             client.Dispose();
 
-            var states = JsonConvert.DeserializeObject<List<State>>(result);
+            var bankDetail = JsonConvert.DeserializeObject<List<Bank>>(result);
 
-            return states;
+            return bankDetail;
         }
     }
 }

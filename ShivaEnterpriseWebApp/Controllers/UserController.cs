@@ -53,6 +53,7 @@ namespace ShivaEnterpriseWebApp.Controllers
                 else
                 {
                     user.Id = id;
+                    user.UpdatedDateTime = DateTime.Now;
                     var result = await userObject.EditUserDetailsAsync(user, authToken);
                 }
                 return RedirectToAction(nameof(Index));

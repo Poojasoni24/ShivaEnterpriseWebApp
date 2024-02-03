@@ -40,11 +40,14 @@ namespace ShivaEnterpriseWebApp.Controllers
                 if (!string.IsNullOrEmpty(roleId))
                 {
                     role.Id = roleId;
+                    role.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                    role.ModifiedDateTime = DateTime.Now;
                     await roleService.EditRoleAsync(role, authToken);
                 }
                 else
                 {
                     role.IsActive = true;
+                    role.CreatedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
                     role.CreatedDateTime = DateTime.Now;
                     role.NormalizedName = role.Name;
                     await roleService.AddRoleAsync(role, authToken);

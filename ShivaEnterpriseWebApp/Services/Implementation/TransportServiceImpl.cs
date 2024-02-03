@@ -22,7 +22,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
                 string json = JsonConvert.SerializeObject(Transport);
 
                 StringContent data = new StringContent(json, Encoding.UTF8, "application/json");
-                var url = urlCollections["baseUrl"].ToString() + urlCollections["addTransportUrl"].ToString();
+                var url = urlCollections["baseUrl"].ToString() + urlCollections["addtransportUrl"].ToString();
                 var client = new HttpClient();
                 var request = new HttpRequestMessage(new HttpMethod("POST"), url);
                 request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
@@ -52,7 +52,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
         {
             string json = "{ \"TransportId\": \"" + TransportId + "\" }";
             StringContent data = new StringContent(json, Encoding.UTF8, "application/json");
-            var url = urlCollections["baseUrl"].ToString() + urlCollections["deleteTransportUrl"] + "?TransportId=" + TransportId;
+            var url = urlCollections["baseUrl"].ToString() + urlCollections["deletetransportUrl"] + "?TransportId=" + TransportId;
             var client = new HttpClient();
             var request = new HttpRequestMessage(new HttpMethod("POST"), url);
             request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
@@ -81,7 +81,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
                 string json = JsonConvert.SerializeObject(Transport);
 
                 StringContent data = new StringContent(json, Encoding.UTF8, "application/json");
-                var url = urlCollections["baseUrl"].ToString() + urlCollections["editTransportUrl"] + "?id=" + Transport.TransportId.ToString();
+                var url = urlCollections["baseUrl"].ToString() + urlCollections["edittransportUrl"] + "?id=" + Transport.TransportId.ToString();
                 var client = new HttpClient();
                 var request = new HttpRequestMessage(new HttpMethod("PUT"), url);
                 request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
@@ -109,7 +109,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
 
         public async Task<Transport> GetTransportById(string TransportId, string authToken)
         {
-            var url = urlCollections["baseUrl"].ToString() + urlCollections["getTransportbyidUrl"] + "?TransportId=" + TransportId;
+            var url = urlCollections["baseUrl"].ToString() + urlCollections["gettransportbyidUrl"] + "?TransportId=" + TransportId;
             var client = new HttpClient();
 
             var request = new HttpRequestMessage(new HttpMethod("GET"), url);
@@ -132,7 +132,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
 
         public async Task<List<Transport>> GetTransportList(string authToken)
         {
-            var url = urlCollections["baseUrl"].ToString() + urlCollections["getallTransportUrl"].ToString();
+            var url = urlCollections["baseUrl"].ToString() + urlCollections["getalltransportUrl"].ToString();
             var client = new HttpClient();
             var request = new HttpRequestMessage(new HttpMethod("GET"), url);
             request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);

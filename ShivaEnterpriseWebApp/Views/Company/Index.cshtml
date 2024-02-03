@@ -33,8 +33,6 @@
                                         <tr>
                                             <th>Company Code</th>
                                             <th>Company Name</th>
-                                            <th>Company Starting Date</th>
-                                            <th>Company Ending Date</th>
                                             <th>Status</th>
                                             <th>Actions</th>
                                         </tr>
@@ -48,15 +46,6 @@
                                                 <tr>
                                                     <td>@item.Company_Code</td>
                                                     <td>@item.Company_Name</td>
-                                                    <td>@item.Company_Startyear</td>
-                                                    @if (item.Company_Endyear.HasValue)
-                                                    {
-                                                        <td>@item.Company_Endyear</td>
-                                                    }
-                                                    else
-                                                    {
-                                                        <td>Not ended yet</td>
-                                                    }
                                                     <td>
                                                         <label class="badge badge-info">@(item.IsActive ?"Active":"InActive")</label>
                                                     </td>
@@ -80,9 +69,8 @@
         </div>
         <!-- content-wrapper ends -->
     </div>
-
-
 </body>
 
 </html>
 
+<script src="~/js/company.js"></script>s

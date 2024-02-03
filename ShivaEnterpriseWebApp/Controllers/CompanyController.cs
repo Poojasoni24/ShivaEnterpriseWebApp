@@ -47,6 +47,8 @@ namespace ShivaEnterpriseWebApp.Controllers
             {
                 string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
                 companyDTO.IsActive = true;
+                companyDTO.CreatedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                companyDTO.CreatedDateTime = DateTime.Now;
                 var companyData = await companyobject.AddCompanyDetailsAsync(companyDTO, authToken);
                 return RedirectToAction(nameof(Index));
             }

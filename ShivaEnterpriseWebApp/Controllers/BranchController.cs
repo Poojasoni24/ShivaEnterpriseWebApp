@@ -53,7 +53,7 @@ namespace ShivaEnterpriseWebApp.Controllers
                 }
                 else
                 {
-                    branch.Branch_Id = new Guid(id); ;
+                    branch.Branch_Id = new Guid(id);
                     var result = await branchObject.EditBranchDetailsAsync(branch, authToken);
                 }
                 return RedirectToAction(nameof(Index));

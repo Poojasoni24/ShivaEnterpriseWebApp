@@ -10,10 +10,10 @@ namespace ShivaEnterpriseWebApp.Model
         public Guid Company_Id { get; set; }
 
         [DisplayName("Company Code")]
-        public string? Company_Code { get; set; }
+        public string Company_Code { get; set; }
 
         [DisplayName("Company Name")]
-        public string? Company_Name { get; set; }
+        public string Company_Name { get; set; }
 
         [DisplayName("Company Start Date")]
         public DateTime? Company_Startyear { get; set; }
@@ -21,11 +21,11 @@ namespace ShivaEnterpriseWebApp.Model
         [DisplayName("Company End Date")]
         public DateTime? Company_Endyear { get; set; }
 
-        public DateTime? CreatedDateTime { get; set; }
-
-        public DateTime? UpdatedDateTime { get; set; }
-
         [DisplayName("Status")]
         public bool IsActive { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime CreatedDateTime { get; set; }
+        public string? ModifiedBy { get; set; }
+        public DateTime? ModifiedDateTime { get; set; }
     }
 }

@@ -12,11 +12,20 @@ namespace ShivaEnterpriseWebApp.Model
 
         [DisplayName("State Name")]
         public string State_Name { get; set; }
+
+        [DisplayName("State Code")]
         public string State_Code {  get; set; }
         public string Country_Id { get; set; }
 
+        [DisplayName("State Status")]
+        public bool IsActive { get; set; }
         public List<SelectListItem> CountryList { get; set; }
-        public DateTime CreatedDateAndTime { get; set; }
-        public DateTime? UpdatedDateAndTime { get; set; }
+        public Country? country { get; set; }
+
+        public string CreatedBy { get; set; }
+        public DateTime CreatedDateTime { get; set; }
+
+        public string? ModifiedBy { get; set; }
+        public DateTime? ModifiedDateTime { get; set; }
     }
 }
