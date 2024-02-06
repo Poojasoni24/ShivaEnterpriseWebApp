@@ -11,8 +11,6 @@
     <h2>@(Model != null && Model.SalesmanAgentID != Guid.Empty ? "Edit SalesmanAgent" : "Add SalesmanAgent")</h2>
     <div class="card-body company_from">
         <div class="form">
-            <a href="d:\shiva enterprise\shivaenterprisewebapp\shivaenterprisewebapp\views\salesmanagent\addoreditsalesmanagent.cshtml">d:\shiva enterprise\shivaenterprisewebapp\shivaenterprisewebapp\views\branch\addoreditbranch.cshtml</a>
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group row">
                 <label asp-for="Salesmancode" class="control-label"></label>

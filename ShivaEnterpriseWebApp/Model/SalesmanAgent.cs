@@ -11,5 +11,10 @@ namespace ShivaEnterpriseWebApp.Model
         public string Salesmanemail { get; set; }
         public string Salesmanphone { get; set; }
         public bool SalesmanStatus { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime CreatedDateTime { get; set; }
+        public string ModifiedBy { get; set; }
+        public DateTime? ModifiedDateTime { get; set; }
     }
 }
+
