@@ -44,7 +44,7 @@ namespace ShivaEnterpriseWebApp.Controllers
                 }
                 else
                 {
-                    salesmanAgent.SalesmanStatus = true;
+                    salesmanAgent.IsActive = true;
                     await salesmanAgentService.AddSalesmanAgentDetailsAsync(salesmanAgent, authToken);
                 }
                 return RedirectToAction(nameof(Index));
@@ -85,7 +85,7 @@ namespace ShivaEnterpriseWebApp.Controllers
                 SalesmanName = salesmanAgentData.SalesmanName,
                 Salesmanemail = salesmanAgentData.Salesmanemail,
                 Salesmanphone = salesmanAgentData.Salesmanphone,
-                SalesmanStatus = salesmanAgentData.SalesmanStatus
+                IsActive = salesmanAgentData.IsActive
             });
         }
     }

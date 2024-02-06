@@ -73,15 +73,15 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             return (true, result);
         }
 
-        public async Task<(bool success, string message)> EditTaxDetailsAsync(Tax Tax, string authToken)
+        public async Task<(bool success, string message)> EditTaxDetailsAsync(Tax tax, string authToken)
         {
             try
             {
                 //Create json string to prepare input for api                
-                string json = JsonConvert.SerializeObject(Tax);
+                string json = JsonConvert.SerializeObject(tax);
 
                 StringContent data = new StringContent(json, Encoding.UTF8, "application/json");
-                var url = urlCollections["baseUrl"].ToString() + urlCollections["edittaxUrl"] + "?id=" + Tax.TaxId.ToString();
+                var url = urlCollections["baseUrl"].ToString() + urlCollections["edittaxUrl"] + "?id=" + tax.TaxId.ToString();
                 var client = new HttpClient();
                 var request = new HttpRequestMessage(new HttpMethod("PUT"), url);
                 request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);

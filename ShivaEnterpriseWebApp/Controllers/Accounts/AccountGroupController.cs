@@ -17,10 +17,10 @@ namespace ShivaEnterpriseWebApp.Controllers.Accounts
         }
 
         [HttpGet]
-        public async Task<ActionResult> AddOrEditAccountGroup(string accountGroupId)
+        public async Task<ActionResult> AddOrEditAccountGroup(Guid accountGroupId)
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
-            if (!string.IsNullOrEmpty(accountGroupId))
+            if (accountGroupId != Guid.Empty)
             {
                 var accountGroupDetail = await accountGroupService.GetAccountGroupById(accountGroupId, authToken);
                 if (accountGroupDetail != null)
@@ -40,11 +40,15 @@ namespace ShivaEnterpriseWebApp.Controllers.Accounts
                 if (!string.IsNullOrEmpty(accountGroupId))
                 {
                     accountGroup.AccountGroupId = new Guid(accountGroupId);
+                    accountGroup.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                    accountGroup.ModifiedDateTime = DateTime.Now;
                     await accountGroupService.EditAccountGroupDetailsAsync(accountGroup, authToken);
                 }
                 else
                 {
-                    accountGroup.AccountGroupStatus = true;
+                    accountGroup.IsActive = true;
+                    accountGroup.CreatedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                    accountGroup.CreatedDateTime = DateTime.Now;
                     await accountGroupService.AddAccountGroupDetailsAsync(accountGroup, authToken);
                 }
                 return RedirectToAction(nameof(Index));
@@ -73,18 +77,18 @@ namespace ShivaEnterpriseWebApp.Controllers.Accounts
             }
         }
 
-        public async Task<ActionResult> AccountGroupDetail(string accountGroupId)
+        public async Task<ActionResult> AccountGroupDetail(Guid accountGroupId)
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
 
             var accountGroupData = await accountGroupService.GetAccountGroupById(accountGroupId, authToken);
             return PartialView("_accountGroupDetail", new AccountGroup()
             {
-                AccountGroupId = new Guid(accountGroupId),
+                AccountGroupId = accountGroupId,
                 AccountGroupCode = accountGroupData.AccountGroupCode,
                 AccountGroupName = accountGroupData.AccountGroupName,
                 AccountGroupDescription = accountGroupData.AccountGroupDescription,
-                AccountGroupStatus = accountGroupData.AccountGroupStatus
+                IsActive = accountGroupData.IsActive
             });
         }
     }

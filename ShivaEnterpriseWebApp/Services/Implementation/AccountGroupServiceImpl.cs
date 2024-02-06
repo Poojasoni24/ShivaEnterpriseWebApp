@@ -108,7 +108,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             }
         }
 
-        public async Task<AccountGroup> GetAccountGroupById(string accountGroupId, string authToken)
+        public async Task<AccountGroup> GetAccountGroupById(Guid accountGroupId, string authToken)
         {
             var url = urlCollections["baseUrl"].ToString() + urlCollections["getaccountgroupbyidUrl"] + "?accountGroupId=" + accountGroupId;
             var client = new HttpClient();

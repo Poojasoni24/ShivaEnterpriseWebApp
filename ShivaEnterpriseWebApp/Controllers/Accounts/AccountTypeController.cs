@@ -17,10 +17,10 @@ namespace ShivaEnterpriseWebApp.Controllers.Accounts
         }
 
         [HttpGet]
-        public async Task<ActionResult> AddOrEditAccountType(string accountTypeId)
+        public async Task<ActionResult> AddOrEditAccountType(Guid accountTypeId)
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
-            if (!string.IsNullOrEmpty(accountTypeId))
+            if (accountTypeId != Guid.Empty)
             {
                 var accountTypeDetail = await accountTypeService.GetAccountTypeById(accountTypeId, authToken);
                 if (accountTypeDetail != null)
@@ -40,11 +40,15 @@ namespace ShivaEnterpriseWebApp.Controllers.Accounts
                 if (!string.IsNullOrEmpty(accountTypeId))
                 {
                     accountType.AccountTypeId = new Guid(accountTypeId);
+                    accountType.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                    accountType.ModifiedDateTime = DateTime.Now;
                     await accountTypeService.EditAccountTypeDetailsAsync(accountType, authToken);
                 }
                 else
                 {
-                    accountType.AccountTypeStatus = true;
+                    accountType.IsActive = true;
+                    accountType.CreatedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                    accountType.CreatedDateTime = DateTime.Now;
                     await accountTypeService.AddAccountTypeDetailsAsync(accountType, authToken);
                 }
                 return RedirectToAction(nameof(Index));
@@ -73,18 +77,18 @@ namespace ShivaEnterpriseWebApp.Controllers.Accounts
             }
         }
 
-        public async Task<ActionResult> AccountTypeDetail(string accountTypeId)
+        public async Task<ActionResult> AccountTypeDetail(Guid accountTypeId)
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
 
             var accountTypeData = await accountTypeService.GetAccountTypeById(accountTypeId, authToken);
             return PartialView("_accountTypeDetail", new AccountType()
             {
-                AccountTypeId = new Guid(accountTypeId),
+                AccountTypeId = accountTypeId,
                 AccountTypeCode = accountTypeData.AccountTypeCode,
                 AccountTypeName = accountTypeData.AccountTypeName,
                 AccountTypeDescription = accountTypeData.AccountTypeDescription,
-                AccountTypeStatus = accountTypeData.AccountTypeStatus
+                IsActive = accountTypeData.IsActive
             });
         }
     }

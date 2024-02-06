@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <body>
-    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal fade" id="accountModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div id="accountDetailDiv">
             </div>
@@ -23,7 +23,7 @@
                 <div class="card-body">
                     <h4 class="card-title">Account Detail</h4>
                     <div class="compnay_btn">
-                        <input class="btn btn-success" type="button" value="Add Account" onclick="window.location.href='Account/AddorEditUser'" />
+                        <input class="btn btn-success" type="button" value="Add Account" onclick="window.location.href='Account/AddOrEditAccount'" />
                     </div>
                     <div class="row">
                         <div class="col-12">
@@ -51,16 +51,16 @@
                                                     <td>@item.AccountCode</td>
                                                     <td>@item.AccountName</td>
                                                     <td>@item.AccountDescription </td>
-                                                    <td>@item.AccountStatus</td>
+                                                    <td>@item.IsActive</td>
                                                     <td>@item.AccountGroup.AccountGroupName</td>
                                                     <td>@item.AccountType.AccountTypeName</td>
                                                     <td>@item.AccountCategory.AccountCategoryName</td>
 
                                                     <td>
-                                                        <label class="badge badge-info">@(item.AccountStatus ? "Active" : "InActive")</label>
+                                                        <label class="badge badge-info">@(item.IsActive ? "Active" : "InActive")</label>
                                                     </td>
                                                     <td>
-                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" onclick="loadAccountcategoryPartial(@(JsonConvert.SerializeObject(item.AccountId)))">
+                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#accountModalLong" onclick="loadAccountPartial(@(JsonConvert.SerializeObject(item.AccountId)))">
                                                             view
                                                         </button>
                                                         <input class="btn btn-outline-danger" type="button" value="Delete" onclick="onDeleteAccount(@(JsonConvert.SerializeObject(item)))" />

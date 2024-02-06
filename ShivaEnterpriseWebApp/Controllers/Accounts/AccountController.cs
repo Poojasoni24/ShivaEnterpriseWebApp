@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ShivaEnterpriseWebApp.Model;
 using ShivaEnterpriseWebApp.Services.Implementation;
 using ShivaEnterpriseWebApp.Services.Interface;
@@ -9,18 +10,40 @@ namespace ShivaEnterpriseWebApp.Controllers
     public class AccountController : Controller
     {
         IAccountServiceImpl accountService = new AccountServiceImpl();
+        IAccountCategoryServiceImpl accountcategoryService = new AccountCategoryServiceImpl();
+        IAccountGroupServiceImpl accountgroupService = new AccountGroupServiceImpl();
+        IAccountTypeServiceImpl accountTypeService = new AccountTypeServiceImpl();
         public async Task<IActionResult> Index()
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
             var getAllAccount = await accountService.GetAccountList(authToken);
+            foreach (var item in getAllAccount)
+            {
+                item.AccountGroup = await accountgroupService.GetAccountGroupById(item.AccountGroupId, authToken);
+                item.AccountType = await accountTypeService.GetAccountTypeById(item.AccountTypeId, authToken);
+                item.AccountCategory = await accountcategoryService.GetAccountCategoryById(item.AccountCategoryId, authToken);
+            }
+           
             return View("Index", getAllAccount);
         }
 
         [HttpGet]
-        public async Task<ActionResult> AddOrEditAccount(string accountId)
+        public async Task<ActionResult> AddOrEditAccount(Guid accountId)
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
-            if (!string.IsNullOrEmpty(accountId))
+            //Add accountgroup dropdown
+            List<AccountGroup> accountGroupDataList = await accountgroupService.GetAccountGroupList(authToken);
+            SelectList groupselectList = new SelectList(accountGroupDataList, "AccountGroupId", "AccountGroupName");
+            ViewBag.accountGroupSelectList = groupselectList;
+
+            List<AccountType> accountTypeDataList = await accountTypeService.GetAccountTypeList(authToken);
+            SelectList typeselectList = new SelectList(accountTypeDataList, "AccountTypeId", "AccountTypeName");
+            ViewBag.accountTypeList = typeselectList;
+
+            List<AccountCategory> accountcategoryDataList = await accountcategoryService.GetAccountCategoryList(authToken);
+            SelectList categoryselectList = new SelectList(accountcategoryDataList, "AccountCategoryId", "AccountCategoryName");
+            ViewBag.accountCategoryList = categoryselectList;
+            if (accountId != Guid.Empty)
             {
                 var accountDetail = await accountService.GetAccountById(accountId, authToken);
                 if (accountDetail != null)
@@ -40,11 +63,15 @@ namespace ShivaEnterpriseWebApp.Controllers
                 if (!string.IsNullOrEmpty(accountId))
                 {
                     account.AccountId = new Guid(accountId);
+                    account.CreatedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                    account.CreatedDateTime = DateTime.Now;
                     await accountService.EditAccountDetailsAsync(account, authToken);
                 }
                 else
                 {
-                    account.AccountStatus = true;
+                    account.IsActive = true;
+                    account.CreatedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                    account.CreatedDateTime = DateTime.Now;
                     await accountService.AddAccountDetailsAsync(account, authToken);
                 }
                 return RedirectToAction(nameof(Index));
@@ -73,18 +100,18 @@ namespace ShivaEnterpriseWebApp.Controllers
             }
         }
 
-        public async Task<ActionResult> AccountDetail(string accountId)
+        public async Task<ActionResult> AccountDetail(Guid accountId)
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
 
             var accountData = await accountService.GetAccountById(accountId, authToken);
             return PartialView("_accountDetail", new Account()
             {
-                AccountId = new Guid(accountId),
+                AccountId = accountId,
                 AccountCode = accountData.AccountCode,
                 AccountName = accountData.AccountName,
                 AccountDescription = accountData.AccountDescription,
-                AccountStatus = accountData.AccountStatus,
+                IsActive = accountData.IsActive,
                 AccountCategoryId = accountData.AccountCategoryId,
                 AccountGroupId = accountData.AccountGroupId,
                 AccountTypeId = accountData.AccountTypeId,

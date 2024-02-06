@@ -17,10 +17,10 @@ namespace ShivaEnterpriseWebApp.Controllers.Accounts
         }
 
         [HttpGet]
-        public async Task<ActionResult> AddOrEditAccountCategory(string accountCategoryId)
+        public async Task<ActionResult> AddOrEditAccountCategory(Guid accountCategoryId)
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
-            if (!string.IsNullOrEmpty(accountCategoryId))
+            if (accountCategoryId != Guid.Empty)
             {
                 var accountCategoryDetail = await accountCategoryService.GetAccountCategoryById(accountCategoryId, authToken);
                 if (accountCategoryDetail != null)
@@ -40,11 +40,15 @@ namespace ShivaEnterpriseWebApp.Controllers.Accounts
                 if (!string.IsNullOrEmpty(accountId))
                 {
                     accountCategory.AccountCategoryId = new Guid(accountId);
+                    accountCategory.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                    accountCategory.ModifiedDateTime = DateTime.Now;
                     await accountCategoryService.EditAccountCategoryDetailsAsync(accountCategory, authToken);
                 }
                 else
                 {
-                    accountCategory.AccountCategoryStatus = true;
+                    accountCategory.IsActive = true;
+                    accountCategory.CreatedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                    accountCategory.CreatedDateTime = DateTime.Now;
                     await accountCategoryService.AddAccountCategoryDetailsAsync(accountCategory, authToken);
                 }
                 return RedirectToAction(nameof(Index));
@@ -73,18 +77,18 @@ namespace ShivaEnterpriseWebApp.Controllers.Accounts
             }
         }
 
-        public async Task<ActionResult> AccountCategoryDetail(string accountCategoryId)
+        public async Task<ActionResult> AccountCategoryDetail(Guid accountCategoryId)
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
 
             var accountCategoryData = await accountCategoryService.GetAccountCategoryById(accountCategoryId, authToken);
             return PartialView("_accountCategoryDetail", new AccountCategory()
             {
-                AccountCategoryId = new Guid(accountCategoryId),
+                AccountCategoryId = accountCategoryId,
                 AccountCategoryCode = accountCategoryData.AccountCategoryCode,
                 AccountCategoryName = accountCategoryData.AccountCategoryName,
                 AccountCategoryDescription = accountCategoryData.AccountCategoryDescription,
-                AccountCategoryStatus = accountCategoryData.AccountCategoryStatus               
+                IsActive = accountCategoryData.IsActive
             });
         }
     }

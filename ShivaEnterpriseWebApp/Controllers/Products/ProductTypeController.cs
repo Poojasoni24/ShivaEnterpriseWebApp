@@ -44,7 +44,7 @@ namespace ShivaEnterpriseWebApp.Controllers.Products
                 }
                 else
                 {
-                    productType.ProductTypeStatus = true;
+                    productType.IsActive = true;
                     await productTypeService.AddProductTypeDetailsAsync(productType, authToken);
                 }
                 return RedirectToAction(nameof(Index));
@@ -84,7 +84,7 @@ namespace ShivaEnterpriseWebApp.Controllers.Products
                 ProductTypeCode = productTypeData.ProductTypeCode,
                 ProductTypeName = productTypeData.ProductTypeName,
                 ProductTypeDescription = productTypeData.ProductTypeDescription,
-                ProductTypeStatus = productTypeData.ProductTypeStatus
+                IsActive = productTypeData.IsActive
             });
         }
     }

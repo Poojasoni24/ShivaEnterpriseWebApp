@@ -35,7 +35,6 @@
                                             <th>Account Group Name</th>
                                             <th>Account Group Description</th>
                                             <th>Account Group Status</th>
-
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -49,13 +48,11 @@
                                                     <td>@item.AccountGroupCode</td>
                                                     <td>@item.AccountGroupName</td>
                                                     <td>@item.AccountGroupDescription </td>
-                                                    <td>@item.AccountGroupStatus</td>
-
                                                     <td>
-                                                        <label class="badge badge-info">@(item.AccountGroupStatus ? "Active" : "InActive")</label>
+                                                        <label class="badge badge-info">@(item.IsActive ? "Active" : "InActive")</label>
                                                     </td>
                                                     <td>
-                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" onclick="loadAccountcategoryPartial(@(JsonConvert.SerializeObject(item.AccountGroupId)))">
+                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" onclick="loadAccountGroupPartial(@(JsonConvert.SerializeObject(item.AccountGroupId)))">
                                                             view
                                                         </button>
                                                         <input class="btn btn-outline-danger" type="button" value="Delete" onclick="onDeleteAccountGroup(@(JsonConvert.SerializeObject(item)))" />

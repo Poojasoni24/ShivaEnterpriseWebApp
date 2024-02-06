@@ -9,7 +9,7 @@ namespace ShivaEnterpriseWebApp.Model
         public string BankCode { get; set; }
         public string BankName { get; set; }
         public string? BankDescription { get; set; }
-        public bool BankStatus { get; set; }
+        public bool IsActive { get; set; }
         public string CreatedBy { get; set; }
         public DateTime CreatedDateTime { get; set; }
         public string? ModifiedBy { get; set; }

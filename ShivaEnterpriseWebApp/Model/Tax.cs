@@ -1,12 +1,12 @@
 ﻿namespace ShivaEnterpriseWebApp.Model
 {
-    public class Tax
+    public class Tax 
     {
         public Guid TaxId { get; set; }
         public string TaxCode { get; set; }
         public string TaxName { get; set; }
         public string? TaxDescription { get; set; }
-        public bool TaxStatus { get; set; }
+        public bool IsActive { get; set; }
         public string TaxType { get; set; }
         public string TaxRate { get; set; }
         public string CreatedBy { get; set; }
