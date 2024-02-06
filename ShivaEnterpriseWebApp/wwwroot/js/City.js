@@ -59,13 +59,13 @@ function modalclose() {
 }
 function loadCityPartial(cityId) {
     $.ajax({
-        url: `/Branch/BranchDetails?branchId=${branchId}`,
+        url: `/City/CityDetail?cityId=${cityId}`,
         type: 'GET',
         success: function (res) {
             debugger;
-            $('#exampleModalLong').modal('show')
+            $('#cityModalLong').modal('show')
             useJQueryNoConflict();
-            $('#branchDetailDiv').html(res)
+            $('#cityDetailDiv').html(res)
             //document.getElementById("CompanyDetailDiv")
             //    .innerHTML += res
         },

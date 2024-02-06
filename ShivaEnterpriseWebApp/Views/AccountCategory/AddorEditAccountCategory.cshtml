@@ -11,7 +11,6 @@
     <h2>@(Model != null && Model.AccountCategoryId != Guid.Empty ? "Edit AccountCategory" : "Add AccountCategory")</h2>
     <div class="card-body company_from">
         <div class="form">
-            <a href="d:\shiva enterprise\shivaenterprisewebapp\shivaenterprisewebapp\views\accountcategory\addoreditaccountcategory.cshtml">d:\shiva enterprise\shivaenterprisewebapp\shivaenterprisewebapp\views\branch\addoreditbranch.cshtml</a>
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group row">
@@ -42,12 +41,12 @@
                 <span asp-validation-for="AccountCategoryDescription" class="text-danger"></span>
             </div>
             <div class="form-group row">
-                <label asp-for="AccountCategoryStatus" class="control-label"></label>
+                <label asp-for="IsActive" class="control-label"></label>
                 <div class="col-md-9">
                     @* @Html.CheckBoxFor(model => model.IsActive) *@
-                    <input asp-for="AccountCategoryStatus" class="form-control" />
+                    <input asp-for="IsActive" class="form-control" />
                 </div>
-                <span asp-validation-for="AccountCategoryStatus" class="text-danger"></span>
+                <span asp-validation-for="IsActive" class="text-danger"></span>
             </div>
             @* <input asp-for="CreatedDateTime" class="form-control" type="hidden" />*@
 

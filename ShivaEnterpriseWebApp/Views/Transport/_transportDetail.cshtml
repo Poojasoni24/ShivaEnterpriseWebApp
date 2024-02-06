@@ -1,10 +1,10 @@
-﻿@model ShivaEnterpriseWebApp.Model.ProductGroup
+﻿@model ShivaEnterpriseWebApp.Model.Transport
 @{
     ViewData["Title"] = "Details";
 }
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">@Model.ProductGroupName</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">@Model.TransportName</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -13,22 +13,22 @@
         <div>
             <dl class="row">
                 <dt class="col-sm-4">
-                    @Html.DisplayNameFor(model => model.ProductGroupCode)
+                    @Html.DisplayNameFor(model => model.TransportCode)
                 </dt>
                 <dd class="col-sm-8">
-                    @Html.DisplayFor(model => model.ProductGroupCode)
+                    @Html.DisplayFor(model => model.TransportCode)
                 </dd>
                 <dt class="col-sm-4">
-                    @Html.DisplayNameFor(model => model.ProductGroupName)
+                    @Html.DisplayNameFor(model => model.TransportName)
                 </dt>
                 <dd class="col-sm-8">
-                    @Html.DisplayFor(model => model.ProductGroupName)
+                    @Html.DisplayFor(model => model.TransportName)
                 </dd>
                 <dt class="col-sm-4">
-                    @Html.DisplayNameFor(model => model.ProductGroupDescription)
+                    @Html.DisplayNameFor(model => model.TransportDescription)
                 </dt>
                 <dd class="col-sm-8">
-                    @Html.DisplayFor(model => model.ProductGroupDescription)
+                    @Html.DisplayFor(model => model.TransportDescription)
                 </dd>
                 @* <dt class="col-sm-4">
                 @Html.DisplayNameFor(model => model.Company.Company_Name)
@@ -37,20 +37,22 @@
                 @Html.DisplayFor(model => model.Company.Company_Name)
                 </dd>*@
                 <dt class="col-sm-3">
-                    @Html.DisplayNameFor(model => model.ProductGroupStatus)
+                    @Html.DisplayNameFor(model => model.IsActive)
                 </dt>
                 <dd class="col-sm-8">
-                    @Html.DisplayFor(model => model.ProductGroupStatus)
+                    @Html.DisplayFor(model => model.IsActive)
                 </dd>
-            </dl>
+                
+                </dl>
         </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modalclose" onclick="modalclose()">Close</button>
-        <input type="button" class="btn btn-primary" value="Edit" onclick="window.location.href='ProductGroup/AddorEditProductGroup?id=@Model.ProductGroupId'" />
+        <input type="button" class="btn btn-primary" value="Edit" onclick="window.location.href='Transport/AddOrEditTransport?id=@Model.TransportId'" />
         @* @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) | *@
     </div>
 </div>
 @section script {
-    <script src="~/js/ProductGroup.js"></script>
+    <script src="~/js/Transport.js"></script>
 }
+

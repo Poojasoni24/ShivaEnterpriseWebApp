@@ -82,7 +82,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
                 string json = JsonConvert.SerializeObject(state);
 
                 StringContent data = new StringContent(json, Encoding.UTF8, "application/json");
-                var url = urlCollections["baseUrl"].ToString() + urlCollections["editcityUrl"] + "?id=" + state.State_Id;
+                var url = urlCollections["baseUrl"].ToString() + urlCollections["editstateUrl"] + "?id=" + state.State_Id;
                 var client = new HttpClient();
                 var request = new HttpRequestMessage(new HttpMethod("PUT"), url);
                 request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
@@ -115,7 +115,6 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
 
             var request = new HttpRequestMessage(new HttpMethod("GET"), url);
             request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
-
 
             //Pass in the full URL and the json string content
             var response = await client.SendAsync(request);

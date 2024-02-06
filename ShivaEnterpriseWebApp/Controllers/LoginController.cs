@@ -81,6 +81,7 @@ namespace ShivaEnterpriseWebApp.Controllers
                         if (userDetails != null && userDetails.UserName != null)
                         {
                             claimsIdentity.AddClaim(new Claim(ClaimTypes.Name, userDetails.UserName));
+                            claimsIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userDetails.Id));
                         }
 
 

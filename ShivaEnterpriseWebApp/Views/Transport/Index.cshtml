@@ -1,0 +1,83 @@
+﻿@using Newtonsoft.Json
+@using ShivaEnterpriseWebApp.Model
+@model List<ShivaEnterpriseWebApp.Model.Transport>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Index";
+}
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div id="TransportDetailDiv">
+            </div>
+        </div>
+    </div>
+
+    <!-- partial -->
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Transport Detail</h4>
+                    <div class="compnay_btn">
+                        <input class="btn btn-success" type="button" value="Add Transport" onclick="window.location.href='Transport/AddOrEditTransport'" />
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <table id="order-listing" class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Transport Code</th>
+                                            <th>Transport Name</th>
+                                            <th>Transport Description</th>
+                                            <th>Transport Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model != null)
+                                        {
+                                            @foreach (var item in Model)
+                                            {
+
+                                                <tr>
+                                                    <td>@item.TransportCode</td>
+                                                    <td>@item.TransportName</td>
+                                                    <td>@item.TransportDescription </td>
+                                                   
+                                                    
+
+                                                    <td>
+                                                        <label class="badge badge-info">@(item.IsActive ? "Active" : "InActive")</label>
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" onclick="loadTransportPartial(@(JsonConvert.SerializeObject(item.TransportId)))">
+                                                            view
+                                                        </button>
+                                                        <input class="btn btn-outline-danger" type="button" value="Delete" onclick="onDeleteTransport(@(JsonConvert.SerializeObject(item)))" />
+
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- content-wrapper ends -->
+    </div>
+
+
+</body>
+
+</html>
+
+<script src="~/js/Transport.js"></script>

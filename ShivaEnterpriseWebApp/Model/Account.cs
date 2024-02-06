@@ -8,11 +8,14 @@ namespace ShivaEnterpriseWebApp.Model
         public string AccountCode { get; set; }
         public string AccountName { get; set; }
         public string? AccountDescription { get; set; }
-        public bool AccountStatus { get; set; }
-        public string AccountGroupId { get; set; }
-        public string AccountTypeId { get; set; }
-        public string AccountCategoryId { get; set; }
-
+        public bool IsActive { get; set; }
+        public Guid AccountGroupId { get; set; }
+        public Guid AccountTypeId { get; set; }
+        public Guid AccountCategoryId { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime CreatedDateTime { get; set; }
+        public string? ModifiedBy { get; set; }
+        public DateTime? ModifiedDateTime { get; set; }
 
         public List<SelectListItem> AccountGroupList { get; set; }
 

@@ -57,7 +57,7 @@ function deleteAccountGroupAJAX(accountGroupId) {
 function modalclose() {
     window.location.reload();
 }
-function loadAccountCategoryPartial(accountGroupId) {
+function loadAccountGroupPartial(accountGroupId) {
     $.ajax({
         url: `/AccountGroup/AccountGroupDetail?accountGroupId=${accountGroupId}`,
         type: 'GET',
@@ -65,7 +65,7 @@ function loadAccountCategoryPartial(accountGroupId) {
             debugger;
             $('#exampleModalLong').modal('show')
             useJQueryNoConflict();
-            $('#AccountGroupDetailDiv').html(res)
+            $('#accountgroupDetailDiv').html(res)
             //document.getElementById("CompanyDetailDiv")
             //    .innerHTML += res
         },
@@ -74,4 +74,9 @@ function loadAccountCategoryPartial(accountGroupId) {
         }
     });
 
+}
+
+//Jquery No conflict 
+function useJQueryNoConflict() {
+    jQuery.noConflict();
 }

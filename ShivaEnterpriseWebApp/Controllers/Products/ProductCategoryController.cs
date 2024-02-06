@@ -44,7 +44,7 @@ namespace ShivaEnterpriseWebApp.Controllers.Products
                 }
                 else
                 {
-                    productCategory.ProductCategoryStatus = true;
+                    productCategory.IsActive = true;
                     await productCategoryService.AddProductCategoryDetailsAsync(productCategory, authToken);
                 }
                 return RedirectToAction(nameof(Index));
@@ -84,7 +84,7 @@ namespace ShivaEnterpriseWebApp.Controllers.Products
                 ProductCategoryCode = productCategoryData.ProductCategoryCode,
                 ProductCategoryName = productCategoryData.ProductCategoryName,
                 ProductCategoryDescription = productCategoryData.ProductCategoryDescription,
-                ProductCategoryStatus = productCategoryData.ProductCategoryStatus
+                IsActive = productCategoryData.IsActive
             });
         }
     }

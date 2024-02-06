@@ -2,7 +2,9 @@
 
 @{
     ViewData["Title"] = "AddorEdit";
-    SelectList yourDropdownList = ViewBag.SelectList;
+    SelectList accountGroupDropdownList = ViewBag.accountGroupSelectList;
+    SelectList accountTypeDropdownList = ViewBag.accountTypeList;
+    SelectList accountCategoryDropdownList = ViewBag.accountCategoryList;
 }
 <link href="~/css/company.css" rel="stylesheet" />
 @using (Html.BeginForm())
@@ -11,7 +13,6 @@
     <h2>@(Model != null && Model.AccountId != Guid.Empty ? "Edit Account" : "Add Account")</h2>
     <div class="card-body company_from">
         <div class="form">
-            <a href="d:\shiva enterprise\shivaenterprisewebapp\shivaenterprisewebapp\views\account\addoreditaccount.cshtml">d:\shiva enterprise\shivaenterprisewebapp\shivaenterprisewebapp\views\branch\addoreditbranch.cshtml</a>
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group row">
@@ -38,28 +39,28 @@
             <div class="form-group row">
                 <label asp-for="AccountGroup" class="control-label"></label>
                 <div class="col-md-9">
-                    @Html.DropDownListFor(model => model.AccountGroupId, yourDropdownList, "Select an option", new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.AccountGroupId, accountGroupDropdownList, "Select an option", new { @class = "form-control" })
                 </div>
             </div>
             <div class="form-group row">
                 <label asp-for="AccountType" class="control-label"></label>
                 <div class="col-md-9">
-                    @Html.DropDownListFor(model => model.AccountTypeId, yourDropdownList, "Select an option", new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.AccountTypeId, accountTypeDropdownList, "Select an option", new { @class = "form-control" })
                 </div>
             </div>
             <div class="form-group row">
                 <label asp-for="AccountCategory" class="control-label"></label>
                 <div class="col-md-9">
-                    @Html.DropDownListFor(model => model.AccountCategoryId, yourDropdownList, "Select an option", new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.AccountCategoryId, accountCategoryDropdownList, "Select an option", new { @class = "form-control" })
                 </div>
             </div>
             <div class="form-group row">
-                <label asp-for="AccountStatus" class="control-label"></label>
+                <label asp-for="IsActive" class="control-label"></label>
                 <div class="col-md-9">
                     @* @Html.CheckBoxFor(model => model.IsActive) *@
-                    <input asp-for="AccountStatus" class="form-control" />
+                    <input asp-for="IsActive" class="form-control" />
                 </div>
-                <span asp-validation-for="AccountStatus" class="text-danger"></span>
+                <span asp-validation-for="IsActive" class="text-danger"></span>
             </div>
             @* <input asp-for="CreatedDateTime" class="form-control" type="hidden" />*@
 

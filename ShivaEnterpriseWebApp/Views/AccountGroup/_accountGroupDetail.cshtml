@@ -1,10 +1,10 @@
-﻿@model ShivaEnterpriseWebApp.Model.SalesmanAgent
+﻿@model ShivaEnterpriseWebApp.Model.AccountGroup
 @{
     ViewData["Title"] = "Details";
 }
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">@Model.SalesmanName</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">@Model.AccountGroupName</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -13,28 +13,22 @@
         <div>
             <dl class="row">
                 <dt class="col-sm-4">
-                    @Html.DisplayNameFor(model => model.Salesmancode)
+                    @Html.DisplayNameFor(model => model.AccountGroupCode)
                 </dt>
                 <dd class="col-sm-8">
-                    @Html.DisplayFor(model => model.Salesmancode)
+                    @Html.DisplayFor(model => model.AccountGroupCode)
                 </dd>
                 <dt class="col-sm-4">
-                    @Html.DisplayNameFor(model => model.SalesmanName)
+                    @Html.DisplayNameFor(model => model.AccountGroupName)
                 </dt>
                 <dd class="col-sm-8">
-                    @Html.DisplayFor(model => model.SalesmanName)
+                    @Html.DisplayFor(model => model.AccountGroupName)
                 </dd>
                 <dt class="col-sm-4">
-                    @Html.DisplayNameFor(model => model.Salesmanemail)
+                    @Html.DisplayNameFor(model => model.AccountGroupDescription)
                 </dt>
                 <dd class="col-sm-8">
-                    @Html.DisplayFor(model => model.Salesmanemail)
-                </dd>
-                <dt class="col-sm-4">
-                    @Html.DisplayNameFor(model => model.Salesmanphone)
-                </dt>
-                <dd class="col-sm-8">
-                    @Html.DisplayFor(model => model.Salesmanphone)
+                    @Html.DisplayFor(model => model.AccountGroupDescription)
                 </dd>
                 @* <dt class="col-sm-4">
                 @Html.DisplayNameFor(model => model.Company.Company_Name)
@@ -43,20 +37,20 @@
                 @Html.DisplayFor(model => model.Company.Company_Name)
                 </dd>*@
                 <dt class="col-sm-3">
-                    @Html.DisplayNameFor(model => model.SalesmanStatus)
+                    @Html.DisplayNameFor(model => model.IsActive)
                 </dt>
                 <dd class="col-sm-8">
-                    @Html.DisplayFor(model => model.SalesmanStatus)
+                    @Html.DisplayFor(model => model.IsActive)
                 </dd>
             </dl>
         </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modalclose" onclick="modalclose()">Close</button>
-        <input type="button" class="btn btn-primary" value="Edit" onclick="window.location.href='SalesmanAgent/AddorEditSalesmanAgent?id=@Model.SalesmanAgentID'" />
+        <input type="button" class="btn btn-primary" value="Edit" onclick="window.location.href='AccountGroup/AddOrEditAccountGroup?id=@Model.AccountGroupId'" />
         @* @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) | *@
     </div>
 </div>
 @section script {
-    <script src="~/js/SalesmanAgent.js"></script>
+    <script src="~/js/AccountGroup.js"></script>
 }

@@ -108,7 +108,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             }
         }
 
-        public async Task<AccountCategory> GetAccountCategoryById(string accountCategoryId, string authToken)
+        public async Task<AccountCategory> GetAccountCategoryById(Guid accountCategoryId, string authToken)
         {
             var url = urlCollections["baseUrl"].ToString() + urlCollections["getaccountcategorybyidUrl"] + "?accountCategoryId=" + accountCategoryId;
             var client = new HttpClient();

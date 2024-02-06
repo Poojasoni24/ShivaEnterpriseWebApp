@@ -31,8 +31,9 @@
                                 <table id="order-listing" class="table">
                                     <thead>
                                         <tr>
+                                            <th>City Code</th>
                                             <th>City Name</th>
-                                            <th>Status</th>
+                                            <th>City Status</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -43,15 +44,16 @@
                                             {
 
                                                 <tr>
+                                                    <td>@item.City_Code</td>
                                                     <td>@item.City_Name</td>
-                                                @*     <td>
-                                                        <label class="badge badge-info">@(item.IsActive ? "Active" : "InActive")</label>
-                                                    </td> *@
                                                     <td>
-                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cityModalLong" onclick="loadPartial(@(JsonConvert.SerializeObject(item.City_Id)))">
+                                                        <label class="badge badge-info">@(item.IsActive ? "Active" : "InActive")</label>
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cityModalLong" onclick="loadCityPartial(@(JsonConvert.SerializeObject(item.City_Id)))">
                                                             view
                                                         </button>
-                                                        <input class="btn btn-outline-danger" type="button" value="Delete" onclick="onDeleteCompany(@(JsonConvert.SerializeObject(item)))" />
+                                                        <input class="btn btn-outline-danger" type="button" value="Delete" onclick="onDeleteCity(@(JsonConvert.SerializeObject(item)))" />
 
                                                     </td>
                                                 </tr>
@@ -73,3 +75,4 @@
 
 </html>
 
+<script src="~/js/City.js"></script>

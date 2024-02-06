@@ -27,23 +27,23 @@
   "deleteroleUrl": "/api/Role/DeleteRole",
   "editroleUrl": "/api/Role/UpdateRole",
 
-  "getAllCountryUrl": "/api/Country/GetAllCountry",
+  "getAllCountryUrl": "/api/Country/GetCountry",
   "getcountrybyidUrl": "/api/Country/GetCountryById",
   "addcountryUrl": "/api/Country/AddCountry",
   "deletecountryUrl": "/api/Country/DeleteCountry",
-  "editcountryUrl": "/api/Country/EditCountryDetail",
+  "editcountryUrl": "/api/Country/EditCountry",
 
   "getallstateUrl": "/api/State/GetAllState",
   "getstatebyidUrl": "/api/State/GetStateById",
   "addstateUrl": "/api/State/AddState",
   "deletestateUrl": "/api/State/DeleteState",
-  "editstateUrl": "/api/State/EditStateDetail",
+  "editstateUrl": "/api/State/EditState",
 
-  "getallcityUrl": "/api/City/GetAllCity",
+  "getallcityUrl": "/api/City/GetCity",
   "getcitybyidUrl": "/api/City/GetCityById",
   "addcityUrl": "/api/City/AddCity",
   "deletecityUrl": "/api/City/DeleteCity",
-  "editcityUrl": "/api/City/EditCityDetail",
+  "editcityUrl": "/api/City/EditCity",
   //Account
   "getallaccountUrl": "/api/Account/GetAccount",
   "getaccountbyidUrl": "/api/Account/GetAccountById",
@@ -97,7 +97,31 @@
   "getsalesmanagentbyidUrl": "/api/SalesmanAgent/GetSalesmanAgentById",
   "addsalesmanagentUrl": "/api/SalesmanAgent/AddsalesmanAgent",
   "deletesalesmanagentUrl": "/api/SalesmanAgent/DeleteSalesmanAgent",
-  "editsalesmanagentUrl": "/api/SalesmanAgent/EditsalesmanAgent"
+  "editsalesmanagentUrl": "/api/SalesmanAgent/EditsalesmanAgent",
+  //Tax
+  "getalltaxUrl": "/api/Tax/GetTax",
+  "gettaxbyidUrl": "/api/Tax/GetTaxById",
+  "addtaxUrl": "/api/Tax/AddTax",
+  "deletetaxUrl": "/api/Tax/DeleteTax",
+  "edittaxUrl": "/api/Tax/EditTax",
+  //Transport
+  "getalltransportUrl": "/api/Transport/GetTransport",
+  "gettransportbyidUrl": "/api/Transport/GetTransportById",
+  "addtransportUrl": "/api/Transport/AddTransport",
+  "deletetransportUrl": "/api/Transport/DeleteTransport",
+  "edittransportUrl": "/api/Transport/EditTransport",
+  //Bank
+  "getallbankUrl": "/api/Bank/GetBank",
+  "getbankbyidUrl": "/api/Bank/GetBankById",
+  "addbankUrl": "/api/Bank/AddBank",
+  "deletebankUrl": "/api/Bank/DeleteBank",
+  "editbankUrl": "/api/Bank/EditBank",
+  //Mode Of Payment
+  "getallmopUrl": "/api/Modeofpayment/GetModeofPayment",
+  "getmopbyidUrl": "/api/Modeofpayment/GetModById",
+  "addmopUrl": "/api/Modeofpayment/AddModeofPayment",
+  "deletemopUrl": "/api/Modeofpayment/DeleteModeofPayment",
+  "editmopUrl": "/api/Modeofpayment/EditModeofPayment"
 
 
 }

@@ -57,13 +57,13 @@ function deleteBranchAJAX(accountId) {
 function modalclose() {
     window.location.reload();
 }
-function loadBranchPartial(accountId) {
+function loadAccountPartial(accountId) {
     $.ajax({
         url: `/Account/AccountDetail?accountId=${accountId}`,
         type: 'GET',
         success: function (res) {
             debugger;
-            $('#exampleModalLong').modal('show')
+            $('#accountModalLong').modal('show')
             useJQueryNoConflict();
             $('#AccountDetailDiv').html(res)
             //document.getElementById("CompanyDetailDiv")

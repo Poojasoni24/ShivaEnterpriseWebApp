@@ -49,10 +49,10 @@
                                                     <td>@item.ProductCategoryCode</td>
                                                     <td>@item.ProductCategoryName</td>
                                                     <td>@item.ProductCategoryDescription </td>
-                                                    <td>@item.ProductCategoryStatus</td>
+                                                    <td>@item.IsActive</td>
                                                     
                                                     <td>
-                                                        <label class="badge badge-info">@(item.ProductCategoryStatus ? "Active" : "InActive")</label>
+                                                        <label class="badge badge-info">@(item.IsActive ? "Active" : "InActive")</label>
                                                     </td>
                                                     <td>
                                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" onclick="loadProductCategoryPartial(@(JsonConvert.SerializeObject(item.ProductCategoryId)))">

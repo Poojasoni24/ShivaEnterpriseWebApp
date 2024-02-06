@@ -1,10 +1,10 @@
-﻿@model ShivaEnterpriseWebApp.Model.AccountType
+﻿@model ShivaEnterpriseWebApp.Model.ProductCategory
 @{
     ViewData["Title"] = "Details";
 }
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">@Model.AccountTypeName</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">@Model.ProductCategoryName</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -13,22 +13,22 @@
         <div>
             <dl class="row">
                 <dt class="col-sm-4">
-                    @Html.DisplayNameFor(model => model.AccountTypeCode)
+                    @Html.DisplayNameFor(model => model.ProductCategoryCode)
                 </dt>
                 <dd class="col-sm-8">
-                    @Html.DisplayFor(model => model.AccountTypeCode)
+                    @Html.DisplayFor(model => model.ProductCategoryCode)
                 </dd>
                 <dt class="col-sm-4">
-                    @Html.DisplayNameFor(model => model.AccountTypeName)
+                    @Html.DisplayNameFor(model => model.ProductCategoryName)
                 </dt>
                 <dd class="col-sm-8">
-                    @Html.DisplayFor(model => model.AccountTypeName)
+                    @Html.DisplayFor(model => model.ProductCategoryName)
                 </dd>
                 <dt class="col-sm-4">
-                    @Html.DisplayNameFor(model => model.AccountTypeDescription)
+                    @Html.DisplayNameFor(model => model.ProductCategoryDescription)
                 </dt>
                 <dd class="col-sm-8">
-                    @Html.DisplayFor(model => model.AccountTypeDescription)
+                    @Html.DisplayFor(model => model.ProductCategoryDescription)
                 </dd>
                 @* <dt class="col-sm-4">
                 @Html.DisplayNameFor(model => model.Company.Company_Name)
@@ -37,20 +37,20 @@
                 @Html.DisplayFor(model => model.Company.Company_Name)
                 </dd>*@
                 <dt class="col-sm-3">
-                    @Html.DisplayNameFor(model => model.AccountTypeStatus)
+                    @Html.DisplayNameFor(model => model.IsActive)
                 </dt>
                 <dd class="col-sm-8">
-                    @Html.DisplayFor(model => model.AccountTypeStatus)
+                    @Html.DisplayFor(model => model.IsActive)
                 </dd>
             </dl>
         </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modalclose" onclick="modalclose()">Close</button>
-        <input type="button" class="btn btn-primary" value="Edit" onclick="window.location.href='AccountType/AddorEditAccountType?id=@Model.AccountTypeId'" />
+        <input type="button" class="btn btn-primary" value="Edit" onclick="window.location.href='ProductCategory/AddorEditProductCategory?id=@Model.ProductCategoryId'" />
         @* @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) | *@
     </div>
 </div>
 @section script {
-    <script src="~/js/AccountType.js"></script>
+    <script src="~/js/ProductCategory.js"></script>
 }

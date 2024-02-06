@@ -75,3 +75,8 @@ function loadAccountTypePartial(accountTypeId) {
     });
 
 }
+
+//Jquery No conflict 
+function useJQueryNoConflict() {
+    jQuery.noConflict();
+}

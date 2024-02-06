@@ -44,7 +44,7 @@ namespace ShivaEnterpriseWebApp.Controllers.Products
                 }
                 else
                 {
-                    product.ProductStatus = true;
+                    product.IsActive = true;
                     await productService.AddProductDetailsAsync(product, authToken);
                 }
                 return RedirectToAction(nameof(Index));
@@ -84,7 +84,7 @@ namespace ShivaEnterpriseWebApp.Controllers.Products
                 ProductCode = productData.ProductCode,
                 ProductName = productData.ProductName,
                 ProductDescription = productData.ProductDescription,
-                ProductStatus = productData.ProductStatus,
+                IsActive = productData.IsActive,
                 ProductImage = productData.ProductImage,
                 ProductCategoryId = productData.ProductCategoryId,
                 ProductGroupId = productData.ProductGroupId,

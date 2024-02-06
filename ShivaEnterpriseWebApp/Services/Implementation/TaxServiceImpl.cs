@@ -22,7 +22,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
                 string json = JsonConvert.SerializeObject(Tax);
 
                 StringContent data = new StringContent(json, Encoding.UTF8, "application/json");
-                var url = urlCollections["baseUrl"].ToString() + urlCollections["addTaxUrl"].ToString();
+                var url = urlCollections["baseUrl"].ToString() + urlCollections["addtaxUrl"].ToString();
                 var client = new HttpClient();
                 var request = new HttpRequestMessage(new HttpMethod("POST"), url);
                 request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
@@ -52,7 +52,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
         {
             string json = "{ \"TaxId\": \"" + TaxId + "\" }";
             StringContent data = new StringContent(json, Encoding.UTF8, "application/json");
-            var url = urlCollections["baseUrl"].ToString() + urlCollections["deleteTaxUrl"] + "?TaxId=" + TaxId;
+            var url = urlCollections["baseUrl"].ToString() + urlCollections["deletetaxUrl"] + "?TaxId=" + TaxId;
             var client = new HttpClient();
             var request = new HttpRequestMessage(new HttpMethod("POST"), url);
             request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
@@ -73,15 +73,15 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             return (true, result);
         }
 
-        public async Task<(bool success, string message)> EditTaxDetailsAsync(Tax Tax, string authToken)
+        public async Task<(bool success, string message)> EditTaxDetailsAsync(Tax tax, string authToken)
         {
             try
             {
                 //Create json string to prepare input for api                
-                string json = JsonConvert.SerializeObject(Tax);
+                string json = JsonConvert.SerializeObject(tax);
 
                 StringContent data = new StringContent(json, Encoding.UTF8, "application/json");
-                var url = urlCollections["baseUrl"].ToString() + urlCollections["editTaxUrl"] + "?id=" + Tax.TaxId.ToString();
+                var url = urlCollections["baseUrl"].ToString() + urlCollections["edittaxUrl"] + "?id=" + tax.TaxId.ToString();
                 var client = new HttpClient();
                 var request = new HttpRequestMessage(new HttpMethod("PUT"), url);
                 request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
@@ -109,7 +109,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
 
         public async Task<Tax> GetTaxById(string TaxId, string authToken)
         {
-            var url = urlCollections["baseUrl"].ToString() + urlCollections["getTaxbyidUrl"] + "?TaxId=" + TaxId;
+            var url = urlCollections["baseUrl"].ToString() + urlCollections["gettaxbyidUrl"] + "?TaxId=" + TaxId;
             var client = new HttpClient();
 
             var request = new HttpRequestMessage(new HttpMethod("GET"), url);
@@ -132,7 +132,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
 
         public async Task<List<Tax>> GetTaxList(string authToken)
         {
-            var url = urlCollections["baseUrl"].ToString() + urlCollections["getallTaxUrl"].ToString();
+            var url = urlCollections["baseUrl"].ToString() + urlCollections["getalltaxUrl"].ToString();
             var client = new HttpClient();
             var request = new HttpRequestMessage(new HttpMethod("GET"), url);
             request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);

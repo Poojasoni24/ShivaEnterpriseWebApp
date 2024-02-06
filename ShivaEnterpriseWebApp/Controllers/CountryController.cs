@@ -5,6 +5,7 @@ using ShivaEnterpriseWebApp.Model;
 using ShivaEnterpriseWebApp.Services.Implementation;
 using ShivaEnterpriseWebApp.Services.Interface;
 using System.Security.Claims;
+using System.Security.Principal;
 
 namespace ShivaEnterpriseWebApp.Controllers.Countries
 {
@@ -34,21 +35,19 @@ namespace ShivaEnterpriseWebApp.Controllers.Countries
                 Country_Id = countryDetails.Country_Id,
                 Country_Code = countryDetails.Country_Code,
                 Country_Name = countryDetails.Country_Name,
-                CreatedDateAndTime = countryDetails.CreatedDateAndTime,
             });
         }
 
         [HttpGet]
         public async Task<IActionResult> AddOrEditCountry(string countryId)
         {
+            string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
+            if (authToken == null)
+                return BadRequest("Something went wrong");
             if (!string.IsNullOrEmpty(countryId))
             {
-                string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
-                if (authToken == null)
-                    return BadRequest("Something went wrong");
                 var countryDetails = await countryObj.GetCountryById(countryId, authToken);
                 return View(countryDetails);
-
             }
             return View();
         }
@@ -59,7 +58,19 @@ namespace ShivaEnterpriseWebApp.Controllers.Countries
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
             if (authToken == null)
                 return BadRequest("Something went wrong");
-            await countryObj.AddCountryDetailsAsync(country, authToken);
+            if (!string.IsNullOrEmpty(country.Country_Id))
+            {
+                country.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                country.ModifiedDateTime = DateTime.Now;
+                await countryObj.EditCountryDetailsAsync(country,authToken);
+            }
+            else
+            {
+                country.IsActive = true;
+                country.CreatedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                country.CreatedDateTime = DateTime.Now;
+                await countryObj.AddCountryDetailsAsync(country, authToken);
+            }
             return RedirectToAction(nameof(Index));
         }
 

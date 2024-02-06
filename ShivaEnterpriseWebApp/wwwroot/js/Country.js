@@ -64,7 +64,7 @@ function loadCountryPartial(countryId) {
             debugger;
             $('#exampleModalLong').modal('show')
             useJQueryNoConflict();
-            $('#branchDetailDiv').html(res)
+            $('#countryDetailDiv').html(res)
             //document.getElementById("CompanyDetailDiv")
             //    .innerHTML += res
         },
