@@ -9,7 +9,7 @@ function onDeleteSalesmanAgent(SalesmanAgent) {
     debugger
     swal({
         title: "Are you sure?",
-        text: `Are you sure to delete ${SalesmanAgent.SalesmanName} ?`,
+        text: `Are you sure to delete ${SalesmanAgent.Salesman_Name} ?`,
         //type: "warning",
         buttons: {
             yes: {
@@ -25,7 +25,7 @@ function onDeleteSalesmanAgent(SalesmanAgent) {
         confirmButtonColor: '#c10909'
     }).then(res => {
         if (res) {
-            deleteBranchAJAX(SalesmanAgent.SalesmanAgentID);
+            deleteSalesmanAgentAJAX(SalesmanAgent.SalesmanAgentID);
         }
     });
 }
@@ -63,9 +63,9 @@ function loadSalesmanAgentPartial(salemanAgentId) {
         type: 'GET',
         success: function (res) {
             debugger;
-            $('#exampleModalLong').modal('show')
+            $('#salesmanagentModalLong').modal('show')
             useJQueryNoConflict();
-            $('#SalesmanAgentDetailDiv').html(res)
+            $('#salesmanagentDetailDiv').html(res)
             //document.getElementById("CompanyDetailDiv")
             //    .innerHTML += res
         },
@@ -73,5 +73,13 @@ function loadSalesmanAgentPartial(salemanAgentId) {
         error: function (err) {
         }
     });
+
+    //Jquery No conflict 
+    function useJQueryNoConflict() {
+        jQuery.noConflict();
+    }
+
+
+
 
 }

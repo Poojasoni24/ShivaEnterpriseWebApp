@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <body>
-    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal fade" id="accountcategoryModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div id="accountcategoryDetailDiv"></div>
         </div>
@@ -54,7 +54,7 @@
                                                         <label class="badge badge-info">@(item.IsActive ? "Active" : "InActive")</label>
                                                     </td>
                                                     <td>
-                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" onclick="loadAccountCategoryPartial(@(JsonConvert.SerializeObject(item.AccountCategoryId)))">
+                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#accountcategoryModalLong" onclick="loadAccountCategoryPartial(@(JsonConvert.SerializeObject(item.AccountCategoryId)))">
                                                             view
                                                         </button>
                                                         <input class="btn btn-outline-danger" type="button" value="Delete" onclick="onDeleteAccountCategory(@(JsonConvert.SerializeObject(item)))" />

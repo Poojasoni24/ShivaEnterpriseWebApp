@@ -1,7 +1,4 @@
-﻿$(document).ready(function () {
-    // Your code here
-});
-
+﻿
 //#region DELETE
 
 //On Click of delete organization.
@@ -65,7 +62,7 @@ function loadAccountPartial(accountId) {
             debugger;
             $('#accountModalLong').modal('show')
             useJQueryNoConflict();
-            $('#AccountDetailDiv').html(res)
+            $('#accountDetailDiv').html(res)
             //document.getElementById("CompanyDetailDiv")
             //    .innerHTML += res
         },

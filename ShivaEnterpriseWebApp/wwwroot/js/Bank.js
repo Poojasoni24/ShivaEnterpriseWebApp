@@ -75,3 +75,8 @@ function loadBankPartial(bankId) {
     });
 
 }
+
+//Jquery No conflict 
+function useJQueryNoConflict() {
+    jQuery.noConflict();
+}

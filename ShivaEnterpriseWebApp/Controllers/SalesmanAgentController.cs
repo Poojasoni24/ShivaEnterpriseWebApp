@@ -40,6 +40,8 @@ namespace ShivaEnterpriseWebApp.Controllers
                 if (!string.IsNullOrEmpty(salesmanAgentId))
                 {
                     salesmanAgent.SalesmanAgentID = new Guid(salesmanAgentId);
+                    salesmanAgent.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                    salesmanAgent.ModifiedDateTime = DateTime.Now;
                     await salesmanAgentService.EditSalesmanAgentDetailsAsync(salesmanAgent, authToken);
                 }
                 else
@@ -83,9 +85,9 @@ namespace ShivaEnterpriseWebApp.Controllers
             return PartialView("_salesmanAgentDetail", new SalesmanAgent()
             {
                 SalesmanAgentID = new Guid(salemanAgentId),
-                Salesmancode = salesmanAgentData.Salesmancode,
-                SalesmanName = salesmanAgentData.SalesmanName,
-                Salesmanemail = salesmanAgentData.Salesmanemail,
+                Salesman_code = salesmanAgentData.Salesman_code,
+                Salesman_Name = salesmanAgentData.Salesman_Name,
+                Salesman_email = salesmanAgentData.Salesman_email,
                 Salesmanphone = salesmanAgentData.Salesmanphone,
                 IsActive = salesmanAgentData.IsActive
             });

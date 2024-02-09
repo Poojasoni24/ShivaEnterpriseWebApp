@@ -25,7 +25,7 @@ function onDeleteAccountType(AccountType) {
         confirmButtonColor: '#c10909'
     }).then(res => {
         if (res) {
-            deleteBranchAJAX(AccountType.AccountTypeId);
+            deleteAccountTypeAJAX(AccountType.AccountTypeId);
         }
     });
 }
@@ -63,9 +63,9 @@ function loadAccountTypePartial(accountTypeId) {
         type: 'GET',
         success: function (res) {
             debugger;
-            $('#exampleModalLong').modal('show')
+            $('#accounttypeModalLong').modal('show')
             useJQueryNoConflict();
-            $('#AccountTypeDetailDiv').html(res)
+            $('#accounttypeDetailDiv').html(res)
             //document.getElementById("CompanyDetailDiv")
             //    .innerHTML += res
         },

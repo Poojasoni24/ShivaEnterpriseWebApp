@@ -25,7 +25,7 @@ function onDeleteAccountCategory(AccountCategory) {
         confirmButtonColor: '#c10909'
     }).then(res => {
         if (res) {
-            deleteBranchAJAX(AccountCategory.AccountCategoryId);
+            deleteAccountCategoryAJAX(AccountCategory.AccountCategoryId);
         }
     });
 }
@@ -63,9 +63,9 @@ function loadAccountCategoryPartial(accountCategoryId) {
         type: 'GET',
         success: function (res) {
             debugger;
-            $('#exampleModalLong').modal('show')
+            $('#accountcategoryModalLong').modal('show')
             useJQueryNoConflict();
-            $('#AccountCategoryDetailDiv').html(res)
+            $('#accountcategoryDetailDiv').html(res)
             //document.getElementById("CompanyDetailDiv")
             //    .innerHTML += res
         },
@@ -74,4 +74,10 @@ function loadAccountCategoryPartial(accountCategoryId) {
         }
     });
 
+}
+
+
+//Jquery No conflict 
+function useJQueryNoConflict() {
+    jQuery.noConflict();
 }

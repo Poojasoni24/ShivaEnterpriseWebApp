@@ -13,18 +13,18 @@
         <div class="form">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group row">
-                <label asp-for="Salesmancode" class="control-label"></label>
+                <label asp-for="Salesman_code" class="control-label"></label>
                 <div class="col-md-9">
-                    <input asp-for="Salesmancode" class="form-control" />
+                    <input asp-for="Salesman_code" class="form-control" />
                 </div>
-                <span asp-validation-for="Salesmancode" class="text-danger"></span>
+                <span asp-validation-for="Salesman_code" class="text-danger"></span>
             </div>
             <div class="form-group row">
-                <label asp-for="SalesmanName" class="control-label"></label>
+                <label asp-for="Salesman_Name" class="control-label"></label>
                 <div class="col-md-9">
-                    <input asp-for="SalesmanName" class="form-control" />
+                    <input asp-for="Salesman_Name" class="form-control" />
                 </div>
-                <span asp-validation-for="SalesmanName" class="text-danger"></span>
+                <span asp-validation-for="Salesman_Name" class="text-danger"></span>
             </div>
             @*   <div class="form-group row">
         <label asp-for="Company" class="control-label"></label>
@@ -33,11 +33,11 @@
         </div>
         </div>*@
             <div class="form-group row">
-                <label asp-for="Salesmanemail" class="control-label"></label>
+                <label asp-for="Salesman_email" class="control-label"></label>
                 <div class="col-md-9">
-                    <input asp-for="Salesmanemail" class="form-control" />
+                    <input asp-for="Salesman_email" class="form-control" />
                 </div>
-                <span asp-validation-for="Salesmanemail" class="text-danger"></span>
+                <span asp-validation-for="Salesman_email" class="text-danger"></span>
             </div>
             <div class="form-group row">
                 <label asp-for="Salesmanphone" class="control-label"></label>
@@ -54,7 +54,8 @@
                 </div>
                 <span asp-validation-for="IsActive" class="text-danger"></span>
             </div>
-            @* <input asp-for="CreatedDateTime" class="form-control" type="hidden" />*@
+            <input asp-for="CreatedDateTime" class="form-control" type="hidden" />
+            <input asp-for="CreatedBy" class="form-control" type="hidden" />
 
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
