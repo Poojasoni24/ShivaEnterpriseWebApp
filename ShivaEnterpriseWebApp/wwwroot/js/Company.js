@@ -1,8 +1,3 @@
-$(() => {
-    debugger;
-    console.log("Hello World!");
-});
-
 
 //#region DELETE
 

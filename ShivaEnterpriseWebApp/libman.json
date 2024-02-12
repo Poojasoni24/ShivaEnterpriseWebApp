@@ -5,10 +5,6 @@
     {
       "library": "bootstrap@5.3.2",
       "destination": "wwwroot/bootstrap/"
-    },
-    {
-      "library": "fontawesome-iconpicker@3.2.0",
-      "destination": "wwwroot/lib/fontawesome-iconpicker/"
     }
   ]
 }
