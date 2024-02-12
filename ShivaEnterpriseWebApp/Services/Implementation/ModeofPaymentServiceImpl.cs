@@ -48,7 +48,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             }
         }
 
-        public async Task<(bool successs, string message)> DeleteModeofPayment(string modeofPaymentId, string authToken)
+        public async Task<(bool successs, string message)> DeleteModeofPaymentAsync(Guid modeofPaymentId, string authToken)
         {
             string json = "{ \"ModeofPaymentId\": \"" + modeofPaymentId + "\" }";
             StringContent data = new StringContent(json, Encoding.UTF8, "application/json");
@@ -107,7 +107,9 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             }
         }
 
-        public async Task<ModeofPayment> GetModeofPaymentById(string modeofPaymentId, string authToken)
+       
+
+        public async Task<ModeofPayment> GetModeofPaymentById(Guid modeofPaymentId, string authToken)
         {
             var url = urlCollections["baseUrl"].ToString() + urlCollections["getmopbyidUrl"] + "?ModeofPaymentId=" + modeofPaymentId;
             var client = new HttpClient();

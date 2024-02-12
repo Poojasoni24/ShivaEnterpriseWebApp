@@ -21,13 +21,13 @@ namespace ShivaEnterpriseWebApp.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> ModeofPaymentDetail(string modId)
+        public async Task<ActionResult> ModeofPaymentDetail(Guid modId)
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
             if (authToken == null)
                 return BadRequest("Something went wrong");
             var modDetail = await modobj.GetModeofPaymentById(modId, authToken);
-            return PartialView("_TaxDetail", new ModeofPayment()
+            return PartialView("_modeofPaymentDetail", new ModeofPayment()
             {
                 MODId = modDetail.MODId,
                 MODCode = modDetail.MODCode,
@@ -39,12 +39,12 @@ namespace ShivaEnterpriseWebApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddOrEditModeofpayment(string modId)
+        public async Task<IActionResult> AddOrEditModeofpayment(Guid modId)
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
             if (authToken == null)
                 return BadRequest("Something went wrong");
-            if (!string.IsNullOrEmpty(modId))
+            if (modId !=Guid.Empty)
             {
                 var modDetail = await modobj.GetModeofPaymentById(modId, authToken);
                 return View(modDetail);
@@ -53,7 +53,7 @@ namespace ShivaEnterpriseWebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddOrEditTax(ModeofPayment mod)
+        public async Task<IActionResult> AddOrEditModeofpayment(ModeofPayment mod)
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
             if (authToken == null)
@@ -75,14 +75,14 @@ namespace ShivaEnterpriseWebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> RemoveModeofPayment(string ModId)
+        public async Task<IActionResult> RemoveModeofPayment(Guid modId)
         {
             try
             {
                 string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
                 if (authToken == null)
                     return BadRequest("Something went wrong");
-                var response = await modobj.DeleteModeofPayment(ModId, authToken);
+                var response = await modobj.DeleteModeofPaymentAsync(modId, authToken);
                 return Json(new { success = response.successs, response.message });
             }
             catch (Exception)

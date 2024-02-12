@@ -48,7 +48,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             }
         }
 
-        public async Task<(bool successs, string message)> DeleteTax(string TaxId, string authToken)
+        public async Task<(bool successs, string message)> DeleteTax(Guid TaxId, string authToken)
         {
             string json = "{ \"TaxId\": \"" + TaxId + "\" }";
             StringContent data = new StringContent(json, Encoding.UTF8, "application/json");

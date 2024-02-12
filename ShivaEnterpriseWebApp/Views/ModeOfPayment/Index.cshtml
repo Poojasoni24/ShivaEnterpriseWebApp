@@ -23,7 +23,7 @@
                 <div class="card-body">
                     <h4 class="card-title">ModeofPayment Detail</h4>
                     <div class="compnay_btn">
-                        <input class="btn btn-success" type="button" value="Add ModeofPayment" onclick="window.location.href='ModeofPayment/AddOrEditModeofpayment'" />
+                        <input class="btn btn-success" type="button" value="Add ModeofPayment" onclick="window.location.href='ModeOfPayment/AddOrEditModeofpayment'" />
                     </div>
                     <div class="row">
                         <div class="col-12">
@@ -59,10 +59,10 @@
                                                     <td>@item.MODType </td>
                                                     <td>@item.MODAccount </td>
                                                     <td>
-                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" onclick="loadModeofPaymentPartial(@(JsonConvert.SerializeObject(item.MODId)))">
+                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" onclick="loadModeOfPaymentPartial(@(JsonConvert.SerializeObject(item.MODId)))">
                                                             view
                                                         </button>
-                                                        <input class="btn btn-outline-danger" type="button" value="Delete" onclick="onDeleteModeofPayment(@(JsonConvert.SerializeObject(item)))" />
+                                                        <input class="btn btn-outline-danger" type="button" value="Delete" onclick="onDeleteModeOfPayment(@(JsonConvert.SerializeObject(item)))" />
 
                                                     </td>
                                                 </tr>

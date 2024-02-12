@@ -75,7 +75,7 @@ namespace ShivaEnterpriseWebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> RemoveTax(string taxId)
+        public async Task<IActionResult> RemoveTax(Guid taxId)
         {
             try
             {

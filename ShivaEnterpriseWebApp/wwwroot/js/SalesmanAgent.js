@@ -1,6 +1,4 @@
-﻿$(document).ready(function () {
-    // Your code here
-});
+﻿
 
 //#region DELETE
 

@@ -1,6 +1,4 @@
-﻿$(document).ready(function () {
-    // Your code here
-});
+﻿
 
 //#region DELETE
 
@@ -31,7 +29,7 @@ function onDeleteTax(Tax) {
 }
 
 //AJAX call for delete organization
-function deleteTaxAJAX(ModId) {
+function deleteTaxAJAX(taxId) {
     debugger;
     $.ajax({
         url: `/Tax/RemoveTax`,
@@ -74,4 +72,7 @@ function loadTaxPartial(taxId) {
         }
     });
 
+}
+function useJQueryNoConflict() {
+    jQuery.noConflict();
 }

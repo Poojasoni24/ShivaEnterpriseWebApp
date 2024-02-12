@@ -1,6 +1,4 @@
-﻿$(document).ready(function () {
-    // Your code here
-});
+﻿
 
 //#region DELETE
 
@@ -31,12 +29,12 @@ function onDeleteModeOfPayment(ModeOfPayment) {
 }
 
 //AJAX call for delete organization
-function deleteModeOfPaymentAJAX(ModId) {
+function deleteModeOfPaymentAJAX(modId) {
     debugger;
     $.ajax({
         url: `/ModeOfPayment/RemoveModeofPayment`,
         type: 'POST',
-        data: { ModId: ModId },
+        data: { modId: modId },
         success: function (res) {
             if (res.success) {
                 debugger;
@@ -65,7 +63,7 @@ function loadModeOfPaymentPartial(modId) {
             debugger;
             $('#exampleModalLong').modal('show')
             useJQueryNoConflict();
-            $('#ModeofPaymentDetailDiv').html(res)
+            $('#modeofPaymentDetailDiv').html(res)
             //document.getElementById("CompanyDetailDiv")
             //    .innerHTML += res
         },
@@ -74,4 +72,7 @@ function loadModeOfPaymentPartial(modId) {
         }
     });
 
+}
+function useJQueryNoConflict() {
+    jQuery.noConflict();
 }
