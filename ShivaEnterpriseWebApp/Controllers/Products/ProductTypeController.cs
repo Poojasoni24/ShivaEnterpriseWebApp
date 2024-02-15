@@ -17,7 +17,7 @@ namespace ShivaEnterpriseWebApp.Controllers.Products
         }
 
         [HttpGet]
-        public async Task<ActionResult> AddOrEditProductType(string productTypeId)
+        public async Task<ActionResult> AddOrEditProductType1(string productTypeId)
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
             if (!string.IsNullOrEmpty(productTypeId))
@@ -32,7 +32,7 @@ namespace ShivaEnterpriseWebApp.Controllers.Products
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddOrEditProductType(string productTypeId, ProductType productType)
+        public async Task<ActionResult> AddOrEditProductType1(string productTypeId, ProductType productType)
         {
             try
             {
