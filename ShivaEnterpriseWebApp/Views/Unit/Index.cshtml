@@ -1,6 +1,6 @@
 ﻿@using Newtonsoft.Json
 @using ShivaEnterpriseWebApp.Model
-@model List<ShivaEnterpriseWebApp.Model.ProductGroup>
+@model List<ShivaEnterpriseWebApp.Model.Unit>
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,9 +9,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <body>
-    <div class="modal fade" id="productgroupModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <div id="productgroupDetailDiv">
+            <div id="UnitDetailDiv">
             </div>
         </div>
     </div>
@@ -21,9 +21,9 @@
         <div class="content-wrapper">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Product Group</h4>
+                    <h4 class="card-title">Unit Detail</h4>
                     <div class="compnay_btn">
-                        <input class="btn btn-success" type="button" value="Add ProductGroup" onclick="window.location.href='ProductGroup/AddOrEditProductGroup1'" />
+                        <input class="btn btn-success" type="button" value="Add Unit" onclick="window.location.href='Unit/AddOrEditUnit'" />
                     </div>
                     <div class="row">
                         <div class="col-12">
@@ -31,11 +31,10 @@
                                 <table id="order-listing" class="table">
                                     <thead>
                                         <tr>
-                                            <th>Product Group Code</th>
-                                            <th>Product Group Name</th>
-                                            <th>Product Group Description</th>
-                                            <th>Product Group Status</th>
-
+                                            <th>Unit Code</th>
+                                            <th>Unit Name</th>
+                                            <th>Unit Description</th>
+                                            <th>Unit Status</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -46,19 +45,21 @@
                                             {
 
                                                 <tr>
-                                                    <td>@item.ProductGroupCode</td>
-                                                    <td>@item.ProductGroupName</td>
-                                                    <td>@item.ProductGroupDescription </td>
-                                                    <td>@item.IsActive</td>
+                                                    <td>@item.UnitCode</td>
+                                                    <td>@item.UnitName</td>
+                                                    <td>@item.UnitDescription </td>
+
+
 
                                                     <td>
                                                         <label class="badge badge-info">@(item.IsActive ? "Active" : "InActive")</label>
                                                     </td>
+
                                                     <td>
-                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" onclick="loadProductGroupPartial(@(JsonConvert.SerializeObject(item.ProductGroupId)))">
+                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" onclick="loadUnitPartial(@(JsonConvert.SerializeObject(item.UnitId)))">
                                                             view
                                                         </button>
-                                                        <input class="btn btn-outline-danger" type="button" value="Delete" onclick="onDeleteProductGroup(@(JsonConvert.SerializeObject(item)))" />
+                                                        <input class="btn btn-outline-danger" type="button" value="Delete" onclick="onDeleteUnit(@(JsonConvert.SerializeObject(item)))" />
 
                                                     </td>
                                                 </tr>
@@ -74,8 +75,11 @@
         </div>
         <!-- content-wrapper ends -->
     </div>
+
+
 </body>
 
 </html>
 
-<script src="~/js/ProductGroup.js"></script>
+<script src="~/js/Unit.js"></script>
+
