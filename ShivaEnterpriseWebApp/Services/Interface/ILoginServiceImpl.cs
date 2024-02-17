@@ -7,5 +7,6 @@ namespace ShivaEnterpriseWebApp.Services.Interface
     {
         Task<UserDetails> GetUserdetail(string userName);
         Task<AuthDAOs> PerformLogin(LoginModel loginModel);
+        Task<string> PerformLogout();
     }
 }

@@ -1,6 +1,6 @@
 ﻿@using Newtonsoft.Json
 @using ShivaEnterpriseWebApp.Model
-@model List<ShivaEnterpriseWebApp.Model.ProductCategory>
+@model List<ShivaEnterpriseWebApp.Model.Product>
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,9 +9,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <body>
-    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal fade" id="productModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <div id="productcategoryDetailDiv">
+            <div id="productDetailDiv">
             </div>
         </div>
     </div>
@@ -21,9 +21,9 @@
         <div class="content-wrapper">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Product Category</h4>
+                    <h4 class="card-title">Product Detail</h4>
                     <div class="compnay_btn">
-                        <input class="btn btn-success" type="button" value="Add ProductCategory" onclick="window.location.href='ProductCategory/AddOrEditProductCategory'" />
+                        <input class="btn btn-success" type="button" value="Add Account" onclick="window.location.href='Product/AddOrEditProduct'" />
                     </div>
                     <div class="row">
                         <div class="col-12">
@@ -31,11 +31,10 @@
                                 <table id="order-listing" class="table">
                                     <thead>
                                         <tr>
-                                            <th>Product Category Code</th>
-                                            <th>Product Category Name</th>
-                                            <th>Product Category Description</th>
-                                            <th>Product Category Status</th>
-                                            
+                                            <th>Product Code</th>
+                                            <th>product Name</th>
+                                            <th>Product Description</th>
+                                            <th>product Status</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -46,19 +45,17 @@
                                             {
 
                                                 <tr>
-                                                    <td>@item.ProductCategoryCode</td>
-                                                    <td>@item.ProductCategoryName</td>
-                                                    <td>@item.ProductCategoryDescription </td>
-                                                    <td>@item.IsActive</td>
-                                                    
+                                                    <td>@item.ProductCode</td>
+                                                    <td>@item.ProductName</td>
+                                                    <td>@item.ProductDescription </td>
                                                     <td>
                                                         <label class="badge badge-info">@(item.IsActive ? "Active" : "InActive")</label>
                                                     </td>
                                                     <td>
-                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" onclick="loadProductCategoryPartial(@(JsonConvert.SerializeObject(item.ProductCategoryId)))">
+                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#productModalLong" onclick="loadAccountPartial(@(JsonConvert.SerializeObject(item.ProductId)))">
                                                             view
                                                         </button>
-                                                        <input class="btn btn-outline-danger" type="button" value="Delete" onclick="onDeleteProductCategory(@(JsonConvert.SerializeObject(item)))" />
+                                                        <input class="btn btn-outline-danger" type="button" value="Delete" onclick="onDeleteAccount(@(JsonConvert.SerializeObject(item)))" />
 
                                                     </td>
                                                 </tr>
@@ -74,8 +71,10 @@
         </div>
         <!-- content-wrapper ends -->
     </div>
+
+
 </body>
 
 </html>
 
-<script src="~/js/ProductCategory.js"></script>
+<script src="~/js/Account.js"></script>

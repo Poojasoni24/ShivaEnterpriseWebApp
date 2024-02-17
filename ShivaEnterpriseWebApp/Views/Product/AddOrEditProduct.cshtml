@@ -1,0 +1,89 @@
+﻿@model ShivaEnterpriseWebApp.Model.Product
+
+@{
+    ViewData["Title"] = "AddorEdit";
+    SelectList productGroupDropdownList = ViewBag.productGroupSelectList;
+    SelectList productTypeDropdownList = ViewBag.productTypeList;
+    SelectList productCategoryDropdownList = ViewBag.productCategoryList;
+}
+<link href="~/css/company.css" rel="stylesheet" />
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <h2>@(Model != null && Model.ProductId != Guid.Empty ? "Edit Product" : "Add Product")</h2>
+    <div class="card-body company_from">
+        <div class="form">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <label asp-for="ProductCode" class="control-label"></label>
+                <div class="col-md-9">
+                    <input asp-for="ProductCode" class="form-control" />
+                </div>
+                <span asp-validation-for="ProductCode" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <label asp-for="ProductName" class="control-label"></label>
+                <div class="col-md-9">
+                    <input asp-for="ProductName" class="form-control" />
+                </div>
+                <span asp-validation-for="ProductName" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <label asp-for="ProductImage" class="control-label"></label>
+                <div class="col-md-9">
+                    <input asp-for="ProductImage" class="form-control" type="file" />
+                </div>
+                <span asp-validation-for="ProductImage" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <label asp-for="ProductGroup" class="control-label"></label>
+                <div class="col-md-9">
+                    @Html.DropDownListFor(model => model.ProductGroupId, productGroupDropdownList, "Select an option", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="ProductType" class="control-label"></label>
+                <div class="col-md-9">
+                    @Html.DropDownListFor(model => model.ProductTypeId, productTypeDropdownList, "Select an option", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="ProductCategory" class="control-label"></label>
+                <div class="col-md-9">
+                    @Html.DropDownListFor(model => model.ProductCategoryId, productCategoryDropdownList, "Select an option", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="ProductDescription" class="control-label"></label>
+                <div class="col-md-9">
+                    <input asp-for="ProductDescription" class="form-control" />
+                </div>
+                <span asp-validation-for="ProductDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <label asp-for="IsActive" class="control-label"></label>
+                <div class="col-md-9">
+                    @* @Html.CheckBoxFor(model => model.IsActive) *@
+                    <input asp-for="IsActive" class="form-control" />
+                </div>
+                <span asp-validation-for="IsActive" class="text-danger"></span>
+            </div>
+            @* <input asp-for="CreatedDateTime" class="form-control" type="hidden" />*@
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                @* <input type="button" value="Back to List" class="btn btn-info" asp-action="Index" asp-controller="Company"> *@
+                <button type="button" class="btn btn-info"> <a asp-action="Index">Back to List</a></button>
+            </div>
+        </div>
+    </div>
+
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

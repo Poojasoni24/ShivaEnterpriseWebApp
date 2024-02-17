@@ -1,50 +1,24 @@
 ﻿    <!-- partial:partials/_navbar.html -->
 <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-between">
-        <a class="navbar-brand brand-logo" href="http://shivaenterpriseind.in/dashboard.html"><img src="~/img/SHIVA ENTERPRISE.jpg" alt="logo" height="1500px" /></a>
-        <a class="navbar-brand brand-logo-mini" href="http://shivaenterpriseind.in/dashboard.html"><img src="~/img/logo-mini.svg" alt="logo" /></a>
+        <a class="navbar-brand brand-logo" href="/"><img src="~/img/SHIVA ENTERPRISE.jpg" alt="logo" height="1500px" /></a>
+        <a class="navbar-brand brand-logo-mini" href="/"><img src="~/img/logo-mini.svg" alt="logo" /></a>
         <div class="notification">  </div>
     </div>
     <div class="navbar-menu-wrapper d-flex align-items-center justify-content-between">
-        <div class="d-none d-lg-flex">
+        <div class="d-block d-lg-flex">
             <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-                <span class="mdi mdi-menu"></span>
+                <span class="user-icon"><i class="fa-solid fa-bars" style="color:white"></i></span>
             </button>
-            <!-- <ul class="navbar-nav mr-lg-2">
-               <li class="nav-item dropdown nav-dropdown mr-3">
-                 <a class="dropdown-toggle btn" href="#" data-toggle="dropdown" id="dashDropdown">
-                     Company
-                 </a>-->
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="dashDropdown">
-                <a class="dropdown-item">
-                    <i class="mdi mdi-airplay text-primary"></i>
-                    Company Year
-                </a>
-                <!-- <a class="dropdown-item">
-                   <i class="mdi mdi-view-headline text-primary"></i>
-                   Branch
-                 </a>-->
-            </div>
-            </li>
-            <!-- <li class="nav-item dropdown nav-dropdown">
-               <a class="dropdown-toggle btn" href="#" data-toggle="dropdown" id="actionDropdown">
-                   User
-               </a>
-               <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="actionDropdown">
-                 <a class="dropdown-item">
-                   <i class="mdi mdi-inbox text-primary"></i>
-                   Recieved
-                 </a>
-                 <a class="dropdown-item">
-                   <i class="mdi mdi-forward text-primary"></i>
-                   Sent
-                 </a>
-                 <a class="dropdown-item">
-                   <i class="mdi mdi-content-cut text-primary"></i>
-                   Pending
-                 </a>
-               </div>
-             </li>-->
+            <ul class="navbar-nav mr-lg-2">
+                <li class="nav-item dropdown nav-dropdown mr-3">
+                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="dashDropdown">
+                        <a class="dropdown-item">
+                            <i class="mdi mdi-airplay text-primary"></i>
+                            Company Year
+                        </a>
+                    </div>
+                </li>
             </ul>
         </div>
         <ul class="navbar-nav navbar-nav-right">
@@ -95,42 +69,17 @@
 
             <li class="nav-item nav-profile dropdown">
                 <div class="nav-link" data-toggle="dropdown" id="profileDropdown">
-                    <span>Hi</span>
-                    <span class="user-icon"><i class="fa-solid fa-dash"></i></span>
+                    <i class="fas fa-user-circle" style="color:white"></i>
                 </div>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown user-profile-action" aria-labelledby="profileDropdown">
-                    <div class="p-3 text-center bg-success">
-                        <img class="img-avatar img-avatar48 img-avatar-thumb" src="https://via.placeholder.com/36x36" alt="">
+                    <div class="p-3 text-center bg-success" style="color:white">
+                            <h3 class="mb-1 profile-name">@(User != null && User.Identity != null ? User.Identity.Name : string.Empty)</h3>
+                            <p class="profile-description">Admin</p>
                     </div>
-                    <div class="p-3">
-                        <h5 class="dropdown-header text-uppercase pl-2 text-dark">User Options</h5>
-                        <a class="dropdown-item py-1 px-2 d-flex align-items-center justify-content-between" href="#">
-                            <span>Inbox</span>
-                            <span class="p-0">
-                                <span class="badge badge-primary">3</span>
-                                <i class="mdi mdi-email-open-outline ml-1"></i>
-                            </span>
-                        </a>
-                        <a class="dropdown-item py-1 px-2 d-flex align-items-center justify-content-between" href="#">
-                            <span>Profile</span>
-                            <span class="p-0">
-                                <span class="badge badge-success">1</span>
-                                <i class="mdi mdi-account-outline ml-1"></i>
-                            </span>
-                        </a>
-                        <a class="dropdown-item py-1 px-2 d-flex align-items-center justify-content-between" href="javascript:void(0)">
-                            <span>Settings</span>
-                            <i class="mdi mdi-settings"></i>
-                        </a>
-                        <div role="separator" class="dropdown-divider"></div>
-                        <h5 class="dropdown-header text-uppercase  pl-2 text-dark mt-2">Actions</h5>
-                        <a class="dropdown-item py-1 px-2 d-flex align-items-center justify-content-between" href="#">
-                            <span>Lock Account</span>
-                            <i class="mdi mdi-lock ml-1"></i>
-                        </a>
-                        <a class="dropdown-item py-1  px-2 d-flex align-items-center justify-content-between" href="/">
+                    <div>
+                        <a class="dropdown-item py-1  px-2 d-flex align-items-center justify-content-between" onclick="window.location.href='Login/Logout'">
                             <span>Log Out</span>
-                            <i class="mdi mdi-logout ml-1"></i>
+                            <i class="fa fa-user-alt-slash"></i>
                         </a>
                     </div>
                 </div>

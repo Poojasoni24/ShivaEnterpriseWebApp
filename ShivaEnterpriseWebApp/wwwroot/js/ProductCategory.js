@@ -1,9 +1,4 @@
-﻿$(document).ready(function () {
-    // Your code here
-});
-
-//#region DELETE
-
+﻿
 //On Click of delete organization.
 function onDeleteProductCategory(ProductCategory) {
     debugger

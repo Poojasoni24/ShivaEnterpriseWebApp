@@ -7,6 +7,7 @@
   "DeleteCompanyUrl": "/api/Company/DeleteCompany",
 
   "authUrl": "/api/Authenticate/login",
+  "logOutUrl": "/api/Authenticate/logout",
   "getUserDetail": "/api/Authenticate/getuserbyname",
 
   "getalluserUrl": "/api/User/GetAllUser",

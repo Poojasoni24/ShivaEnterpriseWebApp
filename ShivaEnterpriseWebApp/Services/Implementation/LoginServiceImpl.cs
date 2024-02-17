@@ -65,5 +65,31 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             }
         }
 
+        public async Task<string> PerformLogout()
+        {
+            try
+            {
+                var url = urlCollections["baseUrl"].ToString() + urlCollections["logOutUrl"].ToString();
+                var client = new HttpClient();
+                var request = new HttpRequestMessage(new HttpMethod("POST"), url);
+                //Pass in the full URL and the json string content
+                var response = await client.SendAsync(request);
+
+                //It would be better to make sure this request actually made it through
+                var result = await response.Content.ReadAsStringAsync();
+
+                //close out the client
+                client.Dispose();
+                var authDao = JsonConvert.DeserializeObject<AuthDAOs>(result);
+
+                return result;
+
+            }
+            catch (Exception)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
     }
 }

@@ -41,6 +41,18 @@ namespace ShivaEnterpriseWebApp
 
                 });
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader();
+                });
+            });
+
+            
+
 
             //END :: Shared Auth JWT token Cookie Sharing Code
         }
@@ -116,7 +128,7 @@ namespace ShivaEnterpriseWebApp
             app.UseAuthentication();
 
             app.UseAuthorization();
-
+            app.UseCors("AllowAll");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

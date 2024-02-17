@@ -8,8 +8,8 @@
                         <img src="https://via.placeholder.com/36x36" alt="profile">
                     </div>
                     <div class="mt-2">
-                        <h3 class="mb-1 profile-name">@(User != null && User.Identity != null? User.Identity.Name : string.Empty)</h3>
-                        <p class="profile-description">Admin</p>
+                        @* <h3 class="mb-1 profile-name">@(User != null && User.Identity != null ? User.Identity.Name : string.Empty)</h3>
+                        <p class="profile-description">Admin</p> *@
                     </div>
                 </div>
             </a>
@@ -17,8 +17,7 @@
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-company" aria-expanded="false" aria-controls="ui-basic">
                 <span class="menu-title">Company</span>
-                @* <i class="fa fa-archive" style="font-size:24px"></i> *@
-                <i class="fa fa-solid" style="font-size:24px"></i>
+                <i class="fas fa-chevron-down"></i>
             </a>
             <div class="collapse" id="ui-company">
                 <ul class="nav flex-column sub-menu">
@@ -30,7 +29,7 @@
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-advanced" aria-expanded="false" aria-controls="ui-advanced">
                 <span class="menu-title">Users</span>
-                <i class="menu-arrow"></i>
+                <i class="fas fa-chevron-down"></i>
             </a>
             <div class="collapse" id="ui-advanced">
                 <ul class="nav flex-column sub-menu">
@@ -42,7 +41,7 @@
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
                 <span class="menu-title">Account</span>
-                <i class="menu-arrow"></i>
+                <i class="fas fa-chevron-down"></i>
             </a>
             <div class="collapse" id="form-elements">
                 <ul class="nav flex-column sub-menu">
@@ -56,7 +55,7 @@
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">
                 <span class="menu-title">Country</span>
-                <i class="menu-arrow"></i>
+                <i class="fas fa-chevron-down"></i>
             </a>
             <div class="collapse" id="charts">
                 <ul class="nav flex-column sub-menu">
@@ -69,7 +68,7 @@
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#editors" aria-expanded="false" aria-controls="editors">
                 <span class="menu-title">Product</span>
-                <i class="menu-arrow"></i>
+                <i class="fas fa-chevron-down"></i>
             </a>
             <div class="collapse" id="form-elements">
                 <ul class="nav flex-column sub-menu">
@@ -83,7 +82,7 @@
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#taxdetail" aria-expanded="false" aria-controls="taxdetails">
                 <span class="menu-title">Tax</span>
-                <i class="menu-arrow"></i>
+                <i class="fas fa-chevron-down"></i>
             </a>
             <div class="collapse" id="taxdetail">
                 <ul class="nav flex-column sub-menu">
@@ -95,7 +94,7 @@
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
                 <span class="menu-title">Transport</span>
-                <i class="menu-arrow"></i>
+                <i class="fas fa-chevron-down"></i>
             </a>
             <div class="collapse" id="tables">
                 <ul class="nav flex-column sub-menu">
@@ -105,7 +104,7 @@
             </div>
         </li>
 
-        
+
         <li class="nav-item">
             <a class="nav-link" href="SalesmanAgent">
                 <span class="menu-title">Salesman Agent</span>
@@ -136,109 +135,109 @@
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="Counter.html">              
+            <a class="nav-link" href="Counter.html">
                 <span class="menu-title">Counter</span>
             </a>
-        </li>      
+        </li>
         <li class="nav-item">
-            <a class="nav-link" href="Location.html">              
+            <a class="nav-link" href="Location.html">
                 <span class="menu-title">Location</span>
             </a>
-        </li>      
+        </li>
         <li class="nav-item">
             <a class="nav-link" href="Brand.html">
-              
+
                 <span class="menu-title">Brand</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="Unit.html">
-              
+
                 <span class="menu-title">Unit</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="Receipt.html">
-              
+
                 <span class="menu-title">Receipt</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="Contra.html">
-              
+
                 <span class="menu-title">Contra</span>
             </a>
         </li>
 
         <li class="nav-item">
             <a class="nav-link" href="Journal_Voucher.html">
-              
+
                 <span class="menu-title">Journal Voucher</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="Inward.html">
-              
+
                 <span class="menu-title">Inward</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="Issues.html">
-              
+
                 <span class="menu-title">Issues</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="Outward.html">
-              
+
                 <span class="menu-title">Outward</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="Production.html">
-              
+
                 <span class="menu-title">Production</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="Consumption.html">
-              
+
                 <span class="menu-title">Consumption</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="Adjustment_Plus_Minus.html">
-              
+
                 <span class="menu-title">Adjustment Plus-Minus</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="Transfer.html">
-              
+
                 <span class="menu-title">Transfer</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="Wastage.html">
-              
+
                 <span class="menu-title">Wastage</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="Parameter.html">
-              
+
                 <span class="menu-title">Parameter</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="Setting.html">
-              
+
                 <span class="menu-title">Setting</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="Opening_Stock.html">
-              
+
                 <span class="menu-title">Opening Stock</span>
             </a>
         </li>

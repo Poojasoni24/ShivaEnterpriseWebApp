@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShivaEnterpriseWebApp.Helper;
@@ -120,6 +120,40 @@ namespace ShivaEnterpriseWebApp.Controllers
                 }
             }
             return View(loginModel);
+        }
+
+        private void deleteClaim(string role)
+        {
+            try
+            {
+                var user = User as ClaimsPrincipal;
+                var identity = user.Identity as ClaimsIdentity;
+                var claim = (from c in user.Claims
+                             where c.Value == role
+                             select c).Single();
+                identity.RemoveClaim(claim);
+            }
+            catch (InvalidOperationException)
+            {
+               
+            }
+        }
+
+        public async Task<ActionResult> Logout()
+        {
+            //Check if Cookie exists.
+            if (Request.Cookies["ShivaWebCookie"] != null)
+            {               
+                //Set Message in TempData.
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                TempData["Message"] = "Cookie deleted.";
+            }
+            else
+            {
+                //Set Message in TempData.
+                TempData["Message"] = "Cookie not found.";
+            }
+            return RedirectToAction("Index", "Login");
         }
     }
 }
