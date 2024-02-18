@@ -51,13 +51,10 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
 
         public async Task<(bool successs, string message)> DeleteProduct(string productId, string authToken)
         {
-            string json = "{ \"productId\": \"" + productId + "\" }";
-            StringContent data = new StringContent(json, Encoding.UTF8, "application/json");
             var url = urlCollections["baseUrl"].ToString() + urlCollections["deleteproductUrl"] + "?productId=" + productId;
             var client = new HttpClient();
             var request = new HttpRequestMessage(new HttpMethod("POST"), url);
             request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
-            request.Content = data;
 
             //Pass in the full URL and the json string content
             var response = await client.SendAsync(request);

@@ -23,7 +23,7 @@
                 <div class="card-body">
                     <h4 class="card-title">Product Group</h4>
                     <div class="compnay_btn">
-                        <input class="btn btn-success" type="button" value="Add ProductGroup" onclick="window.location.href='ProductGroup/AddOrEditProductGroup1'" />
+                        <input class="btn btn-success" type="button" value="Add ProductGroup" onclick="window.location.href='ProductGroup/AddOrEditProductGroup'" />
                     </div>
                     <div class="row">
                         <div class="col-12">
@@ -55,7 +55,7 @@
                                                         <label class="badge badge-info">@(item.IsActive ? "Active" : "InActive")</label>
                                                     </td>
                                                     <td>
-                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" onclick="loadProductGroupPartial(@(JsonConvert.SerializeObject(item.ProductGroupId)))">
+                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#productgroupModalLong" onclick="loadProductGroupPartial(@(JsonConvert.SerializeObject(item.ProductGroupId)))">
                                                             view
                                                         </button>
                                                         <input class="btn btn-outline-danger" type="button" value="Delete" onclick="onDeleteProductGroup(@(JsonConvert.SerializeObject(item)))" />

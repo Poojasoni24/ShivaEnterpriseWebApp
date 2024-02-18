@@ -12,6 +12,11 @@ namespace ShivaEnterpriseWebApp.Model
         public string? ProductDescription { get; set; }
         public bool IsActive { get; set; }
         public string ProductImage { get; set; }
+
+        [Display(Name = "Add a productImage")]
+        [DataType(DataType.Upload)]
+        [FileExtensions(Extensions = "jpg,png,gif,jpeg,bmp,svg")]
+        public IFormFile ImageFile { get; set; }
         public string ProductCategoryId { get; set; }
         public string ProductGroupId { get; set; }
         public string ProductTypeId { get; set; }

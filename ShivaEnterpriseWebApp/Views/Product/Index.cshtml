@@ -52,10 +52,10 @@
                                                         <label class="badge badge-info">@(item.IsActive ? "Active" : "InActive")</label>
                                                     </td>
                                                     <td>
-                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#productModalLong" onclick="loadAccountPartial(@(JsonConvert.SerializeObject(item.ProductId)))">
+                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#productModalLong" onclick="loadProductPartial(@(JsonConvert.SerializeObject(item.ProductId)))">
                                                             view
                                                         </button>
-                                                        <input class="btn btn-outline-danger" type="button" value="Delete" onclick="onDeleteAccount(@(JsonConvert.SerializeObject(item)))" />
+                                                        <input class="btn btn-outline-danger" type="button" value="Delete" onclick="onDeleteProduct(@(JsonConvert.SerializeObject(item)))" />
 
                                                     </td>
                                                 </tr>
@@ -77,4 +77,4 @@
 
 </html>
 
-<script src="~/js/Account.js"></script>
+<script src="~/js/Product.js"></script>

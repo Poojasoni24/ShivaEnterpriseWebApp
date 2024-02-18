@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using ShivaEnterpriseWebApp.Model;
 using ShivaEnterpriseWebApp.Services.Implementation;
 using ShivaEnterpriseWebApp.Services.Interface;
@@ -17,7 +18,7 @@ namespace ShivaEnterpriseWebApp.Controllers.Products
         }
 
         [HttpGet]
-        public async Task<ActionResult> AddOrEditProductCategory1(string productCategoryId)
+        public async Task<ActionResult> AddOrEditProductCategory(string productCategoryId)
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
             if (!string.IsNullOrEmpty(productCategoryId))
@@ -32,7 +33,7 @@ namespace ShivaEnterpriseWebApp.Controllers.Products
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddOrEditProductCategory1(string productId, ProductCategory productCategory)
+        public async Task<ActionResult> AddOrEditProductCategory(string productId, ProductCategory productCategory)
         {
             try
             {
@@ -40,11 +41,15 @@ namespace ShivaEnterpriseWebApp.Controllers.Products
                 if (!string.IsNullOrEmpty(productId))
                 {
                     productCategory.ProductCategoryId = new Guid(productId);
+                    productCategory.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                    productCategory.ModifiedDateTime = DateTime.Now;
                     await productCategoryService.EditProductCategoryDetailsAsync(productCategory, authToken);
                 }
                 else
                 {
                     productCategory.IsActive = true;
+                    productCategory.CreatedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                    productCategory.CreatedDateTime = DateTime.Now;
                     await productCategoryService.AddProductCategoryDetailsAsync(productCategory, authToken);
                 }
                 return RedirectToAction(nameof(Index));

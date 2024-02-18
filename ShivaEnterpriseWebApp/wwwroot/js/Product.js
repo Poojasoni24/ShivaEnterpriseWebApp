@@ -1,10 +1,10 @@
-﻿
+
 //On Click of delete organization.
-function onDeleteProductCategory(ProductCategory) {
+function onDeleteProduct(Product) {
     debugger
     swal({
         title: "Are you sure?",
-        text: `Are you sure to delete ${ProductCategory.ProductCategoryName} ?`,
+        text: `Are you sure to delete ${Product.ProductName} ?`,
         //type: "warning",
         buttons: {
             yes: {
@@ -20,22 +20,25 @@ function onDeleteProductCategory(ProductCategory) {
         confirmButtonColor: '#c10909'
     }).then(res => {
         if (res) {
-            deleteProductCategoryAJAX(ProductCategory.ProductCategoryId);
+            deleteProductAJAX(Product.ProductId);
         }
     });
 }
 
 //AJAX call for delete organization
-function deleteProductCategoryAJAX(productCategoryId) {
+function deleteProductAJAX(productId) {
     debugger;
     $.ajax({
-        url: `/ProductCategory/RemoveProductCatgory`,
+        url: `/Product/RemoveProduct`,
         type: 'POST',
-        data: { productCategoryId: productCategoryId },
+        data: { productId: productId },
         success: function (res) {
             if (res.success) {
-                debugger;
                 Snackbar.show({ text: res.message, textColor: "#FF0000", pos: "bottom-center", showAction: false, backgroundColor: "#F6F2F5" });
+                setTimeout(() => { window.location.reload() }, 1500);
+            }
+            else {
+                Snackbar.show({ text:"something went wrong", textColor: "#FF0000", pos: "bottom-center", showAction: false, backgroundColor: "#F6F2F5" });
                 setTimeout(() => { window.location.reload() }, 1500);
             }
         },
@@ -52,15 +55,15 @@ function deleteProductCategoryAJAX(productCategoryId) {
 function modalclose() {
     window.location.reload();
 }
-function loadProductCategoryPartial(productCategoryId) {
+function loadProductPartial(productId) {
     $.ajax({
-        url: `/ProductCategory/ProductCategoryDetail?ProductCategoryId=${productCategoryId}`,
+        url: `/Product/ProductDetail?ProductId=${productId}`,
         type: 'GET',
         success: function (res) {
             debugger;
-            $('#productcategoryModalLong').modal('show')
+            $('#productModalLong').modal('show')
             useJQueryNoConflict();
-            $('#productcategoryDetailDiv').html(res)
+            $('#productDetailDiv').html(res)
             //document.getElementById("CompanyDetailDiv")
             //    .innerHTML += res
         },

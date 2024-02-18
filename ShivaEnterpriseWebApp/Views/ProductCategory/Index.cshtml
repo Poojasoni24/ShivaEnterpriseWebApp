@@ -55,7 +55,7 @@
                                                         <label class="badge badge-info">@(item.IsActive ? "Active" : "InActive")</label>
                                                     </td>
                                                     <td>
-                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" onclick="loadProductCategoryPartial(@(JsonConvert.SerializeObject(item.ProductCategoryId)))">
+                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#productcategoryModalLong" onclick="loadProductCategoryPartial(@(JsonConvert.SerializeObject(item.ProductCategoryId)))">
                                                             view
                                                         </button>
                                                         <input class="btn btn-outline-danger" type="button" value="Delete" onclick="onDeleteProductCategory(@(JsonConvert.SerializeObject(item)))" />

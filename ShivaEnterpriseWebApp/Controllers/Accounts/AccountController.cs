@@ -63,8 +63,8 @@ namespace ShivaEnterpriseWebApp.Controllers
                 if (!string.IsNullOrEmpty(accountId))
                 {
                     account.AccountId = new Guid(accountId);
-                    account.CreatedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-                    account.CreatedDateTime = DateTime.Now;
+                    account.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                    account.ModifiedDateTime = DateTime.Now;
                     await accountService.EditAccountDetailsAsync(account, authToken);
                 }
                 else

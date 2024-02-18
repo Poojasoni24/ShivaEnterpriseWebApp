@@ -1,8 +1,4 @@
-﻿$(document).ready(function () {
-    // Your code here
-});
-
-//#region DELETE
+﻿//#region DELETE
 
 //On Click of delete organization.
 function onDeleteProductGroup(ProductGroup) {
@@ -25,7 +21,7 @@ function onDeleteProductGroup(ProductGroup) {
         confirmButtonColor: '#c10909'
     }).then(res => {
         if (res) {
-            deleteBranchAJAX(ProductGroup.ProductGroupId);
+            deleteProductGroupAJAX(ProductGroup.ProductGroupId);
         }
     });
 }
@@ -59,13 +55,13 @@ function modalclose() {
 }
 function loadProductGroupPartial(productGroupId) {
     $.ajax({
-        url: `/ProductGroup/ProductGroupDetail?productGroupId=${productGroupId}`,
+        url: `/ProductGroup/ProductGroupDetail?ProductGroupId=${productGroupId}`,
         type: 'GET',
         success: function (res) {
             debugger;
-            $('#exampleModalLong').modal('show')
+            $('#productgroupModalLong').modal('show')
             useJQueryNoConflict();
-            $('#ProductGroupDetailDiv').html(res)
+            $('#productgroupDetailDiv').html(res)
             //document.getElementById("CompanyDetailDiv")
             //    .innerHTML += res
         },
@@ -74,4 +70,9 @@ function loadProductGroupPartial(productGroupId) {
         }
     });
 
+}
+
+//Jquery No conflict 
+function useJQueryNoConflict() {
+    jQuery.noConflict();
 }

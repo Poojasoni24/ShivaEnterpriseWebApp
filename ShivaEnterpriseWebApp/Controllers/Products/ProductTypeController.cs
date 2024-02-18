@@ -17,7 +17,7 @@ namespace ShivaEnterpriseWebApp.Controllers.Products
         }
 
         [HttpGet]
-        public async Task<ActionResult> AddOrEditProductType1(string productTypeId)
+        public async Task<ActionResult> AddOrEditProductType(string productTypeId)
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
             if (!string.IsNullOrEmpty(productTypeId))
@@ -32,7 +32,7 @@ namespace ShivaEnterpriseWebApp.Controllers.Products
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddOrEditProductType1(string productTypeId, ProductType productType)
+        public async Task<ActionResult> AddOrEditProductType(string productTypeId, ProductType productType)
         {
             try
             {
@@ -40,11 +40,15 @@ namespace ShivaEnterpriseWebApp.Controllers.Products
                 if (!string.IsNullOrEmpty(productTypeId))
                 {
                     productType.ProductTypeId = new Guid(productTypeId);
+                    productType.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                    productType.ModifiedDateTime = DateTime.Now;
                     await productTypeService.EditProductTypeDetailsAsync(productType, authToken);
                 }
                 else
                 {
                     productType.IsActive = true;
+                    productType.CreatedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                    productType.CreatedDateTime = DateTime.Now;
                     await productTypeService.AddProductTypeDetailsAsync(productType, authToken);
                 }
                 return RedirectToAction(nameof(Index));
@@ -58,7 +62,7 @@ namespace ShivaEnterpriseWebApp.Controllers.Products
         }
 
         [HttpPost]
-        public async Task<ActionResult> RemoveProductCatgory(string productTypeId)
+        public async Task<ActionResult> RemoveProductType(string productTypeId)
         {
             try
             {

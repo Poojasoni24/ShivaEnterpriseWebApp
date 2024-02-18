@@ -1,8 +1,4 @@
-﻿$(document).ready(function () {
-    // Your code here
-});
-
-//#region DELETE
+﻿//#region DELETE
 
 //On Click of delete organization.
 function onDeleteProductType(ProductType) {
@@ -25,7 +21,7 @@ function onDeleteProductType(ProductType) {
         confirmButtonColor: '#c10909'
     }).then(res => {
         if (res) {
-            deleteBranchAJAX(ProductType.ProductTypeId);
+            deleteProductTypeAJAX(ProductType.ProductTypeId);
         }
     });
 }
@@ -63,7 +59,7 @@ function loadProductTypePartial(productTypeId) {
         type: 'GET',
         success: function (res) {
             debugger;
-            $('#exampleModalLong').modal('show')
+            $('#producttypeModalLong').modal('show')
             useJQueryNoConflict();
             $('#ProductTypeDetailDiv').html(res)
             //document.getElementById("CompanyDetailDiv")
@@ -74,4 +70,9 @@ function loadProductTypePartial(productTypeId) {
         }
     });
 
+}
+
+//Jquery No conflict 
+function useJQueryNoConflict() {
+    jQuery.noConflict();
 }

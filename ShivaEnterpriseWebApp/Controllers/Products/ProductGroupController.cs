@@ -17,7 +17,7 @@ namespace ShivaEnterpriseWebApp.Controllers.Products
         }
 
         [HttpGet]
-        public async Task<ActionResult> AddOrEditProductGroup1(string productGroupId)
+        public async Task<ActionResult> AddOrEditProductGroup(string productGroupId)
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
             if (!string.IsNullOrEmpty(productGroupId))
@@ -32,7 +32,7 @@ namespace ShivaEnterpriseWebApp.Controllers.Products
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddOrEditProductGroup1(string productGroupId, ProductGroup productGroup)
+        public async Task<ActionResult> AddOrEditProductGroup(string productGroupId, ProductGroup productGroup)
         {
             try
             {
@@ -40,11 +40,15 @@ namespace ShivaEnterpriseWebApp.Controllers.Products
                 if (!string.IsNullOrEmpty(productGroupId))
                 {
                     productGroup.ProductGroupId = new Guid(productGroupId);
+                    productGroup.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                    productGroup.ModifiedDateTime = DateTime.Now;
                     await productGroupService.EditProductGroupDetailsAsync(productGroup, authToken);
                 }
                 else
                 {
                     productGroup.IsActive = true;
+                    productGroup.CreatedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                    productGroup.CreatedDateTime = DateTime.Now;
                     await productGroupService.AddProductGroupDetailsAsync(productGroup, authToken);
                 }
                 return RedirectToAction(nameof(Index));
@@ -77,14 +81,14 @@ namespace ShivaEnterpriseWebApp.Controllers.Products
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
 
-            var productCategoryData = await productGroupService.GetProductGroupById(productGroupId, authToken);
+            var productGroupData = await productGroupService.GetProductGroupById(productGroupId, authToken);
             return PartialView("_productGroupDetail", new ProductGroup()
             {
                 ProductGroupId = new Guid(productGroupId),
-                ProductGroupCode = productCategoryData.ProductGroupCode,
-                ProductGroupName = productCategoryData.ProductGroupName,
-                ProductGroupDescription = productCategoryData.ProductGroupDescription,
-                IsActive = productCategoryData.IsActive
+                ProductGroupCode = productGroupData.ProductGroupCode,
+                ProductGroupName = productGroupData.ProductGroupName,
+                ProductGroupDescription = productGroupData.ProductGroupDescription,
+                IsActive = productGroupData.IsActive
             });
         }
     }
