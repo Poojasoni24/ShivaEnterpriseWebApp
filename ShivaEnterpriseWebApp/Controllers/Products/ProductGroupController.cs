@@ -25,7 +25,7 @@ namespace ShivaEnterpriseWebApp.Controllers.Products
                 var ProductGroupDetail = await productGroupService.GetProductGroupById(productGroupId, authToken);
                 if (ProductGroupDetail != null)
                 {
-                    return View("AddOrEditProductGroup", ProductGroupDetail);
+                    return View("AddOrEditProductGroup1", ProductGroupDetail);
                 }
             }
             return View();
