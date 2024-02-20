@@ -25,7 +25,7 @@ namespace ShivaEnterpriseWebApp.Controllers.Products
                 var ProductGroupDetail = await productGroupService.GetProductGroupById(productGroupId, authToken);
                 if (ProductGroupDetail != null)
                 {
-                    return View("AddOrEditProductGroup1", ProductGroupDetail);
+                    return View("AddOrEditProductGroup", ProductGroupDetail);
                 }
             }
             return View();
@@ -38,8 +38,10 @@ namespace ShivaEnterpriseWebApp.Controllers.Products
             {
                 string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
                 if (!string.IsNullOrEmpty(productGroupId))
+               
                 {
                     productGroup.ProductGroupId = new Guid(productGroupId);
+                   
                     productGroup.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
                     productGroup.ModifiedDateTime = DateTime.Now;
                     await productGroupService.EditProductGroupDetailsAsync(productGroup, authToken);

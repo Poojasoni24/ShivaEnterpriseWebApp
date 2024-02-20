@@ -55,7 +55,7 @@ function modalclose() {
 }
 function loadProductGroupPartial(productGroupId) {
     $.ajax({
-        url: `/ProductGroup/ProductGroupDetail?ProductGroupId=${productGroupId}`,
+        url: `/ProductGroup/ProductGroupDetail?productGroupId=${productGroupId}`,
         type: 'GET',
         success: function (res) {
             debugger;

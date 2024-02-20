@@ -33,14 +33,14 @@ namespace ShivaEnterpriseWebApp.Controllers.Products
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddOrEditProductCategory(string productId, ProductCategory productCategory)
+        public async Task<ActionResult> AddOrEditProductCategory(string productCategoryId, ProductCategory productCategory)
         {
             try
             {
                 string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
-                if (!string.IsNullOrEmpty(productId))
+                if (!string.IsNullOrEmpty(productCategoryId))
                 {
-                    productCategory.ProductCategoryId = new Guid(productId);
+                    productCategory.ProductCategoryId = new Guid(productCategoryId);
                     productCategory.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
                     productCategory.ModifiedDateTime = DateTime.Now;
                     await productCategoryService.EditProductCategoryDetailsAsync(productCategory, authToken);
