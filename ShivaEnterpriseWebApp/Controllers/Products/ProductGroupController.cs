@@ -32,16 +32,14 @@ namespace ShivaEnterpriseWebApp.Controllers.Products
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddOrEditProductGroup(string productGroupId, ProductGroup productGroup)
+        public async Task<ActionResult> AddOrEditProductGroup(Guid productGroupId, ProductGroup productGroup)
         {
             try
             {
                 string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
-                if (!string.IsNullOrEmpty(productGroupId))
-               
+                if (productGroupId != Guid.Empty)
                 {
-                    productGroup.ProductGroupId = new Guid(productGroupId);
-                   
+                    productGroup.ProductGroupId = productGroupId;
                     productGroup.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
                     productGroup.ModifiedDateTime = DateTime.Now;
                     await productGroupService.EditProductGroupDetailsAsync(productGroup, authToken);

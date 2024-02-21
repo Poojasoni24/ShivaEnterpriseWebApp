@@ -109,7 +109,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
 
         public async Task<Issue> GetIssueById(string IssueId, string authToken)
         {
-            var url = urlCollections["baseUrl"].ToString() + urlCollections["getissuebyidUrl"] + "?IssueId=" + IssueId;
+            var url = urlCollections["baseUrl"].ToString() + urlCollections["getissuebyIdUrl"] + "?IssueId=" + IssueId;
             var client = new HttpClient();
 
             var request = new HttpRequestMessage(new HttpMethod("GET"), url);
