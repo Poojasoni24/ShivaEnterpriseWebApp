@@ -21,7 +21,7 @@ namespace ShivaEnterpriseWebApp.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> BrandDetail(Guid brandId)
+        public async Task<ActionResult> BrandDetail(String brandId)
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
             if (authToken == null)
@@ -39,12 +39,12 @@ namespace ShivaEnterpriseWebApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddOrEditBrand(Guid brandId)
+        public async Task<IActionResult> AddOrEditBrand(string brandId)
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
             if (authToken == null)
                 return BadRequest("Something went wrong");
-            if (brandId!=Guid.Empty)
+            if (!string.IsNullOrEmpty(brandId))
             {
                 var brandDetail = await brandObj.GetBrandById(brandId, authToken);
                 return View(brandDetail);

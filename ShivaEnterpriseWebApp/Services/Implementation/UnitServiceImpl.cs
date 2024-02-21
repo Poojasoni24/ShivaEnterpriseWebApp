@@ -48,7 +48,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             }
         }
 
-        public async Task<(bool successs, string message)> DeleteUnit(string UnitId, string authToken)
+        public async Task<(bool successs, string message)> DeleteUnit(Guid UnitId, string authToken)
         {
             string json = "{ \"UnitId\": \"" + UnitId + "\" }";
             StringContent data = new StringContent(json, Encoding.UTF8, "application/json");

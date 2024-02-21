@@ -108,7 +108,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             }
         }
 
-        public async Task<Brand> GetBrandById(Guid BrandId, string authToken)
+        public async Task<Brand> GetBrandById(string BrandId, string authToken)
         {
             var url = urlCollections["baseUrl"].ToString() + urlCollections["getbrandbyidUrl"] + "?BrandId=" + BrandId;
             var client = new HttpClient();

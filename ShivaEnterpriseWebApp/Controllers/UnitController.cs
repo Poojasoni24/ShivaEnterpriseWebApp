@@ -75,7 +75,7 @@ namespace ShivaEnterpriseWebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> RemoveUnit(string unitId)
+        public async Task<IActionResult> RemoveUnit(Guid unitId)
         {
             try
             {
