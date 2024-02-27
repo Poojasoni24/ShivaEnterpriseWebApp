@@ -14,34 +14,34 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group row">
                 <label asp-for="TaxCode" class="control-label"></label>
-                <div class="col-md-9">
+                <div class="col-md-6">
                     <input asp-for="TaxCode" class="form-control" />
                 </div>
                 <span asp-validation-for="TaxCode" class="text-danger"></span>
             </div>
             <div class="form-group row">
                 <label asp-for="TaxName" class="control-label"></label>
-                <div class="col-md-9">
+                <div class="col-md-6">
                     <input asp-for="TaxName" class="form-control" />
                 </div>
                 <span asp-validation-for="TaxName" class="text-danger"></span>
             </div>
             @*   <div class="form-group row">
         <label asp-for="Company" class="control-label"></label>
-        <div class="col-md-9">
+        <div class="col-md-6">
         @Html.DropDownListFor(model => model.Company_Id, yourDropdownList, "Select an option", new { @class = "form-control" })
         </div>
         </div>*@
             <div class="form-group row">
                 <label asp-for="TaxDescription" class="control-label"></label>
-                <div class="col-md-9">
+                <div class="col-md-6">
                     <input asp-for="TaxDescription" class="form-control" />
                 </div>
                 <span asp-validation-for="TaxDescription" class="text-danger"></span>
             </div>
             <div class="form-group row">
                 <label asp-for="IsActive" class="control-label"></label>
-                <div class="col-md-9">
+                <div class="col-md-6">
                     @* @Html.CheckBoxFor(model => model.IsActive) *@
                     <input asp-for="IsActive" class="form-control" />
                 </div>
@@ -49,20 +49,21 @@
             </div>
             <div class="form-group row">
                 <label asp-for="TaxType" class="control-label"></label>
-                <div class="col-md-9">
+                <div class="col-md-6">
                     <input asp-for="TaxType" class="form-control" />
                 </div>
                 <span asp-validation-for="TaxType" class="text-danger"></span>
             </div>
             <div class="form-group row">
                 <label asp-for="TaxRate" class="control-label"></label>
-                <div class="col-md-9">
+                <div class="col-md-6">
                     <input asp-for="TaxRate" class="form-control" />
                 </div>
                 <span asp-validation-for="TaxRate" class="text-danger"></span>
             </div>
             @* <input asp-for="CreatedDateTime" class="form-control" type="hidden" />*@
-
+            <input asp-for="CreatedDateTime" class="form-control" type="hidden" />
+            <input asp-for="CreatedBy" class="form-control" type="hidden" />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
                 @* <input type="button" value="Back to List" class="btn btn-info" asp-action="Index" asp-controller="Company"> *@

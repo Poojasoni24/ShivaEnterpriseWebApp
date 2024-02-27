@@ -1,6 +1,4 @@
-﻿$(document).ready(function () {
-    // Your code here
-});
+﻿
 
 //#region DELETE
 
@@ -65,7 +63,7 @@ function loadTransportPartial(transportId) {
             debugger;
             $('#exampleModalLong').modal('show')
             useJQueryNoConflict();
-            $('#TransportDetail').html(res)
+            $('#TransportDetailDiv').html(res)
             //document.getElementById("CompanyDetailDiv")
             //    .innerHTML += res
         },
@@ -74,4 +72,7 @@ function loadTransportPartial(transportId) {
         }
     });
 
+}
+function useJQueryNoConflict() {
+    jQuery.noConflict();
 }

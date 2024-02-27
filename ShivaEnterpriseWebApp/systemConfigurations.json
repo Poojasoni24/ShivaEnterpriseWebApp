@@ -134,9 +134,9 @@
 
   //Issue
   "getallissueUrl": "/api/Issue/GetIssue",
-  "getissuebyidUrl": "/api/Issuet/GetIssueById",
-  "addissueUrl": "/api/Issue/AddIssuet",
-  "deleteissueUrl": "/api/Issuet/DeleteIssue",
+  "getissuebyidUrl": "/api/Issue/GetIssueById",
+  "addissueUrl": "/api/Issue/AddIssue",
+  "deleteissueUrl": "/api/Issue/DeleteIssue",
   "editissueUrl": "/api/Issue/EditIssue",
 
   //Mode Of Payment
@@ -144,29 +144,8 @@
   "getmopbyidUrl": "/api/Modeofpayment/GetModById",
   "addmopUrl": "/api/Modeofpayment/AddModeofPayment",
   "deletemopUrl": "/api/Modeofpayment/DeleteModeofPayment",
-  "editmopUrl": "/api/Modeofpayment/EditModeofPayment",
+  "editmopUrl": "/api/Modeofpayment/EditModeofPayment"
 
-  //Brand
 
-  "getallbrandUrl": "/api/Brand/GetAllBrand",
-  "getbrandbyIdUrl": "/api/Brand/GetBrandById",
-  "addbrandUrl": "/api/Brand/AddBrand",
-  "deletebrandUrl": "/api/Brand/DeleteBrand",
-  "editbrandUrl": "/api/Brand/EditBrand",
 
-  //Unit
-
-  "getallunitUrl": "/api/Unit/GetAllUnit",
-  "getunitbyIdUrl": "/api/Unit/GetUnitById",
-  "addunitUrl": "/api/Unit/AddUnit",
-  "deleteunitUrl": "/api/Unit/DeleteUnit",
-  "editunitUrl": "/api/Unit/EditUnit",
-
-  //Issue
-
-  "getallissueUrl": "/api/Issue/GetIssue",
-  "getissuebyIdUrl": "/api/Issue/GetIssueById",
-  "addissueUrl": "/api/Issue/AddIssue",
-  "deleteissueUrl": "/api/Issue/DeleteIssue",
-  "editissueUrl": "/api/Issue/EditIssue"
 }

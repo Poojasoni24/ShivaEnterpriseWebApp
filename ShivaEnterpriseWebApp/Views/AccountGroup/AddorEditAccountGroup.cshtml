@@ -15,34 +15,34 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group row">
                 <label asp-for="AccountGroupCode" class="control-label"></label>
-                <div class="col-md-9">
+                <div class="col-md-6">
                     <input asp-for="AccountGroupCode" class="form-control" />
                 </div>
                 <span asp-validation-for="AccountGroupCode" class="text-danger"></span>
             </div>
             <div class="form-group row">
                 <label asp-for="AccountGroupName" class="control-label"></label>
-                <div class="col-md-9">
+                <div class="col-md-6">
                     <input asp-for="AccountGroupName" class="form-control" />
                 </div>
                 <span asp-validation-for="AccountGroupName" class="text-danger"></span>
             </div>
             @*   <div class="form-group row">
         <label asp-for="Company" class="control-label"></label>
-        <div class="col-md-9">
+        <div class="col-md-6">
         @Html.DropDownListFor(model => model.Company_Id, yourDropdownList, "Select an option", new { @class = "form-control" })
         </div>
         </div>*@
             <div class="form-group row">
                 <label asp-for="AccountGroupDescription" class="control-label"></label>
-                <div class="col-md-9">
+                <div class="col-md-6">
                     <input asp-for="AccountGroupDescription" class="form-control" />
                 </div>
                 <span asp-validation-for="AccountGroupDescription" class="text-danger"></span>
             </div>
             <div class="form-group row">
                 <label asp-for="IsActive" class="control-label"></label>
-                <div class="col-md-9">
+                <div class="col-md-6">
                     @* @Html.CheckBoxFor(model => model.IsActive) *@
                     <input asp-for="IsActive" class="form-control" />
                 </div>

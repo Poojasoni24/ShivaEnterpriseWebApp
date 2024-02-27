@@ -21,7 +21,7 @@ namespace ShivaEnterpriseWebApp.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> BrandDetail(String brandId)
+        public async Task<ActionResult> BrandDetail(string brandId)
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
             if (authToken == null)

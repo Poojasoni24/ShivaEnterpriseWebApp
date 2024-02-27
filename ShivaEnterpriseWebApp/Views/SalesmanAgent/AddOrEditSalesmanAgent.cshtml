@@ -14,41 +14,41 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group row">
                 <label asp-for="Salesman_code" class="control-label"></label>
-                <div class="col-md-9">
+                <div class="col-md-6">
                     <input asp-for="Salesman_code" class="form-control" />
                 </div>
                 <span asp-validation-for="Salesman_code" class="text-danger"></span>
             </div>
             <div class="form-group row">
                 <label asp-for="Salesman_Name" class="control-label"></label>
-                <div class="col-md-9">
+                <div class="col-md-6">
                     <input asp-for="Salesman_Name" class="form-control" />
                 </div>
                 <span asp-validation-for="Salesman_Name" class="text-danger"></span>
             </div>
             @*   <div class="form-group row">
         <label asp-for="Company" class="control-label"></label>
-        <div class="col-md-9">
+        <div class="col-md-6">
         @Html.DropDownListFor(model => model.Company_Id, yourDropdownList, "Select an option", new { @class = "form-control" })
         </div>
         </div>*@
             <div class="form-group row">
                 <label asp-for="Salesman_email" class="control-label"></label>
-                <div class="col-md-9">
+                <div class="col-md-6">
                     <input asp-for="Salesman_email" class="form-control" />
                 </div>
                 <span asp-validation-for="Salesman_email" class="text-danger"></span>
             </div>
             <div class="form-group row">
                 <label asp-for="Salesmanphone" class="control-label"></label>
-                <div class="col-md-9">
+                <div class="col-md-6">
                     <input asp-for="Salesmanphone" class="form-control" />
                 </div>
                 <span asp-validation-for="Salesmanphone" class="text-danger"></span>
             </div>
             <div class="form-group row">
                 <label asp-for="IsActive" class="control-label"></label>
-                <div class="col-md-9">
+                <div class="col-md-6">
                     @* @Html.CheckBoxFor(model => model.IsActive) *@
                     <input asp-for="IsActive" class="form-control" />
                 </div>
