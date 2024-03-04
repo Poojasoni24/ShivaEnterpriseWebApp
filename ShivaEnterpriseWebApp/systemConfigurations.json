@@ -75,6 +75,14 @@
   "addproductUrl": "/api/Product/AddProduct",
   "deleteproductUrl": "/api/Product/DeleteProduct",
   "editproductUrl": "/api/Product/EditProduct",
+
+  //Vendor
+  "getallvendorUrl": "/api/Vendor/GetVendor",
+  "getvendorbyidUrl": "/api/Vendor/GetVendorById",
+  "addvendorUrl": "/api/Vendor/AddVendor",
+  "deletevendorUrl": "/api/Vendor/DeleteVendor",
+  "editvendorUrl": "/api/Vendor/EditVendor",
+
   //Product Category
   "getallproductcategoryUrl": "/api/ProductCategory/GetProductCategory",
   "getproductcategorybyidUrl": "/api/ProductCategory/GetProductCategoryById",
@@ -144,7 +152,21 @@
   "getmopbyidUrl": "/api/Modeofpayment/GetModById",
   "addmopUrl": "/api/Modeofpayment/AddModeofPayment",
   "deletemopUrl": "/api/Modeofpayment/DeleteModeofPayment",
-  "editmopUrl": "/api/Modeofpayment/EditModeofPayment"
+  "editmopUrl": "/api/Modeofpayment/EditModeofPayment",
+
+  //Purchase Order
+  "getallpurchaseOrderUrl": "/api/purchaseOrder/GetPurchasOrder",
+  "getpurchaseorderlbyidUrl": "/api/purchaseOrder/GetPurchaesOrderById",
+  "addpurchaseorderUrl": "/api/purchaseoOrder/AddPurchaseOrder",
+  "deletepurchaseorderUrl": "/api/purchaseOrder/DeletePurchaseOrder",
+  "editpurchaseOrderUrl": "/api/purchaseOrder/EditPurchaseOrder",
+
+  //Purchase Order Detail
+  "getallPurchaseOrderDetailUrl": "/api/PurchaseOrderDetail/GetPurchaseOrderDetail",
+  "getPurchaseOrderDetailbyidUrl": "/api/PurchaseOrderDetail/GetPurchaseOrderDetailById",
+  "addPurchaseOrderDetailUrl": "/api/PurchaseOrderDetail/AddPurchaseOrderDetail",
+  "deletePurchaseOrderDetailUrl": "/api/PurchaseOrderDetail/DeletePurchaseOrderDetail",
+  "editPurchaseOrderDetailUrl": "/api/PurchaseOrderDetail/EditPurchaseOrderDetail"
 
 
 

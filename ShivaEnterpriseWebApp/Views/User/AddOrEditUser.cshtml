@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "AddorEdit";
+    SelectList roleDropdownList = ViewBag.roleSelectList;
     SelectList yourDropdownList = ViewBag.SelectList;
 }
 <link href="~/css/company.css" rel="stylesheet" />
@@ -80,6 +81,12 @@
                 </div>
                 <span asp-validation-for="IsActive" class="text-danger"></span>
             </div>
+          @*  <div class="form-group row">
+                <label asp-for="Role" class="control-label"></label>
+                <div class="col-md-6">
+                    @Html.DropDownListFor(model => model.RoleId, roleDropdownList, "Select an option", new { @class = "form-control" })
+                </div>
+        </div>*@
             <input asp-for="CreatedDateAndTime" class="form-control" type="hidden" />
 
             <div class="form-group">

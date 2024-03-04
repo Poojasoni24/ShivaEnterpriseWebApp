@@ -21,7 +21,7 @@ namespace ShivaEnterpriseWebApp.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> TaxDetail(string taxId)
+        public async Task<ActionResult> TaxDetail(Guid taxId)
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
             if (authToken == null)
@@ -39,12 +39,13 @@ namespace ShivaEnterpriseWebApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddOrEditTax(string taxId)
+        public async Task<IActionResult> AddOrEditTax(Guid taxId)
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
             if (authToken == null)
                 return BadRequest("Something went wrong");
-            if (!string.IsNullOrEmpty(taxId))
+            if (taxId != Guid.Empty)
+                // if (!string.IsNullOrEmpty(taxId))
             {
                 var taxDetail = await taxObj.GetTaxById(taxId, authToken);
                 return View(taxDetail);

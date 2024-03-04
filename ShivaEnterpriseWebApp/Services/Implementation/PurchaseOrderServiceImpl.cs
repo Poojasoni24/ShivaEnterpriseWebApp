@@ -7,22 +7,23 @@ using System.Text;
 
 namespace ShivaEnterpriseWebApp.Services.Implementation
 {
-    public class TaxServiceImpl:ITaxServiceImpl
+    public class PurchaseOrderServiceImpl : IPurchaseOrderServiceImpl
     {
         private readonly JObject urlCollections;
-        public TaxServiceImpl()
+
+        public PurchaseOrderServiceImpl()
         {
             urlCollections = JObject.Parse(File.ReadAllText("systemConfigurations.json"));
         }
-        public async Task<(bool success, string message)> AddTaxDetailsAsync(Tax Tax, string authToken)
+        public async Task<(bool success, string message)> AddPurchaseOrderDetailsAsync(PurchaseOrder purchaseorder, string authToken)
         {
             try
             {
                 //Create json string to prepare input for api                
-                string json = JsonConvert.SerializeObject(Tax);
+                string json = JsonConvert.SerializeObject(purchaseorder);
 
                 StringContent data = new StringContent(json, Encoding.UTF8, "application/json");
-                var url = urlCollections["baseUrl"].ToString() + urlCollections["addtaxUrl"].ToString();
+                var url = urlCollections["baseUrl"].ToString() + urlCollections["addpurchaseorderUrl"].ToString();
                 var client = new HttpClient();
                 var request = new HttpRequestMessage(new HttpMethod("POST"), url);
                 request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
@@ -48,15 +49,12 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             }
         }
 
-        public async Task<(bool successs, string message)> DeleteTax(Guid TaxId, string authToken)
+        public async Task<(bool successs, string message)> DeletePurchaseOrder(string purchaseorderId, string authToken)
         {
-            string json = "{ \"TaxId\": \"" + TaxId + "\" }";
-            StringContent data = new StringContent(json, Encoding.UTF8, "application/json");
-            var url = urlCollections["baseUrl"].ToString() + urlCollections["deletetaxUrl"] + "?TaxId=" + TaxId;
+            var url = urlCollections["baseUrl"].ToString() + urlCollections["deletepurchaseorderUrl"] + "?purchaseorderId=" + purchaseorderId;
             var client = new HttpClient();
             var request = new HttpRequestMessage(new HttpMethod("POST"), url);
             request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
-            request.Content = data;
 
             //Pass in the full URL and the json string content
             var response = await client.SendAsync(request);
@@ -73,15 +71,15 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             return (true, result);
         }
 
-        public async Task<(bool success, string message)> EditTaxDetailsAsync(Tax tax, string authToken)
+        public async Task<(bool success, string message)> EditPurchaseOrderDetailsAsync(PurchaseOrder purchaseorder, string authToken)
         {
             try
             {
                 //Create json string to prepare input for api                
-                string json = JsonConvert.SerializeObject(tax);
+                string json = JsonConvert.SerializeObject(purchaseorder);
 
                 StringContent data = new StringContent(json, Encoding.UTF8, "application/json");
-                var url = urlCollections["baseUrl"].ToString() + urlCollections["edittaxUrl"] + "?id=" + tax.TaxId.ToString();
+                var url = urlCollections["baseUrl"].ToString() + urlCollections["editpurchaseorderUrl"] + "?id=" + purchaseorder.PurchaseOrderId.ToString();
                 var client = new HttpClient();
                 var request = new HttpRequestMessage(new HttpMethod("PUT"), url);
                 request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
@@ -107,9 +105,9 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             }
         }
 
-        public async Task<Tax> GetTaxById(Guid TaxId, string authToken)
+        public async Task<PurchaseOrder> GetPurchaseOrderById(string purchaseorderId, string authToken)
         {
-            var url = urlCollections["baseUrl"].ToString() + urlCollections["gettaxbyidUrl"] + "?TaxId=" + TaxId;
+            var url = urlCollections["baseUrl"].ToString() + urlCollections["getpurchaseorderbyidUrl"] + "?purchaseorderId=" + purchaseorderId;
             var client = new HttpClient();
 
             var request = new HttpRequestMessage(new HttpMethod("GET"), url);
@@ -125,14 +123,14 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             //close out the client
             client.Dispose();
 
-            var TaxDetail = JsonConvert.DeserializeObject<Tax>(result);
+            var purchaseorderDetail = JsonConvert.DeserializeObject<PurchaseOrder>(result);
 
-            return TaxDetail;
+            return purchaseorderDetail;
         }
 
-        public async Task<List<Tax>> GetTaxList(string authToken)
+        public async Task<List<PurchaseOrder>> GetPurchaseOrderList(string authToken)
         {
-            var url = urlCollections["baseUrl"].ToString() + urlCollections["getalltaxUrl"].ToString();
+            var url = urlCollections["baseUrl"].ToString() + urlCollections["getallpurchaseorderUrl"].ToString();
             var client = new HttpClient();
             var request = new HttpRequestMessage(new HttpMethod("GET"), url);
             request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
@@ -146,9 +144,10 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             //close out the client
             client.Dispose();
 
-            var TaxDetail = JsonConvert.DeserializeObject<List<Tax>>(result);
+            var purchaseorderDetail = JsonConvert.DeserializeObject<List<PurchaseOrder>>(result);
 
-            return TaxDetail;
+            return purchaseorderDetail;
         }
     }
 }
+

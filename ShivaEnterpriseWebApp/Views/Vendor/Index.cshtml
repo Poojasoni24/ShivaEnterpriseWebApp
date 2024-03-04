@@ -1,0 +1,89 @@
+﻿@using Newtonsoft.Json
+@using ShivaEnterpriseWebApp.Model
+@model List<ShivaEnterpriseWebApp.Model.Vendor>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Index";
+}
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <div class="modal fade" id="vendorModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div id="vendorDetailDiv">
+            </div>
+        </div>
+    </div>
+
+    <!-- partial -->
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Vendor Detail</h4>
+                    <div class="compnay_btn">
+                        <input class="btn btn-success" type="button" value="Add Account" onclick="window.location.href='Vendor/AddOrEditVendor'" />
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <table id="order-listing" class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Vendor Code</th>
+                                            <th>Vendor Name</th>
+                                            <th>Vendor Type</th>
+                                            <th>Vendor Address</th>
+                                            <th>Phoneno</th>
+                                            <th>Email</th>
+                                            <th>Remark</th>
+                                            <th>Vendor Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model != null)
+                                        {
+                                            @foreach (var item in Model)
+                                            {
+
+                                                <tr>
+                                                    <td>@item.VendorCode</td>
+                                                    <td>@item.VendorName</td>
+                                                    <td>@item.VendorType</td>
+                                                    <td>@item.VendorAddress</td>
+                                                    <td>@item.Phoneno</td>
+                                                    <td>@item.Email</td>
+                                                    <td>@item.Remark</td>
+                                                    <td>
+                                                        <label class="badge badge-info">@(item.IsActive ? "Active" : "InActive")</label>
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#vendorModalLong" onclick="loadVendorPartial(@(JsonConvert.SerializeObject(item.VendorId)))">
+                                                            view
+                                                        </button>
+                                                        <input class="btn btn-outline-danger" type="button" value="Delete" onclick="onDeleteVendor(@(JsonConvert.SerializeObject(item)))" />
+
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- content-wrapper ends -->
+    </div>
+
+
+</body>
+
+</html>
+
+<script src="~/js/Vendor.js"></script>
+

@@ -107,7 +107,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             }
         }
 
-        public async Task<Bank> GetBankById(string BankId, string authToken)
+        public async Task<Bank> GetBankById(Guid BankId, string authToken)
         {
             var url = urlCollections["baseUrl"].ToString() + urlCollections["getbankbyidUrl"] + "?BankId=" + BankId;
             var client = new HttpClient();

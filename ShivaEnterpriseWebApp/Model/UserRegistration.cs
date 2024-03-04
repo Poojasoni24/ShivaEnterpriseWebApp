@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace ShivaEnterpriseWebApp.Model
 {
@@ -52,9 +53,11 @@ namespace ShivaEnterpriseWebApp.Model
         [Display(Name = "Active")]
         public bool IsActive { get; set; }
 
+        public Guid RoleId { get; set; }
         public DateTime CreatedDateAndTime { get; set; }
 
         public DateTime? UpdatedDateTime { get; set; }
-
+        public List<SelectListItem> RoleList { get; set; }
+        public Role Role { get; set; }
     }
 }

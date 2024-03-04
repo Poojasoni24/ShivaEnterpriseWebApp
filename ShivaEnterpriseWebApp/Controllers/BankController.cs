@@ -21,7 +21,7 @@ namespace ShivaEnterpriseWebApp.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> BankDetail(string bankId)
+        public async Task<ActionResult> BankDetail(Guid bankId)
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
             if (authToken == null)
@@ -39,12 +39,13 @@ namespace ShivaEnterpriseWebApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddOrEditBank(string bankId)
+        public async Task<IActionResult> AddOrEditBank(Guid bankId)
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
             if (authToken == null)
                 return BadRequest("Something went wrong");
-            if (!string.IsNullOrEmpty(bankId))
+            if (bankId != Guid.Empty)
+                //if (!string.IsNullOrEmpty(bankId))
             {
                 var bankDetail = await bankObj.GetBankById(bankId, authToken);
                 return View(bankDetail);

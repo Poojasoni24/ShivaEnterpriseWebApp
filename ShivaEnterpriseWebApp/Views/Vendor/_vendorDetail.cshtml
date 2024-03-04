@@ -1,0 +1,99 @@
+﻿@model ShivaEnterpriseWebApp.Model.Vendor
+@{
+    ViewData["Title"] = "Details";
+}
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Vendor Detail</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div>
+            <dl class="row">
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.VendorCode)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.VendorCode)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.VendorName)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.VendorName)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.VendorType)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.VendorType)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.VendorAddress)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.VendorAddress)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Phoneno)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Phoneno)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Email)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Bank.BankName)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Bank.BankName)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Tax.TaxName)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Tax.TaxName)
+                </dd>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.ContractStartDate)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.ContractStartDate)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.ContractEndDate)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.ContractEndDate)
+                </dt>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Remark)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Remark)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.IsActive)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.IsActive)
+                </dd>
+            </dl>
+
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modalclose" onclick="modalclose()">Close</button>
+        <input type="button" class="btn btn-primary" value="Edit" onclick="window.location.href='Vendor/AddorEditVendor?vendorId=@Model.VendorId'" />
+        @* @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) | *@
+    </div>
+</div>
+@section script {
+    <script src="~/js/Vendor.js"></script>
+}

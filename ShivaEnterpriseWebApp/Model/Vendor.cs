@@ -12,8 +12,8 @@ namespace ShivaEnterpriseWebApp.Model
         public string VendorAddress { get; set; }
         public string Phoneno { get; set; }
         public string Email { get; set; }
-        public int BankId { get; set; }
-        public int TaxId { get; set; }
+        public Guid BankId { get; set; }
+        public Guid TaxId { get; set; }
         public DateTime ContractStartDate { get; set; }
         public DateTime ContractEndDate { get; set; }
         public string? Remark { get; set; }
