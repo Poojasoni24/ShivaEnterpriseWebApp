@@ -155,18 +155,18 @@
   "editmopUrl": "/api/Modeofpayment/EditModeofPayment",
 
   //Purchase Order
-  "getallpurchaseOrderUrl": "/api/purchaseOrder/GetPurchasOrder",
+  "getallpurchaseorderUrl": "/api/purchaseOrder/GetPurchasOrder",
   "getpurchaseorderlbyidUrl": "/api/purchaseOrder/GetPurchaesOrderById",
   "addpurchaseorderUrl": "/api/purchaseoOrder/AddPurchaseOrder",
   "deletepurchaseorderUrl": "/api/purchaseOrder/DeletePurchaseOrder",
-  "editpurchaseOrderUrl": "/api/purchaseOrder/EditPurchaseOrder",
+  "editpurchaseorderUrl": "/api/purchaseOrder/EditPurchaseOrder",
 
   //Purchase Order Detail
-  "getallPurchaseOrderDetailUrl": "/api/PurchaseOrderDetail/GetPurchaseOrderDetail",
-  "getPurchaseOrderDetailbyidUrl": "/api/PurchaseOrderDetail/GetPurchaseOrderDetailById",
-  "addPurchaseOrderDetailUrl": "/api/PurchaseOrderDetail/AddPurchaseOrderDetail",
-  "deletePurchaseOrderDetailUrl": "/api/PurchaseOrderDetail/DeletePurchaseOrderDetail",
-  "editPurchaseOrderDetailUrl": "/api/PurchaseOrderDetail/EditPurchaseOrderDetail"
+  "getallpurchaseorderdetailUrl": "/api/PurchaseOrderDetail/GetPurchaseOrderDetail",
+  "getpurchaseorderdetailbyidUrl": "/api/PurchaseOrderDetail/GetPurchaseOrderDetailById",
+  "addpurchaseorderdetailUrl": "/api/PurchaseOrderDetail/AddPurchaseOrderDetail",
+  "deletepurchaseorderdetailUrl": "/api/PurchaseOrderDetail/DeletePurchaseOrderDetail",
+  "editpurchaseorderdetailUrl": "/api/PurchaseOrderDetail/EditPurchaseOrderDetail"
 
 
 
