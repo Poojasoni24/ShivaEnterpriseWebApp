@@ -109,14 +109,17 @@ namespace ShivaEnterpriseWebApp.Controllers
             {
                 AccountId = accountId,
                 AccountCode = accountData.AccountCode,
-                AccountName = accountData.AccountName,
+                AccontName = accountData.AccontName,
                 AccountDescription = accountData.AccountDescription,
                 IsActive = accountData.IsActive,
-                AccountCategoryId = accountData.AccountCategoryId,
-                AccountGroupId = accountData.AccountGroupId,
-                AccountTypeId = accountData.AccountTypeId,
+                AccountCategory = await accountcategoryService.GetAccountCategoryById(accountData.AccountCategoryId, authToken),
+               // AccountCategoryId = accountData.AccountCategoryId,
+                AccountGroup = await accountgroupService.GetAccountGroupById(accountData.AccountGroupId, authToken),
+              //  AccountGroupId = accountData.AccountGroupId,
+                AccountType = await accountTypeService.GetAccountTypeById(accountData.AccountTypeId, authToken),
+               // AccountTypeId = accountData.AccountTypeId,
             });
         }
-
+        
     }
 }

@@ -147,9 +147,10 @@ namespace ShivaEnterpriseWebApp.Controllers.Products
                 ProductDescription = productData.ProductDescription,
                 IsActive = productData.IsActive,
                 ProductImage = productData.ProductImage,
-                ProductCategoryId = productData.ProductCategoryId,
-                ProductGroupId = productData.ProductGroupId,
-                ProductsTypeId = productData.ProductsTypeId,
+                ProductCategory = await productcategoryService.GetProductCategoryById(productData.ProductCategoryId, authToken),
+                ProductGroup = await productgroupService.GetProductGroupById(productData.ProductGroupId, authToken),
+                ProductType = await productTypeService.GetProductTypeById(productData.ProductTypeId, authToken),
+                
             });
         }
     }
