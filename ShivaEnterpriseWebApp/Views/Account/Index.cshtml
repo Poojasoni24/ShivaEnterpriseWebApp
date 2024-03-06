@@ -33,11 +33,7 @@
                                         <tr>
                                             <th>Account Code</th>
                                             <th>Account Name</th>
-                                            <th>Account Description</th>
                                             <th>Account Status</th>
-                                            <th>Account Group</th>
-                                            <th>Account Type</th>
-                                            <th>Account Category</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -50,11 +46,8 @@
                                                 <tr>
                                                     <td>@item.AccountCode</td>
                                                     <td>@item.AccountName</td>
-                                                    <td>@item.AccountDescription </td>
                                                     <td>@item.IsActive</td>
-                                                    <td>@item.AccountGroup.AccountGroupName</td>
-                                                    <td>@item.AccountType.AccountTypeName</td>
-                                                    <td>@item.AccountCategory.AccountCategoryName</td>
+                                                    
 
                                                     <td>
                                                         <label class="badge badge-info">@(item.IsActive ? "Active" : "InActive")</label>

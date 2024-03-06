@@ -36,12 +36,6 @@
                 <dd class="col-sm-8">
                 @Html.DisplayFor(model => model.Company.Company_Name)
                 </dd>*@
-                <dt class="col-sm-3">
-                    @Html.DisplayNameFor(model => model.IsActive)
-                </dt>
-                <dd class="col-sm-8">
-                    @Html.DisplayFor(model => model.IsActive)
-                </dd>
                 <dt class="col-sm-4">
                     @Html.DisplayNameFor(model => model.TaxType)
                 </dt>
@@ -53,6 +47,12 @@
                 </dt>
                 <dd class="col-sm-8">
                     @Html.DisplayFor(model => model.TaxRate)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.IsActive)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.IsActive)
                 </dd>
             </dl>
         </div>
