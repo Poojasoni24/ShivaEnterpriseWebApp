@@ -8,7 +8,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    <h2>@(Model != null && Model.AccountGroupId != Guid.Empty ? "Edit AccountCategory" : "Add AccountCategory")</h2>
+    <h2>@(Model != null && Model.AccountGroupId != Guid.Empty ? "Edit AccountGroup" : "Add AccountGroup")</h2>
     <div class="card-body company_from">
         <div class="form">
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
