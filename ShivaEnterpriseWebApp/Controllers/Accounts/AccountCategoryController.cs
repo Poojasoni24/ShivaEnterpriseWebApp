@@ -32,14 +32,14 @@ namespace ShivaEnterpriseWebApp.Controllers.Accounts
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddOrEditAccountCategory(string accountId, AccountCategory accountCategory)
+        public async Task<ActionResult> AddOrEditAccountCategory(string accountcategoryId, AccountCategory accountCategory)
         {
             try
             {
                 string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
-                if (!string.IsNullOrEmpty(accountId))
+                if (!string.IsNullOrEmpty(accountcategoryId))
                 {
-                    accountCategory.AccountCategoryId = new Guid(accountId);
+                    accountCategory.AccountCategoryId = new Guid(accountcategoryId);
                     accountCategory.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
                     accountCategory.ModifiedDateTime = DateTime.Now;
                     await accountCategoryService.EditAccountCategoryDetailsAsync(accountCategory, authToken);
