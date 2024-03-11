@@ -15,9 +15,12 @@ namespace ShivaEnterpriseWebApp.Controllers
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
             var branchallData = await branchObject.GetBranchList(authToken);
-            foreach (var item in branchallData)
+            if (branchallData != null)
             {
-                item.Company = await Company.GetCompanyDetailById(item.Company_Id, authToken);
+                foreach (var item in branchallData)
+                {
+                    item.Company = await Company.GetCompanyDetailById(item.Company_Id, authToken);
+                }
             }
             return View("Index", branchallData);
         }
