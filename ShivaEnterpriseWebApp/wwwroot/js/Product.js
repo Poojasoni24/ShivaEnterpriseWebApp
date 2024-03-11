@@ -1,3 +1,7 @@
+$(window).on('load', function () {
+    $("#prodeditimg").attr("src", $("#ProducteditImage").val());
+    $("#prodeditimg").show();
+});
 
 //On Click of delete organization.
 function onDeleteProduct(Product) {
@@ -60,10 +64,12 @@ function loadProductPartial(productId) {
         url: `/Product/ProductDetail?ProductId=${productId}`,
         type: 'GET',
         success: function (res) {
-            debugger;
+          
             $('#productModalLong').modal('show')
             useJQueryNoConflict();
             $('#productDetailDiv').html(res)
+            $("#prodimg").attr("src", $("#ProductImage").val());
+             $("#prodimg").show();
             //document.getElementById("CompanyDetailDiv")
             //    .innerHTML += res
         },

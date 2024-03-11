@@ -62,7 +62,8 @@
                 </div>
                 <span asp-validation-for="IsActive" class="text-danger"></span>
             </div>
-            @* <input asp-for="CreatedDateTime" class="form-control" type="hidden" />*@
+            <input asp-for="CreatedDateTime" class="form-control" type="hidden" />
+            <input asp-for="CreatedBy" class="form-control" type="hidden" />
 
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

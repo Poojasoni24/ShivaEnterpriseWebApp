@@ -6,7 +6,7 @@ function onDeleteAccount(Account) {
     debugger
     swal({
         title: "Are you sure?",
-        text: `Are you sure to delete ${Account.AccountName} ?`,
+        text: `Are you sure to delete ${Account.AccontName} ?`,
         //type: "warning",
         buttons: {
             yes: {

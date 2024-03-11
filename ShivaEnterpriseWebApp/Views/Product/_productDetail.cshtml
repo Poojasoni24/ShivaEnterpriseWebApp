@@ -29,7 +29,8 @@
                     @Html.DisplayNameFor(model => model.ProductImage)
                 </dt>
                 <dd class="col-sm-8">
-                    <img src="~/model.ProductImage" height="40px" width="40px" />
+                    <img width="80" height="80" id="prodimg" />
+                    @Html.Hidden("ProductImage",Model.ImageFile)
                 </dd>
                 <dt class="col-sm-4">
                     @Html.DisplayNameFor(model => model.ProductDescription)
@@ -72,5 +73,6 @@
     </div>
 </div>
 @section script {
+   
     <script src="~/js/Product.js"></script>
 }
