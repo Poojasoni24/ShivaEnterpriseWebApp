@@ -23,7 +23,7 @@
                 <div class="card-body">
                     <h4 class="card-title">Product Detail</h4>
                     <div class="compnay_btn">
-                        <input class="btn btn-success" type="button" value="Add Account" onclick="window.location.href='Product/AddOrEditProduct'" />
+                        <input class="btn btn-success" type="button" value="Add Product" onclick="window.location.href='Product/AddOrEditProduct'" />
                     </div>
                     <div class="row">
                         <div class="col-12">
@@ -33,7 +33,6 @@
                                         <tr>
                                             <th>Product Code</th>
                                             <th>product Name</th>
-                                            <th>Product Description</th>
                                             <th>product Status</th>
                                             <th>Actions</th>
                                         </tr>
@@ -47,7 +46,6 @@
                                                 <tr>
                                                     <td>@item.ProductCode</td>
                                                     <td>@item.ProductName</td>
-                                                    <td>@item.ProductDescription </td>
                                                     <td>
                                                         <label class="badge badge-info">@(item.IsActive ? "Active" : "InActive")</label>
                                                     </td>
@@ -76,5 +74,5 @@
 </body>
 
 </html>
-
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="~/js/Product.js"></script>

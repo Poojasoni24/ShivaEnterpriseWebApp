@@ -4,7 +4,7 @@
 }
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">@Model.AccountTypeName</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">AccountType Detail</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -47,7 +47,7 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modalclose" onclick="modalclose()">Close</button>
-        <input type="button" class="btn btn-primary" value="Edit" onclick="window.location.href='AccountType/AddorEditAccountType?id=@Model.AccountTypeId'" />
+        <input type="button" class="btn btn-primary" value="Edit" onclick="window.location.href='AccountType/AddorEditAccountType?accounttypeId=@Model.AccountTypeId'" />
         @* @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) | *@
     </div>
 </div>

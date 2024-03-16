@@ -24,6 +24,20 @@
                 <dd class="col-sm-8">
                     @Html.DisplayFor(model => model.ProductName)
                 </dd>
+                
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.ProductImage)
+                </dt>
+                <dd class="col-sm-8">
+                    <img width="80" height="80" id="prodimg" />
+                    @Html.Hidden("ProductImage",Model.ImageFile)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.ProductDescription)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.ProductDescription)
+                </dd>
                 <dt class="col-sm-4">
                     @Html.DisplayNameFor(model => model.ProductCategory.ProductCategoryName)
                 </dt>
@@ -42,18 +56,6 @@
                 <dd class="col-sm-8">
                     @Html.DisplayFor(model => model.ProductType.ProductTypeName)
                 </dd>
-                <dt class="col-sm-4">
-                    @Html.DisplayNameFor(model => model.ProductImage)
-                </dt>
-                <dd class="col-sm-8">
-                    <img src="~/model.ProductImage" height="40px" width="40px" />
-                </dd>
-                <dt class="col-sm-4">
-                    @Html.DisplayNameFor(model => model.ProductDescription)
-                </dt>
-                <dd class="col-sm-8">
-                    @Html.DisplayFor(model => model.ProductDescription)
-                </dd>
                 <dt class="col-sm-3">
                     @Html.DisplayNameFor(model => model.IsActive)
                 </dt>
@@ -71,5 +73,6 @@
     </div>
 </div>
 @section script {
+   
     <script src="~/js/Product.js"></script>
 }
