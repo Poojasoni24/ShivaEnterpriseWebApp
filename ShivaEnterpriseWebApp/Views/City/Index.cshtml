@@ -50,7 +50,7 @@
                                                         <label class="badge badge-info">@(item.IsActive ? "Active" : "InActive")</label>
                                                     </td>
                                                     <td>
-                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cityModalLong" onclick="loadCityPartial(@(JsonConvert.SerializeObject(item.City_Id)))">
+                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cityModalLong" onclick="loadCityPartial(@(JsonConvert.SerializeObject(item.cityId)))">
                                                             view
                                                         </button>
                                                         <input class="btn btn-outline-danger" type="button" value="Delete" onclick="onDeleteCity(@(JsonConvert.SerializeObject(item)))" />

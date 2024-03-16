@@ -83,7 +83,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
                 string json = JsonConvert.SerializeObject(city);
 
                 StringContent data = new StringContent(json, Encoding.UTF8, "application/json");
-                var url = urlCollections["baseUrl"].ToString() + urlCollections["editcityUrl"] + "?id=" + city.City_Id.ToString();
+                var url = urlCollections["baseUrl"].ToString() + urlCollections["editcityUrl"] + "?id=" + city.cityId.ToString();
                 var client = new HttpClient();
                 var request = new HttpRequestMessage(new HttpMethod("PUT"), url);
                 request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);

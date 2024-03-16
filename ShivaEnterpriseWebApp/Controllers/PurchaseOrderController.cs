@@ -69,7 +69,6 @@ namespace ShivaEnterpriseWebApp.Controllers
                 }
                 else
                 {
-                    purchaseorder.IsActive = true;
                     purchaseorder.CreatedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
                     purchaseorder.CreatedDateTime = DateTime.Now;
                     // string image = uploadImage(product.ImageFile);
@@ -138,9 +137,6 @@ namespace ShivaEnterpriseWebApp.Controllers
                 DeliveryDate = purchaseorderData.DeliveryDate,
                 TotalAmount = purchaseorderData.TotalAmount,
                 PurchaseOrderStatus = purchaseorderData.PurchaseOrderStatus,
-                IsActive = purchaseorderData.IsActive,
-
-
             });
         }
     }

@@ -11,8 +11,7 @@ namespace ShivaEnterpriseWebApp.Controllers
     public class VendorController : Controller
     {
         IVendorServiceImpl vendorService = new VendorServiceImpl();
-        IBankServiceImpl bankService = new BankServiceImpl();
-        ITaxServiceImpl taxService = new TaxServiceImpl();
+        ICityServiceImpl cityService = new CityServiceImpl();
         
         private readonly IHostingEnvironment _hostingEnv;
 
@@ -24,11 +23,9 @@ namespace ShivaEnterpriseWebApp.Controllers
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
             var getAllVendor = await vendorService.GetVendorList(authToken);
-            foreach (var item in getAllVendor)
+            foreach (var item in getAllVendor.Where(x => x.cityId != null))
             {
-                item.Bank = await bankService.GetBankById(item.BankId, authToken);
-                item.Tax = await taxService.GetTaxById(item.TaxId, authToken);
-                
+                item.City = await cityService.GetCityById(item.cityId.ToString(), authToken);
             }
 
             return View("Index", getAllVendor);
@@ -38,15 +35,10 @@ namespace ShivaEnterpriseWebApp.Controllers
         public async Task<ActionResult> AddOrEditVendor(string vendorId)
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
-            List<Bank> bankDataList = await bankService.GetBankList(authToken);
-            SelectList groupselectList = new SelectList(bankDataList, "BankId", "BankName");
-            ViewBag.bankSelectList = groupselectList;
+            List<City> cityDataList = await cityService.GetCityList(authToken);
+            SelectList groupselectList = new SelectList(cityDataList, "cityId", "City_Name");
+            ViewBag.citySelectList = groupselectList;
 
-            List<Tax> taxDataList = await taxService.GetTaxList(authToken);
-            SelectList typeselectList = new SelectList(taxDataList, "TaxId", "TaxName");
-            ViewBag.taxList = typeselectList;
-
-            
             if (!string.IsNullOrEmpty(vendorId))
             {
                 var VendorDetail = await vendorService.GetVendorById(vendorId, authToken);
@@ -63,8 +55,11 @@ namespace ShivaEnterpriseWebApp.Controllers
         {
             try
             {
-
                 string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
+                List<City> cityDataList = await cityService.GetCityList(authToken);
+                SelectList groupselectList = new SelectList(cityDataList, "City_Id", "City_Name");
+                ViewBag.citySelectList = groupselectList;
+                vendor.City = await cityService.GetCityById(vendor.cityId.ToString(), authToken);
                 if (!string.IsNullOrEmpty(vendorId))
                 {
                     vendor.VendorId = new Guid(vendorId);
@@ -77,8 +72,6 @@ namespace ShivaEnterpriseWebApp.Controllers
                     vendor.IsActive = true;
                     vendor.CreatedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
                     vendor.CreatedDateTime = DateTime.Now;
-                   // string image = uploadImage(product.ImageFile);
-                   // product.ProductImage = "/img/product/" + image;
                     await vendorService.AddVendorDetailsAsync(vendor, authToken);
                 }
 
@@ -92,28 +85,7 @@ namespace ShivaEnterpriseWebApp.Controllers
             }
 
         }
-       // public string uploadImage(IFormFile image)
-        //{
-         //   string imageFileName = string.Empty;
-         //   string basedirecotry = _hostingEnv.WebRootPath;
-
-          //  string filePath = basedirecotry + "\\img\\product\\";
-
-           // if (!System.IO.Directory.Exists(filePath))
-           //     System.IO.Directory.CreateDirectory(filePath);
-
-          //  if (image != null)
-           // {
-             //   imageFileName = Guid.NewGuid().ToString().ToLower() + new FileInfo(image.FileName).Extension;
-               // string path = Path.Combine(filePath, imageFileName);
-               // using (Stream fileStream = new FileStream(path, FileMode.Create))
-               // {
-               //     image.CopyTo(fileStream);
-               // }
-           // }
-           // return imageFileName;
-      //  }
-
+      
         [HttpPost]
         public async Task<ActionResult> RemoveVendor(string vendorId)
         {
@@ -144,13 +116,12 @@ namespace ShivaEnterpriseWebApp.Controllers
                 VendorAddress = vendorData.VendorAddress,
                 Phoneno = vendorData.Phoneno,
                 Email= vendorData.Email,
-                BankId = vendorData.BankId,
-                TaxId = vendorData.TaxId,
-                ContractStartDate= vendorData.ContractStartDate,
+                cityId = vendorData.cityId,
+                City = await cityService.GetCityById(vendorData.cityId.ToString(), authToken),
+                ContractStartDate = vendorData.ContractStartDate,
                 ContractEndDate= vendorData.ContractEndDate,
                 Remark = vendorData.Remark,
-                IsActive = vendorData.IsActive,
-                
+                IsActive = vendorData.IsActive,               
                 
             });
         }

@@ -34,7 +34,7 @@ namespace ShivaEnterpriseWebApp.Controllers
             var statedetail = await stateObj.GetStateById(cityDetail.State_Id, authToken);
             return PartialView("_CityDetail", new City()
             {
-                City_Id = cityDetail.City_Id,
+                cityId = cityDetail.cityId,
                 City_Code = cityDetail.City_Code,
                 City_Name = cityDetail.City_Name,
                 State = statedetail,
@@ -70,7 +70,7 @@ namespace ShivaEnterpriseWebApp.Controllers
             List<State> stateDataList = await stateObj.GetStateList(authToken);
             SelectList selectList = new SelectList(stateDataList, "State_Id", "State_Name");
             ViewBag.SelectList = selectList;
-            if (!string.IsNullOrEmpty(city.City_Id))
+            if (!string.IsNullOrEmpty(city.cityId))
             {
                 city.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
                 city.ModifiedDateTime = DateTime.Now;

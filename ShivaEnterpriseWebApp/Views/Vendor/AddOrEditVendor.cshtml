@@ -2,8 +2,8 @@
 
 @{
     ViewData["Title"] = "AddorEdit";
-    SelectList bankDropdownList = ViewBag.bankSelectList;
-    SelectList taxDropdownList = ViewBag.taxList;
+    SelectList cityDropdownList = ViewBag.citySelectList;
+   
     
 }
 <link href="~/css/company.css" rel="stylesheet" />
@@ -57,17 +57,11 @@
                 </div>
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            
+           
             <div class="form-group row">
-                <label asp-for="Bank" class="control-label"></label>
+                <label asp-for="City" class="control-label"></label>
                 <div class="col-md-6">
-                    @Html.DropDownListFor(model => model.BankId, bankDropdownList, "Select an option", new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="form-group row">
-                <label asp-for="Tax" class="control-label"></label>
-                <div class="col-md-6">
-                    @Html.DropDownListFor(model => model.TaxId, taxDropdownList, "Select an option", new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.cityId, cityDropdownList, "Select an option", new { @class = "form-control" })
                 </div>
             </div>
             <div class="form-group row">

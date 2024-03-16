@@ -8,7 +8,7 @@ namespace ShivaEnterpriseWebApp.Model
 {
     public class City
     {
-        public string City_Id { get; set; }
+        public string cityId { get; set; }
 
         [DisplayName("City Code")]
         public string City_Code { get; set; }
