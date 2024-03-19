@@ -11,6 +11,7 @@ namespace ShivaEnterpriseWebApp.Controllers
     public class CityController : Controller
     {
         ICityServiceImpl cityObj = new CityServiceImpl();
+        ICityServiceImpl cityservice = new CityServiceImpl();
         IStateServiceImpl stateObj = new StateServiceImpl();
         ICountryServiceImpl countryObj = new CountryServiceImpl();
 
@@ -25,7 +26,7 @@ namespace ShivaEnterpriseWebApp.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> CityDetail(string cityId)
+        public async Task<ActionResult> CityDetail(Guid cityId)
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
             if (authToken == null)
@@ -45,7 +46,7 @@ namespace ShivaEnterpriseWebApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddOrEditCity(string cityId)
+        public async Task<IActionResult> AddOrEditCity(Guid cityId)
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
             if (authToken == null)
@@ -53,10 +54,18 @@ namespace ShivaEnterpriseWebApp.Controllers
             List<State>  stateDataList = await stateObj.GetStateList(authToken);
             SelectList selectList = new SelectList(stateDataList, "State_Id", "State_Name");
             ViewBag.SelectList = selectList;
-            if (!string.IsNullOrEmpty(cityId))
-            {               
-                var cityDetail = await cityObj.GetCityById(cityId, authToken);
-                return View(cityDetail);
+            //if (!string.IsNullOrEmpty(cityId))
+            //{               
+            //    var cityDetail = await cityObj.GetCityById(cityId, authToken);
+            //    return View(cityDetail);
+            //}
+            if (cityId != Guid.Empty)
+            {
+                var cityDetail = await cityservice.GetCityById(cityId, authToken);
+                if (cityDetail != null)
+                {
+                    return View("AddOrEditCity", cityDetail);
+                }
             }
             return View();
         }

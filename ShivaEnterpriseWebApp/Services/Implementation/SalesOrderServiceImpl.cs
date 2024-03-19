@@ -1,30 +1,29 @@
-﻿using Mono.TextTemplating;
+﻿using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using ShivaEnterpriseWebApp.Model;
 using ShivaEnterpriseWebApp.Services.Interface;
 using System.Net;
 using System.Text;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace ShivaEnterpriseWebApp.Services.Implementation
 {
-    public class CityServiceImpl : ICityServiceImpl
+    public class SalesOrderServiceImpl : ISalesOrderServiceImpl
     {
         private readonly JObject urlCollections;
-        public CityServiceImpl()
+
+        public SalesOrderServiceImpl()
         {
             urlCollections = JObject.Parse(File.ReadAllText("systemConfigurations.json"));
         }
-        public async Task<(bool success, string message)> AddCityDetailsAsync(City city, string authToken)
+        public async Task<(bool success, string message)> AddSalesOrderDetailsAsync(SalesOrder salesorder, string authToken)
         {
             try
             {
                 //Create json string to prepare input for api                
-                string json = JsonConvert.SerializeObject(city);
+                string json = JsonConvert.SerializeObject(salesorder);
 
                 StringContent data = new StringContent(json, Encoding.UTF8, "application/json");
-                var url = urlCollections["baseUrl"].ToString() + urlCollections["addcityUrl"].ToString();
+                var url = urlCollections["baseUrl"].ToString() + urlCollections["addsalesorderUrl"].ToString();
                 var client = new HttpClient();
                 var request = new HttpRequestMessage(new HttpMethod("POST"), url);
                 request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
@@ -50,15 +49,12 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             }
         }
 
-        public async Task<(bool successs, string message)> DeleteCity(string cityId, string authToken)
+        public async Task<(bool successs, string message)> DeleteSalesOrder(Guid salesorderId, string authToken)
         {
-            string json = "{ \"cityId\": \"" + cityId + "\" }";
-            StringContent data = new StringContent(json, Encoding.UTF8, "application/json");
-            var url = urlCollections["baseUrl"].ToString() + urlCollections["deletecityUrl"] + "?cityId=" + cityId;
+            var url = urlCollections["baseUrl"].ToString() + urlCollections["deletesalesorderUrl"] + "?salesorderId=" + salesorderId;
             var client = new HttpClient();
             var request = new HttpRequestMessage(new HttpMethod("POST"), url);
             request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
-            request.Content = data;
 
             //Pass in the full URL and the json string content
             var response = await client.SendAsync(request);
@@ -75,15 +71,15 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             return (true, result);
         }
 
-        public async Task<(bool success, string message)> EditCityDetailsAsync(City city, string authToken)
+        public async Task<(bool success, string message)> EditSalesOrderDetailsAsync(SalesOrder salesorder, string authToken)
         {
             try
             {
                 //Create json string to prepare input for api                
-                string json = JsonConvert.SerializeObject(city);
+                string json = JsonConvert.SerializeObject(salesorder);
 
                 StringContent data = new StringContent(json, Encoding.UTF8, "application/json");
-                var url = urlCollections["baseUrl"].ToString() + urlCollections["editcityUrl"] + "?id=" + city.City_Id.ToString();
+                var url = urlCollections["baseUrl"].ToString() + urlCollections["editsalesorderUrl"] + "?id=" + salesorder.SalesOrderId.ToString();
                 var client = new HttpClient();
                 var request = new HttpRequestMessage(new HttpMethod("PUT"), url);
                 request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
@@ -109,9 +105,9 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             }
         }
 
-        public async Task<City> GetCityById(Guid cityId, string authToken)
+        public async Task<SalesOrder> GetSalesOrderById(Guid salesorderId, string authToken)
         {
-            var url = urlCollections["baseUrl"].ToString() + urlCollections["getcitybyidUrl"] + "?cityId=" + cityId;
+            var url = urlCollections["baseUrl"].ToString() + urlCollections["getsalesorderbyidUrl"] + "?salesorderId=" + salesorderId;
             var client = new HttpClient();
 
             var request = new HttpRequestMessage(new HttpMethod("GET"), url);
@@ -127,14 +123,14 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             //close out the client
             client.Dispose();
 
-            var cityDetail = JsonConvert.DeserializeObject<City>(result);
+            var salesorderDetail = JsonConvert.DeserializeObject<SalesOrder>(result);
 
-            return cityDetail;
+            return salesorderDetail;
         }
 
-        public async Task<List<City>> GetCityList(string authToken)
+        public async Task<List<SalesOrder>> GetSalesOrderList(string authToken)
         {
-            var url = urlCollections["baseUrl"].ToString() + urlCollections["getallcityUrl"].ToString();
+            var url = urlCollections["baseUrl"].ToString() + urlCollections["getallsalesorderUrl"].ToString();
             var client = new HttpClient();
             var request = new HttpRequestMessage(new HttpMethod("GET"), url);
             request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
@@ -148,9 +144,9 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             //close out the client
             client.Dispose();
 
-            var cities = JsonConvert.DeserializeObject<List<City>>(result);
+            var salesorderDetail = JsonConvert.DeserializeObject<List<SalesOrder>>(result);
 
-            return cities;
+            return salesorderDetail;
         }
     }
 }
