@@ -2,12 +2,11 @@
 
 @{
     ViewData["Title"] = "AddorEdit";
-    SelectList cityDropdownList = ViewBag.citySelectList;
-   
+    SelectList cityDropdownList = ViewBag.citySelectList;  
     
 }
 <link href="~/css/company.css" rel="stylesheet" />
-@using (Html.BeginForm(FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm(FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     <h2>@(Model != null && Model.VendorId != Guid.Empty ? "Edit Vendor" : "Add Vendor")</h2>

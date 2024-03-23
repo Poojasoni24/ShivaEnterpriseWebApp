@@ -16,6 +16,8 @@
         public DateTime CreatedDateTime { get; set; }
         public string? ModifiedBy { get; set; }
         public DateTime? ModifiedDateTime { get; set; }
+        public Product Product { get; set; }
+        public Brand Brand { get; set; }
 
     }
 }

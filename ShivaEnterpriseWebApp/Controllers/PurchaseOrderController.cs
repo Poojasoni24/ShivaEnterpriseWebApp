@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 using ShivaEnterpriseWebApp.Model;
 using ShivaEnterpriseWebApp.Services.Implementation;
 using ShivaEnterpriseWebApp.Services.Interface;
+using System.Data.Common;
+using System.Net;
 using System.Security.Claims;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
@@ -11,7 +14,10 @@ namespace ShivaEnterpriseWebApp.Controllers
     public class PurchaseOrderController : Controller
     {
         IVendorServiceImpl vendorService = new VendorServiceImpl();
+        IProductServiceImpl productService = new ProductServiceImpl();
+        IBrandServiceImpl brandService = new BrandServiceImpl();
         IPurchaseOrderServiceImpl purchaseorderService = new PurchaseOrderServiceImpl();
+        IPurchaseOrderDetailServiceImpl purchaseorderDetailService = new PurchaseOrderDetailServiceImpl();
         
 
         private readonly IHostingEnvironment _hostingEnv;
@@ -24,10 +30,12 @@ namespace ShivaEnterpriseWebApp.Controllers
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
             var getAllPurchaseOrder = await purchaseorderService.GetPurchaseOrderList(authToken);
-            foreach (var item in getAllPurchaseOrder)
+            if (getAllPurchaseOrder != null && getAllPurchaseOrder.Count > 0 )
             {
-             //   item.Vendor = await vendorService.GetVendorById(item.VendorId, authToken);
-
+                foreach (var item in getAllPurchaseOrder)
+                {
+                    item.Vendor = await vendorService.GetVendorById(item.VendorID, authToken);
+                }
             }
 
             return View("Index", getAllPurchaseOrder);
@@ -38,9 +46,16 @@ namespace ShivaEnterpriseWebApp.Controllers
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
             List<Vendor> vendorDataList = await vendorService.GetVendorList(authToken);
-            SelectList groupselectList = new SelectList(vendorDataList, "VendorId", "VendorName");
-            ViewBag.vendorSelectList = groupselectList;
+            SelectList vendorgroupselectList = new SelectList(vendorDataList, "VendorId", "VendorName");
+            ViewBag.vendorSelectList = vendorgroupselectList;
 
+            List<Product> productDataList = await productService.GetProductList(authToken);
+            SelectList productgroupselectList = new SelectList(productDataList, "ProductId", "ProductName");
+            ViewBag.ProductSelectList = productgroupselectList;
+
+            List<Brand> brandDataList = await brandService.GetBrandList(authToken);
+            SelectList brandgroupselectList = new SelectList(brandDataList, "BrandId", "BrandName");
+            ViewBag.BrandSelectList = brandgroupselectList;
 
             if (!string.IsNullOrEmpty(purchaseorderId))
             {
@@ -50,64 +65,67 @@ namespace ShivaEnterpriseWebApp.Controllers
                     return View("AddOrEditPurchaseOrder", PurchaseOrderDetail);
                 }
             }
-            return View();
+            return View("AddOrEditPurchaseOrder");
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddOrEditPurchaseOrder(string purchaseorderId, PurchaseOrder purchaseorder)
+        public async Task<ActionResult> AddOrEditPurchaseOrder(string purchaseorderId, PurchaseOrderViewModel purchaseorderVM)
         {
             try
             {
 
                 string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
+                
+                List<Vendor> vendorDataList = await vendorService.GetVendorList(authToken);
+                SelectList vendorgroupselectList = new SelectList(vendorDataList, "VendorId", "VendorName");
+                ViewBag.vendorSelectList = vendorgroupselectList;
+
+                List<Product> productDataList = await productService.GetProductList(authToken);
+                SelectList productgroupselectList = new SelectList(productDataList, "ProductId", "ProductName");
+                ViewBag.ProductSelectList = productgroupselectList;
+
+                List<Brand> brandDataList = await brandService.GetBrandList(authToken);
+                SelectList brandgroupselectList = new SelectList(brandDataList, "BrandId", "BrandName");
+                ViewBag.BrandSelectList = brandgroupselectList;
                 if (!string.IsNullOrEmpty(purchaseorderId))
                 {
-                    purchaseorder.PurchaseOrderId = new Guid(purchaseorderId);
-                    purchaseorder.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-                    purchaseorder.ModifiedDateTime = DateTime.Now;
-                    await purchaseorderService.EditPurchaseOrderDetailsAsync(purchaseorder, authToken);
+                    //purchaseorderVM..PurchaseOrderId = new Guid(purchaseorderId);
+                    //purchaseorderVM.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                    //purchaseorderVM.ModifiedDateTime = DateTime.Now;
+                    //await purchaseorderService.EditPurchaseOrderDetailsAsync(purchaseorderVM, authToken);
                 }
                 else
                 {
-                    purchaseorder.CreatedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-                    purchaseorder.CreatedDateTime = DateTime.Now;
-                    // string image = uploadImage(product.ImageFile);
-                    // product.ProductImage = "/img/product/" + image;
-                    await purchaseorderService.AddPurchaseOrderDetailsAsync(purchaseorder, authToken);
+                    var netPriceIncludingTax = purchaseorderVM.PODetail.NetTotal * (purchaseorderVM.PODetail.Tax_Percentage/100);
+                    purchaseorderVM.PurchaseOrder.TotalAmount = purchaseorderVM.PODetail.NetTotal + netPriceIncludingTax;
+                    purchaseorderVM.PurchaseOrder.PurchaseOrderStatus = "Approve";
+                    purchaseorderVM.PurchaseOrder.CreatedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                    purchaseorderVM.PurchaseOrder.CreatedDateTime = DateTime.Now;
+                    purchaseorderVM.PurchaseOrder.Vendor = await vendorService.GetVendorById(purchaseorderVM.PurchaseOrder.VendorID,authToken);
+                 
+                    var issuccess = await purchaseorderService.AddPurchaseOrderDetailsAsync(purchaseorderVM.PurchaseOrder, authToken);
+                    if (issuccess.success)
+                    {
+                        purchaseorderVM.PODetail.PurchaseOrderId = JsonConvert.DeserializeObject<Guid>(issuccess.value);
+                        purchaseorderVM.PODetail.Product = await productService.GetProductById(purchaseorderVM.PODetail.ProductId,authToken);
+                        purchaseorderVM.PODetail.Brand = await brandService.GetBrandById(purchaseorderVM.PODetail.BrandId,authToken);
+                        purchaseorderVM.PODetail.CreatedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                        purchaseorderVM.PODetail.CreatedDateTime = DateTime.Now;
+                        await purchaseorderDetailService.AddPurchaseOrderDetailDetailsAsync(purchaseorderVM.PODetail, authToken);
+                    }
                 }
 
 
                 return RedirectToAction(nameof(Index));
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                
                 return View("Index");
             }
 
         }
-        // public string uploadImage(IFormFile image)
-        //{
-        //   string imageFileName = string.Empty;
-        //   string basedirecotry = _hostingEnv.WebRootPath;
-
-        //  string filePath = basedirecotry + "\\img\\product\\";
-
-        // if (!System.IO.Directory.Exists(filePath))
-        //     System.IO.Directory.CreateDirectory(filePath);
-
-        //  if (image != null)
-        // {
-        //   imageFileName = Guid.NewGuid().ToString().ToLower() + new FileInfo(image.FileName).Extension;
-        // string path = Path.Combine(filePath, imageFileName);
-        // using (Stream fileStream = new FileStream(path, FileMode.Create))
-        // {
-        //     image.CopyTo(fileStream);
-        // }
-        // }
-        // return imageFileName;
-        //  }
-
+    
         [HttpPost]
         public async Task<ActionResult> RemovePurchaseOrder(string purchaseorderId)
         {

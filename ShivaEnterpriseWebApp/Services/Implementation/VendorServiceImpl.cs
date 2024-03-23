@@ -106,7 +106,7 @@ using System.Text;
                 }
             }
 
-            public async Task<Vendor> GetVendorById(string vendorId, string authToken)
+            public async Task<Vendor> GetVendorById(Guid vendorId, string authToken)
             {
                 var url = urlCollections["baseUrl"].ToString() + urlCollections["getvendorbyidUrl"] + "?vendorId=" + vendorId;
                 var client = new HttpClient();

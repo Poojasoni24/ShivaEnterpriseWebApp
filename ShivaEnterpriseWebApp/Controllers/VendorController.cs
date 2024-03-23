@@ -32,14 +32,14 @@ namespace ShivaEnterpriseWebApp.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> AddOrEditVendor(string vendorId)
+        public async Task<ActionResult> AddOrEditVendor(Guid vendorId)
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
             List<City> cityDataList = await cityService.GetCityList(authToken);
             SelectList groupselectList = new SelectList(cityDataList, "cityId", "City_Name");
             ViewBag.citySelectList = groupselectList;
 
-            if (!string.IsNullOrEmpty(vendorId))
+            if (vendorId != Guid.Empty)
             {
                 var VendorDetail = await vendorService.GetVendorById(vendorId, authToken);
                 if (VendorDetail != null)
@@ -102,14 +102,14 @@ namespace ShivaEnterpriseWebApp.Controllers
             }
         }
 
-        public async Task<ActionResult> VendorDetail(string vendorId)
+        public async Task<ActionResult> VendorDetail(Guid vendorId)
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
 
             var vendorData = await vendorService.GetVendorById(vendorId, authToken);
             return PartialView("_vendorDetail", new Vendor()
             {
-                VendorId = new Guid(vendorId),
+                VendorId = vendorId,
                 VendorCode = vendorData.VendorCode,
                 VendorName = vendorData.VendorName,
                 VendorType = vendorData.VendorType,

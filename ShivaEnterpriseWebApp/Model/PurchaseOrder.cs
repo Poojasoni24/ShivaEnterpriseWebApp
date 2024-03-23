@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace ShivaEnterpriseWebApp.Model
 {
@@ -6,7 +7,11 @@ namespace ShivaEnterpriseWebApp.Model
     {
         public Guid PurchaseOrderId { get; set; }
         public Guid VendorID { get; set; }
+
+        [DataType(DataType.Date)]
         public DateTime OrderDate { get; set; }
+
+        [DataType(DataType.Date)]
         public DateTime DeliveryDate { get; set; }
         public decimal TotalAmount { get; set; }
         public string PurchaseOrderStatus { get; set; }
@@ -15,6 +20,5 @@ namespace ShivaEnterpriseWebApp.Model
         public DateTime CreatedDateTime { get; set; }
         public string? ModifiedBy { get; set; }
         public DateTime? ModifiedDateTime { get; set; }
-        public List<SelectListItem> VendorList { get; set; }
         public Vendor Vendor { get; set; }    }
 }

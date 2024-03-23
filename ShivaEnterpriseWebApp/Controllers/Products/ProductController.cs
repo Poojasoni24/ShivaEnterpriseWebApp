@@ -37,7 +37,7 @@ namespace ShivaEnterpriseWebApp.Controllers.Products
         }
 
         [HttpGet]
-        public async Task<ActionResult> AddOrEditProduct(string productId)
+        public async Task<ActionResult> AddOrEditProduct(Guid productId)
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
             List<ProductGroup> productGroupDataList = await productgroupService.GetProductGroupList(authToken);
@@ -51,7 +51,7 @@ namespace ShivaEnterpriseWebApp.Controllers.Products
             List<ProductCategory> productcategoryDataList = await productcategoryService.GetProductCategoryList(authToken);
             SelectList categoryselectList = new SelectList(productcategoryDataList, "ProductCategoryId", "ProductCategoryName");
             ViewBag.productCategoryList = categoryselectList;
-            if (!string.IsNullOrEmpty(productId))
+            if (productId != Guid.Empty)
             {
                 var ProductDetail = await productService.GetProductById(productId, authToken);
                 if (ProductDetail != null)
@@ -134,14 +134,14 @@ namespace ShivaEnterpriseWebApp.Controllers.Products
             }
         }
 
-        public async Task<ActionResult> ProductDetail(string productId)
+        public async Task<ActionResult> ProductDetail(Guid productId)
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
 
             var productData = await productService.GetProductById(productId, authToken);
             return PartialView("_productDetail", new Product()
             {
-                ProductId = new Guid(productId),
+                ProductId = productId,
                 ProductCode = productData.ProductCode,
                 ProductName = productData.ProductName,
                 ProductDescription = productData.ProductDescription,

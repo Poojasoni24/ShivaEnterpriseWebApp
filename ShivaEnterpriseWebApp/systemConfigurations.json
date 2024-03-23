@@ -157,7 +157,7 @@
   //Purchase Order
   "getallpurchaseorderUrl": "/api/purchaseOrder/GetPurchasOrder",
   "getpurchaseorderlbyidUrl": "/api/purchaseOrder/GetPurchaesOrderById",
-  "addpurchaseorderUrl": "/api/purchaseoOrder/AddPurchaseOrder",
+  "addpurchaseorderUrl": "/api/purchaseOrder/AddPurchaseOrder",
   "deletepurchaseorderUrl": "/api/purchaseOrder/DeletePurchaseOrder",
   "editpurchaseorderUrl": "/api/purchaseOrder/EditPurchaseOrder",
 

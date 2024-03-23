@@ -1,1 +1,76 @@
-﻿
+﻿@using Newtonsoft.Json
+@using ShivaEnterpriseWebApp.Model
+@model List<ShivaEnterpriseWebApp.Model.PurchaseOrder>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Index";
+}
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <div class="modal fade" id="poModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div id="purchaseOrderDetailDiv">
+            </div>
+        </div>
+    </div>
+
+    <!-- partial -->
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Purchase Order Detail</h4>
+                    <div class="compnay_btn">
+                        <input class="btn btn-success" type="button" value="Add Purchase Order Detail" onclick="onAddPurchaseOrder()" />
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <table id="order-listing" class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Purchase Order Document NO.</th>
+                                            <th>Vendor Name</th>
+                                            <th>Delivery Date</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model != null)
+                                        {
+                                            @foreach (var item in Model)
+                                            {
+
+                                                <tr>
+                                                    <td>@item.Doc_No</td>
+                                                    <td>@item.Vendor.VendorName</td>                                                  
+                                                    <td>@item.DeliveryDate</td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" onclick="loadPOPartial(@(JsonConvert.SerializeObject(item.PurchaseOrderId)))">
+                                                            view
+                                                        </button>
+                                                        <input class="btn btn-outline-danger" type="button" value="Delete" onclick="onDeletePO(@(JsonConvert.SerializeObject(item)))" />
+
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- content-wrapper ends -->
+    </div>
+
+
+</body>
+
+</html>
+
+<script src="~/js/PurchaseOrder.js"></script>

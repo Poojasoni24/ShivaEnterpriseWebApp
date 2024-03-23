@@ -105,7 +105,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             }
         }
 
-        public async Task<Product> GetProductById(string productId, string authToken)
+        public async Task<Product> GetProductById(Guid productId, string authToken)
         {
             var url = urlCollections["baseUrl"].ToString() + urlCollections["getproductbyidUrl"] + "?productId=" + productId;
             var client = new HttpClient();
