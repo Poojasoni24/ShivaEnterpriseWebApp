@@ -1,0 +1,98 @@
+﻿@model ShivaEnterpriseWebApp.Model.Customer
+@{
+    ViewData["Title"] = "Details";
+}
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Customer Detail</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div>
+            <dl class="row">
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.CustomerCode)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.CustomerCode)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.CustomerName)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.CustomerName)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.CustomerType)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.CustomerType)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.CustomerAddress)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.CustomerAddress)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Phoneno)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Phoneno)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Email)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.ContractStartDate)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.ContractStartDate)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.ContractEndDate)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.ContractEndDate)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.City.City_Name)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.City.City_Name)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Remark)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Remark)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.IsActive)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.IsActive)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.CustomerDiscount)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.CustomerDiscount)
+                </dd>
+            </dl>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modalclose" onclick="modalclose()">Close</button>
+        <input type="button" class="btn btn-primary" value="Edit" onclick="window.location.href='Customer/AddOrEditCustomer?customerId=@Model.CustomerId'" />
+        @* @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) | *@
+    </div>
+</div>
+@section script {
+    <script src="~/js/Customer.js"></script>
+}
