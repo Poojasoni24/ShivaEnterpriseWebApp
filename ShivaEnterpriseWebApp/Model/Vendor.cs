@@ -14,7 +14,7 @@ namespace ShivaEnterpriseWebApp.Model
         public string Email { get; set; }
         public DateTime ContractStartDate { get; set; }
         public DateTime ContractEndDate { get; set; }
-        public Guid? cityId { get; set; }
+        public Guid cityId { get; set; }
         public string? Remark { get; set; }
         public bool IsActive { get; set; }
         public string CreatedBy { get; set; }

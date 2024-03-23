@@ -18,7 +18,7 @@ namespace ShivaEnterpriseWebApp.Controllers
             var getAllCustomer = await customerService.GetCustomerList(authToken);
             foreach (var item in getAllCustomer)
             {
-                item.City = await cityService.GetCityById(item.CityId, authToken);
+                item.City = await cityService.GetCityById(item.cityId, authToken);
                
             }
 
@@ -31,7 +31,7 @@ namespace ShivaEnterpriseWebApp.Controllers
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
             //Add accountgroup dropdown
             List<City> cityDataList = await cityService.GetCityList(authToken);
-            SelectList groupselectList = new SelectList(cityDataList, "CityId", "CityName");
+            SelectList groupselectList = new SelectList(cityDataList, "cityId", "City_Name");
             ViewBag.citySelectList = groupselectList;
 
             
@@ -113,7 +113,7 @@ namespace ShivaEnterpriseWebApp.Controllers
                 CustomerDiscount = customerData.CustomerDiscount,
                
                 
-                City = await cityService.GetCityById(customerData.CityId, authToken),
+                City = await cityService.GetCityById(customerData.cityId, authToken),
                 // AccountCategoryId = accountData.AccountCategoryId,
                 //AccountGroup = await accountgroupService.GetAccountGroupById(accountData.AccountGroupId, authToken),
                 //  AccountGroupId = accountData.AccountGroupId,

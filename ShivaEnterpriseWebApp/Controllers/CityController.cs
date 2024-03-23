@@ -79,7 +79,7 @@ namespace ShivaEnterpriseWebApp.Controllers
             List<State> stateDataList = await stateObj.GetStateList(authToken);
             SelectList selectList = new SelectList(stateDataList, "State_Id", "State_Name");
             ViewBag.SelectList = selectList;
-            if (!string.IsNullOrEmpty(city.cityId))
+            if (city.cityId != Guid.Empty)
             {
                 city.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
                 city.ModifiedDateTime = DateTime.Now;

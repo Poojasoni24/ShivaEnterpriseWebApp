@@ -25,7 +25,7 @@ namespace ShivaEnterpriseWebApp.Controllers
             var getAllVendor = await vendorService.GetVendorList(authToken);
             foreach (var item in getAllVendor.Where(x => x.cityId != null))
             {
-                item.City = await cityService.GetCityById(item.cityId.ToString(), authToken);
+                item.City = await cityService.GetCityById(item.cityId, authToken);
             }
 
             return View("Index", getAllVendor);
@@ -59,7 +59,7 @@ namespace ShivaEnterpriseWebApp.Controllers
                 List<City> cityDataList = await cityService.GetCityList(authToken);
                 SelectList groupselectList = new SelectList(cityDataList, "City_Id", "City_Name");
                 ViewBag.citySelectList = groupselectList;
-                vendor.City = await cityService.GetCityById(vendor.cityId.ToString(), authToken);
+                vendor.City = await cityService.GetCityById(vendor.cityId, authToken);
                 if (!string.IsNullOrEmpty(vendorId))
                 {
                     vendor.VendorId = new Guid(vendorId);
@@ -117,7 +117,7 @@ namespace ShivaEnterpriseWebApp.Controllers
                 Phoneno = vendorData.Phoneno,
                 Email= vendorData.Email,
                 cityId = vendorData.cityId,
-                City = await cityService.GetCityById(vendorData.cityId.ToString(), authToken),
+                City = await cityService.GetCityById(vendorData.cityId, authToken),
                 ContractStartDate = vendorData.ContractStartDate,
                 ContractEndDate= vendorData.ContractEndDate,
                 Remark = vendorData.Remark,
