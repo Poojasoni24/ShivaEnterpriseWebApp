@@ -1,0 +1,84 @@
+﻿@model ShivaEnterpriseWebApp.Model.SalesOrderViewModel
+@{
+    
+    SelectList customerDropdownList = ViewBag.CustomerSelectList;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase Order</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Optional custom styles */
+        .form-label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Sales Order Form</h1>
+        <form controller="SalesOrder" action="AddOrEditSalesOrder" method="post">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Doc_No:</label>
+                        <input type="text" class="form-control" asp-for="SalesOrder.Doc_No">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Customer:</label>
+                        @Html.DropDownListFor(model => model.SalesOrder.CustomerId, customerDropdownList, "Select an option", new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">              
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Order Date:</label>
+                        <input type="date" class="form-control" asp-for="SalesOrder.OrderDate">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">DeliveryDate:</label>
+                        <input type="date" class="form-control" asp-for="SalesOrder.DeliveryDate">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Customer Discount:</label>
+                        <input type="text" class="form-control"  id="txtCustomerDiscount" asp-for="Customer.CustomerDiscount" readonly>
+                    </div>
+                </div>
+                <script type="text/javascript">
+            function get_sbu() {
+                var selected_val = $('#CustomerId').find(":selected").attr('value');
+                $.ajax({
+                    type: "POST",
+                    url: "/SalesOrder/selectSBU",
+                    data: "id=" + selected_val,
+                    success: function (data) {
+                        if (data.length > 0) {
+                                    $('#txtCustomerDiscount').val(data[0].CustomerDiscount);
+                        }
+                        else {
+                                    $('#txtCustomerDiscount').val('');
+                        }
+                    }
+                });
+            }
+        </script>
+                <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="~/js/PurchaseOrder.js"></script>
+</body>
+</html>
