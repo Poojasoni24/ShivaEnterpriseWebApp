@@ -1,0 +1,62 @@
+﻿@model List<ShivaEnterpriseWebApp.Model.PurchaseOrderDetail>
+@using ShivaEnterpriseWebApp.Model
+@{
+    PurchaseOrderDetail purchaseOrderDetail = new PurchaseOrderDetail();
+    SelectList ProductDropdownList = ViewBag.ProductSelectList;
+    SelectList BrandDropdownList = ViewBag.BrandSelectList;
+}
+
+
+<div id="podetaildiv">
+    <table id="tblPurchaseOrderDetail" class="table" cellpadding="0" cellspacing="0">
+        <thead>
+            <tr>
+                <th class="d-none"></th>
+                <th class="d-none"></th>
+                <th style="width:150px">Product</th>
+                <th style="width:150px">Brand</th>
+                <th style="width:150px">Qty</th>
+                <th style="width:150px">Unitprice</th>
+                <th style="width:150px">Discount</th>
+                <th style="width:150px">NetTotal</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                @foreach (var podetail in Model)
+                {
+                    <tr>
+                        <td class="d-none">@podetail.Product.ProductId</td>
+                        <td class="d-none">@podetail.Brand.BrandId</td>
+                        <td>@podetail.Product.ProductName</td>
+                        <td>@podetail.Brand.BrandName</td>
+                        <td>@podetail.Quantity</td>
+                        <td>@podetail.UnitPrice</td>
+                        <td>@podetail.Discount</td>
+                        <td>@podetail.NetTotal</td>
+                        <td><input type="button" value="Remove" onclick="Remove(this)" /></td>
+                    </tr>
+                }
+            }
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <td class="d-none"></td>
+                <td class="d-none"></td>
+                <td>@Html.DropDownList(purchaseOrderDetail.ProductId.ToString(), ProductDropdownList, "Select an option", new { id = "ProductId" })</td>
+                <td>@Html.DropDownList(purchaseOrderDetail.BrandId.ToString(), BrandDropdownList, "Select an option",  new { id = "BrandId" })</td>
+                <td><input type="text" id="txtQty" /></td>
+                <td><input type="text" id="txtUnitprice" /></td>
+                <td><input type="text" id="txtDiscount" /></td>               
+                <td><input type="text" id="txtnetTotal" /></td>
+                <td><input type="button" id="btnAdd" value="Add" /></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<br />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>

@@ -113,7 +113,6 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             var request = new HttpRequestMessage(new HttpMethod("GET"), url);
             request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
 
-
             //Pass in the full URL and the json string content
             var response = await client.SendAsync(request);
 

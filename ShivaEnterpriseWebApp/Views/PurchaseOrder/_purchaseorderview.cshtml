@@ -1,0 +1,120 @@
+﻿@model ShivaEnterpriseWebApp.Model.PurchaseOrderViewModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    @*    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase Order</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+    /* Optional custom styles */
+    .form-label {
+    font-weight: bold;
+    }
+    </style> *@
+</head>
+<body>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="poModalLong">Purchase Order Detail</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.DisplayNameFor(model => model.PurchaseOrder.Doc_No)
+                                <label>:</label>
+                                @Html.DisplayFor(model => model.PurchaseOrder.Doc_No)
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.DisplayNameFor(model => model.PurchaseOrder.Vendor.VendorName)
+                                <label>:</label>
+                                @Html.DisplayFor(model => model.PurchaseOrder.Vendor.VendorName)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.DisplayNameFor(model => model.PurchaseOrder.OrderDate)
+                                <label>:</label>
+                                @Html.DisplayFor(model => model.PurchaseOrder.OrderDate)
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.DisplayNameFor(model => model.PurchaseOrder.DeliveryDate)
+                                <label>:</label>
+                                @Html.DisplayFor(model => model.PurchaseOrder.DeliveryDate)
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr style="width:100%" />
+              @*       <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.DisplayNameFor(model => model.PODetail.Product.ProductName)
+                                <label>:</label>
+                                @Html.DisplayFor(model => model.PODetail.Product.ProductName)
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.DisplayNameFor(model => model.PODetail.Brand.BrandName)
+                                <label>:</label>
+                                @Html.DisplayFor(model => model.PODetail.Brand.BrandName)
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.DisplayNameFor(model => model.PODetail.Quantity)
+                                <label>:</label>
+                                @Html.DisplayFor(model => model.PODetail.Quantity)
+                            </div>
+                            <div class="form-group">
+                                @Html.DisplayNameFor(model => model.PODetail.UnitPrice)
+                                <label>:</label>
+                                @Html.DisplayFor(model => model.PODetail.UnitPrice)
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.DisplayNameFor(model => model.PODetail.Discount)
+                                @Html.DisplayFor(model => model.PODetail.Discount)
+                            </div>
+                            <div class="form-group">
+                                @Html.DisplayNameFor(model => model.PODetail.Tax_Percentage)
+                                @Html.DisplayFor(model => model.PODetail.Tax_Percentage)
+                            </div>                           
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.DisplayNameFor(model => model.PODetail.NetTotal)
+                                @Html.DisplayFor(model => model.PODetail.NetTotal)
+                            </div>
+                            <div class="form-group">
+                                @Html.DisplayNameFor(model => model.PurchaseOrder.TotalAmount)
+                                @Html.DisplayFor(model => model.PurchaseOrder.TotalAmount)
+                            </div>
+                        </div>
+                    </div> *@
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="~/js/PurchaseOrder.js"></script>
+</body>
+</html>

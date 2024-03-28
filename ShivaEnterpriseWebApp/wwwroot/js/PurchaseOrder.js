@@ -1,33 +1,20 @@
-function onAddPurchaseOrder() {
-    $.ajax({
+//function onAddPurchaseOrder() {
+//    $.ajax({
 
-        url: `/PurchaseOrder/AddOrEditPurchaseOrder`,
-        type: 'GET',
-        success: function (res) {
-            window.location.replace('/PurchaseOrder/AddOrEditPurchaseOrder');
-        },
-        async: true,
-        error: function (err) {
-            Alert("Some thing went wrong");
-        }
-    });
-}
+//        url: `/PurchaseOrder/AddOrEditPurchaseOrder`,
+//        type: 'GET',
+//        success: function (res) {
+//            window.location.replace('/PurchaseOrder/AddOrEditPurchaseOrder');
+//        },
+//        async: true,
+//        error: function (err) {
+//            Alert("Some thing went wrong");
+//        }
+//    });
+//}
 
 
-$('#unitPrice').on('change', function () {
-    var qty = $("#qty").val();
-    var unitprice = $("#unitPrice").val();
-    var netPrice = qty * unitprice;
-    $("#netTotal").val(netPrice);
-});
 
-$("#discount").on('change', function () {
-    debugger;
-    var discount = $("#discount").val();
-    var netPrice = $("#netTotal").val();
-    var discountAmount = netPrice * (discount / 100);
-    $("#netTotal").val(netPrice - discountAmount);
-});
 
 //On Click of delete organization.
 function onDeletePO(PurchaseOrder) {
@@ -88,7 +75,7 @@ function loadPOPartial(purchaseorderId) {
         url: `/PurchaseOrder/PurchaseOrderDetail?purchaseorderId=${purchaseorderId}`,
         type: 'GET',
         success: function (res) {
-
+            debugger;
             $('#poModalLong').modal('show')
             useJQueryNoConflict();
             $('#purchaseOrderDetailDiv').html(res)

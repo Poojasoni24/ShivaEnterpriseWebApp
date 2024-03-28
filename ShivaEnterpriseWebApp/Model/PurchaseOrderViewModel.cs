@@ -4,6 +4,6 @@
     {
         public PurchaseOrder PurchaseOrder { get; set; }    
 
-        public PurchaseOrderDetail PODetail { get; set; }
+        public List<PurchaseOrderDetail> PODetail { get; set; }
     }
 }

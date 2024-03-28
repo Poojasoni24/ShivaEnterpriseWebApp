@@ -130,7 +130,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
 
         public async Task<List<PurchaseOrderDetail>> GetPurchaseOrderDetailList(string authToken)
         {
-            var url = urlCollections["baseUrl"].ToString() + urlCollections["getallpurchaseorderUrl"].ToString();
+            var url = urlCollections["baseUrl"].ToString() + urlCollections["getallpurchaseorderdetailUrl"].ToString();
             var client = new HttpClient();
             var request = new HttpRequestMessage(new HttpMethod("GET"), url);
             request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);

@@ -16,6 +16,7 @@ namespace ShivaEnterpriseWebApp.Model
         public decimal TotalAmount { get; set; }
         public string PurchaseOrderStatus { get; set; }
         public string Doc_No { get; set; }
+        public decimal Tax_Percentage { get; set; }
         public string CreatedBy { get; set; }
         public DateTime CreatedDateTime { get; set; }
         public string? ModifiedBy { get; set; }

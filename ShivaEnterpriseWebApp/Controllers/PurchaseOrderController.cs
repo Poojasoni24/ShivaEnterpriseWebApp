@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using Newtonsoft.Json;
 using ShivaEnterpriseWebApp.Model;
 using ShivaEnterpriseWebApp.Services.Implementation;
@@ -7,6 +8,7 @@ using ShivaEnterpriseWebApp.Services.Interface;
 using System.Data.Common;
 using System.Net;
 using System.Security.Claims;
+using System.Text.Json.Nodes;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace ShivaEnterpriseWebApp.Controllers
@@ -18,7 +20,7 @@ namespace ShivaEnterpriseWebApp.Controllers
         IBrandServiceImpl brandService = new BrandServiceImpl();
         IPurchaseOrderServiceImpl purchaseorderService = new PurchaseOrderServiceImpl();
         IPurchaseOrderDetailServiceImpl purchaseorderDetailService = new PurchaseOrderDetailServiceImpl();
-        
+
 
         private readonly IHostingEnvironment _hostingEnv;
 
@@ -30,7 +32,7 @@ namespace ShivaEnterpriseWebApp.Controllers
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
             var getAllPurchaseOrder = await purchaseorderService.GetPurchaseOrderList(authToken);
-            if (getAllPurchaseOrder != null && getAllPurchaseOrder.Count > 0 )
+            if (getAllPurchaseOrder != null && getAllPurchaseOrder.Count > 0)
             {
                 foreach (var item in getAllPurchaseOrder)
                 {
@@ -42,7 +44,7 @@ namespace ShivaEnterpriseWebApp.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> AddOrEditPurchaseOrder(string purchaseorderId)
+        public async Task<ActionResult> AddOrEditPurchaseOrder(Guid purchaseorderId)
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
             List<Vendor> vendorDataList = await vendorService.GetVendorList(authToken);
@@ -57,7 +59,7 @@ namespace ShivaEnterpriseWebApp.Controllers
             SelectList brandgroupselectList = new SelectList(brandDataList, "BrandId", "BrandName");
             ViewBag.BrandSelectList = brandgroupselectList;
 
-            if (!string.IsNullOrEmpty(purchaseorderId))
+            if (purchaseorderId != Guid.Empty)
             {
                 var PurchaseOrderDetail = await purchaseorderService.GetPurchaseOrderById(purchaseorderId, authToken);
                 if (PurchaseOrderDetail != null)
@@ -69,13 +71,13 @@ namespace ShivaEnterpriseWebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddOrEditPurchaseOrder(string purchaseorderId, PurchaseOrderViewModel purchaseorderVM)
+        public async Task<ActionResult> AddOrEditPurchaseOrder(string purchaseorderId, PurchaseOrderViewModel purchaseorderVM, [FromBody] List<PurchaseOrderDetail> Podetails)
         {
             try
             {
 
                 string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
-                
+
                 List<Vendor> vendorDataList = await vendorService.GetVendorList(authToken);
                 SelectList vendorgroupselectList = new SelectList(vendorDataList, "VendorId", "VendorName");
                 ViewBag.vendorSelectList = vendorgroupselectList;
@@ -96,22 +98,25 @@ namespace ShivaEnterpriseWebApp.Controllers
                 }
                 else
                 {
-                    var netPriceIncludingTax = purchaseorderVM.PODetail.NetTotal * (purchaseorderVM.PODetail.Tax_Percentage/100);
-                    purchaseorderVM.PurchaseOrder.TotalAmount = purchaseorderVM.PODetail.NetTotal + netPriceIncludingTax;
+                    //var netPriceIncludingTax = purchaseorderVM.PODetail.NetTotal * (purchaseorderVM.PODetail.Tax_Percentage / 100);
+                    //purchaseorderVM.PurchaseOrder.TotalAmount = purchaseorderVM.PODetail.NetTotal + netPriceIncludingTax;
                     purchaseorderVM.PurchaseOrder.PurchaseOrderStatus = "Approve";
                     purchaseorderVM.PurchaseOrder.CreatedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
                     purchaseorderVM.PurchaseOrder.CreatedDateTime = DateTime.Now;
-                    purchaseorderVM.PurchaseOrder.Vendor = await vendorService.GetVendorById(purchaseorderVM.PurchaseOrder.VendorID,authToken);
-                 
+                    purchaseorderVM.PurchaseOrder.Vendor = await vendorService.GetVendorById(purchaseorderVM.PurchaseOrder.VendorID, authToken);
+
                     var issuccess = await purchaseorderService.AddPurchaseOrderDetailsAsync(purchaseorderVM.PurchaseOrder, authToken);
                     if (issuccess.success)
                     {
-                        purchaseorderVM.PODetail.PurchaseOrderId = JsonConvert.DeserializeObject<Guid>(issuccess.value);
-                        purchaseorderVM.PODetail.Product = await productService.GetProductById(purchaseorderVM.PODetail.ProductId,authToken);
-                        purchaseorderVM.PODetail.Brand = await brandService.GetBrandById(purchaseorderVM.PODetail.BrandId,authToken);
-                        purchaseorderVM.PODetail.CreatedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-                        purchaseorderVM.PODetail.CreatedDateTime = DateTime.Now;
-                        await purchaseorderDetailService.AddPurchaseOrderDetailDetailsAsync(purchaseorderVM.PODetail, authToken);
+                        foreach (var item in Podetails)
+                        {
+                            item.PurchaseOrderId = JsonConvert.DeserializeObject<Guid>(issuccess.value);
+                            item.Product = await productService.GetProductById(item.ProductId, authToken);
+                            item.Brand = await brandService.GetBrandById(item.BrandId, authToken);
+                            item.CreatedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                            item.CreatedDateTime = DateTime.Now;
+                            await purchaseorderDetailService.AddPurchaseOrderDetailDetailsAsync(purchaseorderVM.PODetail, authToken);
+                        }
                     }
                 }
 
@@ -120,12 +125,12 @@ namespace ShivaEnterpriseWebApp.Controllers
             }
             catch (Exception ex)
             {
-                
+
                 return View("Index");
             }
 
         }
-    
+
         [HttpPost]
         public async Task<ActionResult> RemovePurchaseOrder(string purchaseorderId)
         {
@@ -142,22 +147,47 @@ namespace ShivaEnterpriseWebApp.Controllers
             }
         }
 
-        public async Task<ActionResult> PurchaseOrderDetail(string purchaseorderId)
+        [HttpGet]
+        public async Task<ActionResult> PurchaseOrderDetail(Guid purchaseorderId)
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
 
             var purchaseorderData = await purchaseorderService.GetPurchaseOrderById(purchaseorderId, authToken);
-            return PartialView("_purchaseorderDetail", new PurchaseOrder()
+            var purchaseorderDetailData = purchaseorderDetailService.GetPurchaseOrderDetailList(authToken).Result.FirstOrDefault(x => x.PurchaseOrderId == purchaseorderId);
+            return PartialView("_purchaseorderview", new PurchaseOrderViewModel()
             {
-                PurchaseOrderId = new Guid(purchaseorderId),
-                VendorID = purchaseorderData.VendorID,
-                OrderDate = purchaseorderData.OrderDate,
-                DeliveryDate = purchaseorderData.DeliveryDate,
-                TotalAmount = purchaseorderData.TotalAmount,
-                PurchaseOrderStatus = purchaseorderData.PurchaseOrderStatus,
+                PurchaseOrder = new PurchaseOrder()
+                {
+                    PurchaseOrderId = purchaseorderId,
+                    Doc_No = purchaseorderData.Doc_No,
+                    Vendor = await vendorService.GetVendorById(purchaseorderData.VendorID, authToken),
+                    OrderDate = purchaseorderData.OrderDate,
+                    DeliveryDate = purchaseorderData.DeliveryDate,
+                    TotalAmount = purchaseorderData.TotalAmount,
+                    PurchaseOrderStatus = purchaseorderData.PurchaseOrderStatus,
+                },
+                //PODetail = new PurchaseOrderDetail()
+                //{
+                //    Product = await productService.GetProductById(purchaseorderDetailData.ProductId, authToken),
+                //    Brand = await brandService.GetBrandById(purchaseorderDetailData.BrandId, authToken),
+                //    Quantity = purchaseorderDetailData.Quantity,
+                //    UnitPrice = purchaseorderDetailData.UnitPrice,
+                //    Discount = purchaseorderDetailData.Discount,
+                //    Tax_Percentage = purchaseorderDetailData.Tax_Percentage,
+                //    NetTotal = purchaseorderDetailData.NetTotal,
+                //}
+
             });
         }
+
+        [HttpPost]
+        public JsonResult InsertPodetail([FromBody] List<PurchaseOrderDetail> Podetails)
+        {
+            return Json(Podetails);
+        }
+
     }
 }
+    
 
 

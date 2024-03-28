@@ -155,8 +155,8 @@
   "editmopUrl": "/api/Modeofpayment/EditModeofPayment",
 
   //Purchase Order
-  "getallpurchaseorderUrl": "/api/purchaseOrder/GetPurchasOrder",
-  "getpurchaseorderlbyidUrl": "/api/purchaseOrder/GetPurchaesOrderById",
+  "getallpurchaseorderUrl": "/api/purchaseOrder/GetPurchaseOrder",
+  "getpurchaseorderlbyidUrl": "/api/purchaseOrder/GetPurchaseOrderById",
   "addpurchaseorderUrl": "/api/purchaseOrder/AddPurchaseOrder",
   "deletepurchaseorderUrl": "/api/purchaseOrder/DeletePurchaseOrder",
   "editpurchaseorderUrl": "/api/purchaseOrder/EditPurchaseOrder",

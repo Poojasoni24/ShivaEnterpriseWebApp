@@ -23,7 +23,7 @@
                 <div class="card-body">
                     <h4 class="card-title">Purchase Order Detail</h4>
                     <div class="compnay_btn">
-                        <input class="btn btn-success" type="button" value="Add Purchase Order Detail" onclick="onAddPurchaseOrder()" />
+                        <input class="btn btn-success" type="button" value="Add Purchase Order Detail" onclick="window.location.replace('/PurchaseOrder/AddOrEditPurchaseOrder')" />
                     </div>
                     <div class="row">
                         <div class="col-12">
@@ -31,7 +31,7 @@
                                 <table id="order-listing" class="table">
                                     <thead>
                                         <tr>
-                                            <th>Purchase Order Document NO.</th>
+                                            <th>Purchase Order Document No.</th>
                                             <th>Vendor Name</th>
                                             <th>Delivery Date</th>
                                             <th>Actions</th>
@@ -73,4 +73,5 @@
 
 </html>
 
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="~/js/PurchaseOrder.js"></script>
