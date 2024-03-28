@@ -115,7 +115,7 @@ namespace ShivaEnterpriseWebApp.Controllers
                             item.Brand = await brandService.GetBrandById(item.BrandId, authToken);
                             item.CreatedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
                             item.CreatedDateTime = DateTime.Now;
-                            await purchaseorderDetailService.AddPurchaseOrderDetailDetailsAsync(purchaseorderVM.PODetail, authToken);
+                           // await purchaseorderDetailService.AddPurchaseOrderDetailDetailsAsync(purchaseorderVM.PODetail, authToken);
                         }
                     }
                 }

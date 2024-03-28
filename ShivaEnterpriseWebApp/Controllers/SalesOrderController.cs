@@ -14,6 +14,8 @@ namespace ShivaEnterpriseWebApp.Controllers
     {
         ISalesOrderServiceImpl salesorderService = new SalesOrderServiceImpl();
         ICustomerServiceImpl customerService = new CustomerServiceImpl();
+        IProductServiceImpl productService = new ProductServiceImpl();
+        IBrandServiceImpl brandService = new BrandServiceImpl();
         private readonly IHostingEnvironment _hostingEnv;
 
         public SalesOrderController(IHostingEnvironment hostingEnv)
@@ -60,13 +62,13 @@ namespace ShivaEnterpriseWebApp.Controllers
             SelectList customerselectList = new SelectList(customerDataList, "CustomerId", "CustomerName");
             ViewBag.customerSelectList = customerselectList;
 
-            //List<Product> productDataList = await productService.GetProductList(authToken);
-            //SelectList productgroupselectList = new SelectList(productDataList, "ProductId", "ProductName");
-            //ViewBag.ProductSelectList = productgroupselectList;
+            List<Product> productDataList = await productService.GetProductList(authToken);
+            SelectList productgroupselectList = new SelectList(productDataList, "ProductId", "ProductName");
+            ViewBag.ProductSelectList = productgroupselectList;
 
-            //List<Brand> brandDataList = await brandService.GetBrandList(authToken);
-            //SelectList brandgroupselectList = new SelectList(brandDataList, "BrandId", "BrandName");
-            //ViewBag.BrandSelectList = brandgroupselectList;
+            List<Brand> brandDataList = await brandService.GetBrandList(authToken);
+            SelectList brandgroupselectList = new SelectList(brandDataList, "BrandId", "BrandName");
+            ViewBag.BrandSelectList = brandgroupselectList;
 
            // if (!string.IsNullOrEmpty(salesorderId))
                 if (salesorderId != Guid.Empty)
