@@ -161,6 +161,14 @@
   "deletepurchaseorderUrl": "/api/purchaseOrder/DeletePurchaseOrder",
   "editpurchaseorderUrl": "/api/purchaseOrder/EditPurchaseOrder",
 
+
+  //Purchase Order
+  "getallsalesorderUrl": "/api/salesOrder/GetSalesOrder",
+  "getsalesorderbyidUrl": "/api/salesOrder/GetSalesOrderById",
+  "addsalesorderUrl": "/api/salesOrder/AddSalesOrder",
+  "deletesalesorderUrl": "/api/salesOrder/DeleteSalesOrder",
+  "editsalesorderUrl": "/api/salesOrder/EditSalesOrder",
+
   //Purchase Order Detail
   "getallpurchaseorderdetailUrl": "/api/PurchaseOrderDetail/GetPurchaseOrderDetail",
   "getpurchaseorderdetailbyidUrl": "/api/PurchaseOrderDetail/GetPurchaseOrderDetailById",
