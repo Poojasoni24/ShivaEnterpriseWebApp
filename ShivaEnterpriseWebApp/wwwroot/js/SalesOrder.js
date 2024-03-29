@@ -1,16 +1,16 @@
-﻿function onAddSalesOrder() {
-    $.ajax({
-        url: `/SalesOrder/AddOrEditSalesOrder`,
-        type: 'GET',
-        success: function (res) {
-            window.location.replace('/SalesOrder/AddOrEditSalesOrder');
-        },
-        async: true,
-        error: function (err) {
-            Alert("Some thing went wrong");
-        }
-    });
-}
+﻿//function onAddSalesOrder() {
+//    $.ajax({
+//        url: `/SalesOrder/AddOrEditSalesOrder`,
+//        type: 'GET',
+//        success: function (res) {
+//            window.location.replace('/SalesOrder/AddOrEditSalesOrder');
+//        },
+//        async: true,
+//        error: function (err) {
+//            Alert("Some thing went wrong");
+//        }
+//    });
+//}
 
 //function onChange() {
 //    $.ajax({
@@ -27,29 +27,22 @@
 //}
 
 
-//    $("#CustomerId").on('change',function () {
-//        var url = '@Url.Content("~/")' + "SalesOrder/getCustomerbyId";
-//        var ddlsource = "#CustomerId";
-//        $.getJSON(url, { id: $(ddlsource).val() }, function (data) {
-//            var items = '';
-//            $("#CustomerId").empty();
-//            $.each(data, function (i, row) {
-//                items += "<option value='" + row.value + "'>" + row.text + "</option>";
-//            });
-//            $("#CustomerId").html(items);
-//        })
-//    });
-//});
+$("#SalesOrder_CustomerId").on('change', function () {
+    var selectedId = $('#SalesOrder_CustomerId').val();
 
-$.ajax({  //ajax call
-    type: "POST",      //method == POST
-    url: "/Home/selectSBU", //url to be called
-    data: "id=" + selected_val, //data to be send
-    success: function (data) {
-        $('#GrpHead').val(data); // here we will set a value of text box
-    }
+    $.ajax({  //ajax call
+        url: `/SalesOrder/selectSBU`, //url to be called
+        type: 'POST',      //method == POST
+        data: { selectedId: selectedId }, //data to be send
+        success: function (data) {
+            $('#customerDiscount').val(data); // here we will set a value of text box
+        }
+    });
 });
-    }
+
+
+
+
 $('#unitPrice').on('change', function () {
     var qty = $("#qty").val();
     var unitprice = $("#unitPrice").val();

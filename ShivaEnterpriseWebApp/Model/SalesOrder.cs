@@ -15,7 +15,6 @@ namespace ShivaEnterpriseWebApp.Model
         public DateTime CreatedDateTime { get; set; }
         public string? ModifiedBy { get; set; }
         public DateTime? ModifiedDateTime { get; set; }
-        public List<SelectListItem> CustomerList { get; set; }
         public Customer Customer { get; set; }
 
     }

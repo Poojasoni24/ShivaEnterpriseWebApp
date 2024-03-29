@@ -11,17 +11,18 @@ namespace ShivaEnterpriseWebApp.Controllers
     {
         ICustomerServiceImpl customerService = new CustomerServiceImpl();
         ICityServiceImpl cityService = new CityServiceImpl();
-        
+
         public async Task<IActionResult> Index()
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
             var getAllCustomer = await customerService.GetCustomerList(authToken);
-            foreach (var item in getAllCustomer)
+            if (getAllCustomer.Any())
             {
-                item.City = await cityService.GetCityById(item.cityId, authToken);
-               
+                foreach (var item in getAllCustomer.Where(x => x.cityId != Guid.Empty))
+                {
+                    item.City = await cityService.GetCityById(item.cityId.Value, authToken);
+                }
             }
-
             return View("Index", getAllCustomer);
         }
 
@@ -34,7 +35,7 @@ namespace ShivaEnterpriseWebApp.Controllers
             SelectList groupselectList = new SelectList(cityDataList, "cityId", "City_Name");
             ViewBag.citySelectList = groupselectList;
 
-            
+
             if (customerId != Guid.Empty)
             {
                 var customerDetail = await customerService.GetCustomerById(customerId, authToken);
@@ -103,7 +104,7 @@ namespace ShivaEnterpriseWebApp.Controllers
                 CustomerCode = customerData.CustomerCode,
                 CustomerName = customerData.CustomerName,
                 CustomerType = customerData.CustomerType,
-                CustomerAddress= customerData.CustomerAddress,
+                CustomerAddress = customerData.CustomerAddress,
                 Phoneno = customerData.Phoneno,
                 Email = customerData.Email,
                 ContractStartDate = customerData.ContractStartDate,
@@ -111,13 +112,13 @@ namespace ShivaEnterpriseWebApp.Controllers
                 Remark = customerData.Remark,
                 IsActive = customerData.IsActive,
                 CustomerDiscount = customerData.CustomerDiscount,
-               
-                
-                City = await cityService.GetCityById(customerData.cityId, authToken),
+
+
+                City = await cityService.GetCityById(customerData.cityId.Value, authToken),
                 // AccountCategoryId = accountData.AccountCategoryId,
                 //AccountGroup = await accountgroupService.GetAccountGroupById(accountData.AccountGroupId, authToken),
                 //  AccountGroupId = accountData.AccountGroupId,
-               // AccountType = await accountTypeService.GetAccountTypeById(accountData.AccountTypeId, authToken),
+                // AccountType = await accountTypeService.GetAccountTypeById(accountData.AccountTypeId, authToken),
                 // AccountTypeId = accountData.AccountTypeId,
             });
         }

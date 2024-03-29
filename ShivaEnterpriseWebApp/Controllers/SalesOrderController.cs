@@ -36,15 +36,16 @@ namespace ShivaEnterpriseWebApp.Controllers
             ViewBag.Customer = ChangeIndex();
             return View("Index", getAllSalesOrder);
         }
-        //public async Task<JsonResult> selectSBU(string id)
-        //{
-        //    string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
-        //    var getAllCustomer = await customerService.GetCustomerById(authToken);
-        //    //SelectList customerselectList = new SelectList(customerDataList, "CustomerId", "CustomerDiscount");
-        //   ViewBag.customerSelectList = customerselectList;
-        //    return Json(id);
-        //}
-       private static List<SalesOrder> ChangeIndex()
+
+        public async Task<JsonResult> selectSBU(Guid selectedId)
+        {
+            string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
+            var getAllCustomer = await customerService.GetCustomerById(selectedId, authToken);
+            //SelectList customerselectList = new SelectList(customerDataList, "CustomerId", "CustomerDiscount");
+            //ViewBag.customerSelectList = customerselectList;
+            return Json(getAllCustomer.CustomerDiscount);
+        }
+        private static List<SalesOrder> ChangeIndex()
         {
             List<SalesOrder> Customer = new List<SalesOrder>();
             //branches.Add(new BranchModel { Branchcode = "1", BranchName = "Branch 1" });
