@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 using ShivaEnterpriseWebApp.Model;
 using ShivaEnterpriseWebApp.Services.Implementation;
 using ShivaEnterpriseWebApp.Services.Interface;
@@ -16,6 +17,7 @@ namespace ShivaEnterpriseWebApp.Controllers
         ICustomerServiceImpl customerService = new CustomerServiceImpl();
         IProductServiceImpl productService = new ProductServiceImpl();
         IBrandServiceImpl brandService = new BrandServiceImpl();
+        ISalesOrderDetailServiceImpl salesorderDetailService = new SalesOrderDetailServiceImpl();
         private readonly IHostingEnvironment _hostingEnv;
 
         public SalesOrderController(IHostingEnvironment hostingEnv)
@@ -82,6 +84,68 @@ namespace ShivaEnterpriseWebApp.Controllers
             }
             return View("AddOrEditSalesOrder");
         }
+        [HttpPost]
+        public async Task<ActionResult> AddOrEditSalesOrder(string salesorderId, [FromBody] SalesOrderViewModel SalesOrderViewModel)
+        {
+            try
+            {
+                List<SalesOrderDetail> soDetailList = new List<SalesOrderDetail>();
+                string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
 
+                List<Customer> customerDataList = await customerService.GetCustomerList(authToken);
+                SelectList customergroupselectList = new SelectList(customerDataList, "CustomerId", "CustomerName");
+                ViewBag.customerSelectList = customergroupselectList;
+
+                List<Product> productDataList = await productService.GetProductList(authToken);
+                SelectList productgroupselectList = new SelectList(productDataList, "ProductId", "ProductName");
+                ViewBag.ProductSelectList = productgroupselectList;
+
+                List<Brand> brandDataList = await brandService.GetBrandList(authToken);
+                SelectList brandgroupselectList = new SelectList(brandDataList, "BrandId", "BrandName");
+                ViewBag.BrandSelectList = brandgroupselectList;
+                if (!string.IsNullOrEmpty(salesorderId))
+                {
+                    //purchaseorderVM..PurchaseOrderId = new Guid(purchaseorderId);
+                    //purchaseorderVM.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                    //purchaseorderVM.ModifiedDateTime = DateTime.Now;
+                    //await purchaseorderService.EditPurchaseOrderDetailsAsync(purchaseorderVM, authToken);
+                }
+                else
+                {
+
+                    var netTotalAmount = SalesOrderViewModel.SODetail.Sum(x => x.NetTotal);
+                    SalesOrderViewModel.SalesOrder.TotalAmount = netTotalAmount + (netTotalAmount * SalesOrderViewModel.SalesOrder.Tax_Percentage / 100);
+                    SalesOrderViewModel.SalesOrder.SalesOrderStatus = "Approve";
+                    SalesOrderViewModel.SalesOrder.CreatedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                    SalesOrderViewModel.SalesOrder.CreatedDateTime = DateTime.Now;
+                    SalesOrderViewModel.SalesOrder.Customer = await customerService.GetCustomerById(SalesOrderViewModel.SalesOrder.CustomerId, authToken);
+
+                    var issuccess = await salesorderService.AddSalesOrderDetailsAsync(SalesOrderViewModel.SalesOrder, authToken);
+                    if (issuccess.success)
+                    {
+                        SalesOrderViewModel.SODetail.ForEach(
+                            x =>
+                            {
+                               // x.SalesOrderId = JsonConvert.DeserializeObject<Guid>(issuccess.value);
+                                x.CreatedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                                x.CreatedDateTime = DateTime.Now;
+                                x.Product = productService.GetProductById(x.ProductId, authToken).Result;
+                                x.Brand = brandService.GetBrandById(x.BrandId, authToken).Result;
+                            });
+
+                        await salesorderDetailService.AddSalesOrderDetailDetailsAsync(SalesOrderViewModel.SODetail, authToken);
+                    }
+                }
+                
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+
+                return View("Index");
+            }
+
+        }
     }
 }

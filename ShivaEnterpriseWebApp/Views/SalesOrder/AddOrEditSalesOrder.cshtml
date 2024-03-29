@@ -60,6 +60,20 @@
                         <input type="text" id="customerDiscount" class="form-control" id="txtCustomerDiscount" asp-for="SalesOrder.Customer.CustomerDiscount" readonly>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Total Amount:</label>
+                            <input type="number" id="totalNumber" class="form-control" asp-for="SalesOrder.TotalAmount">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Tax:</label>
+                            <input type="text" id="tax" class="form-control" asp-for="SalesOrder.Tax_Percentage" value="12">
+                        </div>
+                    </div>
+                </div>
                 <hr style="width:100%" />
                 <div id="poDetailPartial">
                     @Html.Partial("_SalesOrderDetail")

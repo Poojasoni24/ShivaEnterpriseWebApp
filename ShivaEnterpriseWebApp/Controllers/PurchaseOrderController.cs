@@ -54,9 +54,10 @@ namespace ShivaEnterpriseWebApp.Controllers
             List<Brand> brandDataList = await brandService.GetBrandList(authToken);
             SelectList brandgroupselectList = new SelectList(brandDataList, "BrandId", "BrandName");
             ViewBag.BrandSelectList = brandgroupselectList;
+            
 
             if (purchaseorderId != Guid.Empty)
-            {
+            { 
                 var PurchaseOrderDetail = await purchaseorderService.GetPurchaseOrderById(purchaseorderId, authToken);
                 if (PurchaseOrderDetail != null)
                 {

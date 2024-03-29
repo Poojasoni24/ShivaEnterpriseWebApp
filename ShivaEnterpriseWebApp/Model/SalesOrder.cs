@@ -9,7 +9,9 @@ namespace ShivaEnterpriseWebApp.Model
         public DateTime OrderDate { get; set; }
         public DateTime DeliveryDate { get; set; }
         public decimal TotalAmount { get; set; }
-        public string SaleOrderStatus { get; set; }
+        public string SalesOrderStatus { get; set; }
+
+        public decimal Tax_Percentage { get; set; }
         public string Doc_No { get; set; }
         public string CreatedBy { get; set; }
         public DateTime CreatedDateTime { get; set; }
