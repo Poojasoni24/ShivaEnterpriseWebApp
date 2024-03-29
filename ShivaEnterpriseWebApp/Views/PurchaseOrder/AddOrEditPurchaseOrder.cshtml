@@ -33,13 +33,13 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="form-label">Doc_No:</label>
-                        <input type="text" class="form-control" asp-for="PurchaseOrder.Doc_No">
+                        <input type="text" class="form-control" id="docNo" asp-for="PurchaseOrder.Doc_No">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="form-label">Vendor:</label>
-                        @Html.DropDownListFor(model => model.PurchaseOrder.VendorID, vendorDropdownList, "Select an option", new { @class = "form-control" })
+                        @Html.DropDownListFor(model => model.PurchaseOrder.VendorID, vendorDropdownList, "Select an option", new { @class = "form-control", id = "vendorID" })
                     </div>
                 </div>
             </div>
@@ -47,13 +47,13 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="form-label">Order Date:</label>
-                        <input type="date" class="form-control" asp-for="PurchaseOrder.OrderDate">
+                        <input type="date" id="orderDate" class="form-control" asp-for="PurchaseOrder.OrderDate">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="form-label">DeliveryDate:</label>
-                        <input type="date" class="form-control" asp-for="PurchaseOrder.DeliveryDate">
+                        <input type="date" id="deliveryDate" class="form-control" asp-for="PurchaseOrder.DeliveryDate">
                     </div>
                 </div>
             </div>
@@ -61,13 +61,13 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="form-label">Total Amount:</label>
-                        <input type="number" class="form-control" asp-for="PurchaseOrder.TotalAmount">
+                        <input type="number" id="totalNumber" class="form-control" asp-for="PurchaseOrder.TotalAmount">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="form-label">Tax:</label>
-                        <input type="text" class="form-control" asp-for="PurchaseOrder.Tax_Percentage" value="12">
+                        <input type="text" id="tax" class="form-control" asp-for="PurchaseOrder.Tax_Percentage" value="12">
                     </div>
                 </div>
             </div>

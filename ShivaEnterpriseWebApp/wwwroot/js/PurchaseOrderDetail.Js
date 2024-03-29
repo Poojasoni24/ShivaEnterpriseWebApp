@@ -87,6 +87,7 @@ function Remove(button) {
 $("#btnSave").on("click",function () {
     //Loop through the Table rows and build a JSON array.
     let Podetails = [];
+    let PoHeaders = [];
     $("#tblPurchaseOrderDetail TBODY TR").each(function () {
         debugger;
         var row = $(this);
@@ -102,12 +103,26 @@ $("#btnSave").on("click",function () {
         Podetails.push(PODetail);
     });
 
+    let POHeader = {
+        VendorID: $('#vendorID').val(),
+        OrderDate: $('#orderDate').val(),
+        DeliveryDate: $('#deliveryDate').val(),
+        TotalAmount: $('#totalNumber').val(),
+        Doc_No: $('#orderDate').val(),
+        Tax_Percentage: $('#tax').val(),
+    }
+
+    let PurchaseOrderViewModel = {
+        PurchaseOrder : POHeader,
+        PODetail : Podetails
+    }
+    PoHeaders.push(POHeader);
     //Send the JSON array to Controller using AJAX.
     $.ajax({
         url: "/PurchaseOrder/AddOrEditPurchaseOrder",
         type: "POST",
         contentType: 'application/json',
-        data: JSON.stringify(Podetails),
+        data: JSON.stringify(PurchaseOrderViewModel),
         success: function (r) {
             alert(r + " record(s) inserted.");
         }

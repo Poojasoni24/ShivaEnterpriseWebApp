@@ -1,14 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using Newtonsoft.Json;
 using ShivaEnterpriseWebApp.Model;
 using ShivaEnterpriseWebApp.Services.Implementation;
 using ShivaEnterpriseWebApp.Services.Interface;
-using System.Data.Common;
-using System.Net;
 using System.Security.Claims;
-using System.Text.Json.Nodes;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace ShivaEnterpriseWebApp.Controllers
@@ -71,11 +67,11 @@ namespace ShivaEnterpriseWebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddOrEditPurchaseOrder(string purchaseorderId, PurchaseOrderViewModel purchaseorderVM, [FromBody] List<PurchaseOrderDetail> Podetails)
+        public async Task<ActionResult> AddOrEditPurchaseOrder(string purchaseorderId, [FromBody] PurchaseOrderViewModel PurchaseOrderViewModel)
         {
             try
             {
-
+                List<PurchaseOrderDetail> poDetailList = new List<PurchaseOrderDetail>();
                 string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
 
                 List<Vendor> vendorDataList = await vendorService.GetVendorList(authToken);
@@ -98,25 +94,28 @@ namespace ShivaEnterpriseWebApp.Controllers
                 }
                 else
                 {
-                    //var netPriceIncludingTax = purchaseorderVM.PODetail.NetTotal * (purchaseorderVM.PODetail.Tax_Percentage / 100);
-                    //purchaseorderVM.PurchaseOrder.TotalAmount = purchaseorderVM.PODetail.NetTotal + netPriceIncludingTax;
-                    purchaseorderVM.PurchaseOrder.PurchaseOrderStatus = "Approve";
-                    purchaseorderVM.PurchaseOrder.CreatedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-                    purchaseorderVM.PurchaseOrder.CreatedDateTime = DateTime.Now;
-                    purchaseorderVM.PurchaseOrder.Vendor = await vendorService.GetVendorById(purchaseorderVM.PurchaseOrder.VendorID, authToken);
 
-                    var issuccess = await purchaseorderService.AddPurchaseOrderDetailsAsync(purchaseorderVM.PurchaseOrder, authToken);
+                    var netTotalAmount = PurchaseOrderViewModel.PODetail.Sum(x => x.NetTotal);
+                    PurchaseOrderViewModel.PurchaseOrder.TotalAmount = netTotalAmount + (netTotalAmount * PurchaseOrderViewModel.PurchaseOrder.Tax_Percentage / 100);
+                    PurchaseOrderViewModel.PurchaseOrder.PurchaseOrderStatus = "Approve";
+                    PurchaseOrderViewModel.PurchaseOrder.CreatedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                    PurchaseOrderViewModel.PurchaseOrder.CreatedDateTime = DateTime.Now;
+                    PurchaseOrderViewModel.PurchaseOrder.Vendor = await vendorService.GetVendorById(PurchaseOrderViewModel.PurchaseOrder.VendorID, authToken);
+
+                    var issuccess = await purchaseorderService.AddPurchaseOrderDetailsAsync(PurchaseOrderViewModel.PurchaseOrder, authToken);
                     if (issuccess.success)
                     {
-                        foreach (var item in Podetails)
-                        {
-                            item.PurchaseOrderId = JsonConvert.DeserializeObject<Guid>(issuccess.value);
-                            item.Product = await productService.GetProductById(item.ProductId, authToken);
-                            item.Brand = await brandService.GetBrandById(item.BrandId, authToken);
-                            item.CreatedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-                            item.CreatedDateTime = DateTime.Now;
-                            await purchaseorderDetailService.AddPurchaseOrderDetailDetailsAsync(purchaseorderVM.PODetail, authToken);
-                        }
+                        PurchaseOrderViewModel.PODetail.ForEach(
+                            x =>
+                            {
+                                x.PurchaseOrderId = JsonConvert.DeserializeObject<Guid>(issuccess.value);
+                                x.CreatedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                                x.CreatedDateTime = DateTime.Now;
+                                x.Product = productService.GetProductById(x.ProductId, authToken).Result;
+                                x.Brand = brandService.GetBrandById(x.BrandId, authToken).Result;
+                            });
+
+                        await purchaseorderDetailService.AddPurchaseOrderDetailDetailsAsync(PurchaseOrderViewModel.PODetail, authToken);
                     }
                 }
 
@@ -188,6 +187,6 @@ namespace ShivaEnterpriseWebApp.Controllers
 
     }
 }
-    
+
 
 
