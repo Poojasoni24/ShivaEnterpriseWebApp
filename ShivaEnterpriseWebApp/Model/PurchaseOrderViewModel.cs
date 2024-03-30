@@ -5,5 +5,6 @@
         public PurchaseOrder PurchaseOrder { get; set; }    
 
         public List<PurchaseOrderDetail> PODetail { get; set; }
+        public List<PurchaseOrderDetail>? UpdatedPODetail { get; set; }
     }
 }

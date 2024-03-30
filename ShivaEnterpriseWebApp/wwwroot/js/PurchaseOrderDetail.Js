@@ -1,4 +1,77 @@
-var ProductId,BrandId;
+var ProductId, BrandId;
+let updatedPOs = []
+$(document).ready(function () {
+    var counter = 0;
+    $("#tblPurchaseOrderDetail tbody tr").each(function () {
+        counter++;
+        var self = $(this);
+        self.addClass("row_" + counter);
+        var tdCounter = 0;
+
+        self.find("input[value='Remove']").addClass("d-none");
+        self.find('th').each(function () {
+            self.find(".enable_disable").removeClass("d-none");
+        });
+        self.find('td').each(function () {
+            tdCounter++;
+            $(this).addClass("row_" + counter + tdCounter);
+            self.find("#enable_disable").removeClass("d-none");
+            self.find("#enable_disable").addClass("d-block");
+            self.find('#enable_disable').on('change', function () {
+                //var selectedCheckboxes = $('#enable_disable:checked');
+                var isChecked = $(this).prop('checked');
+                var qtycell = $(this).closest("tr").find(".qty-cell");
+                var unitpricecell = $(this).closest("tr").find(".unitprice-cell");
+                var discountcell = $(this).closest("tr").find(".discount-cell");
+                if (isChecked) {
+
+                    var qtycontent = qtycell.text();
+                    if (qtycontent != '') {
+                        qtycell.html("<input type='text' id='txtQty' value='" + qtycontent.trim() + "' />");
+                    }
+
+                    var unitpricecontent = unitpricecell.text();
+                    if (unitpricecontent != '') {
+                        unitpricecell.html("<input type='text' id='txtUnitprice' value='" + unitpricecontent.trim() + "' />");
+                    }
+
+                    var discountcontent = discountcell.text();
+                    if (discountcontent != '') {
+                        discountcell.html("<input type='text' id='txtDiscount' value='" + discountcontent.trim() + "' />");
+                    }
+
+                    self.find("#btnupdate").removeClass("d-none");
+                    //self.find("#btnupdate").addClass("d-block");
+
+                    // Now you have the row, you can perform further operations as needed
+                }
+                else {
+                    var qtycontent = qtycell.find("input[type='text']").val();
+                    qtycell.html(qtycontent);
+
+                    var unitpricecontent = unitpricecell.find("input[type='text']").val();
+                    unitpricecell.html(unitpricecontent);
+
+                    var discountcontent = discountcell.find("input[type='text']").val();
+                    discountcell.html(discountcontent);
+
+                    self.find("#btnupdate").addClass("d-none");
+                    //self.find("#btnupdate").removeClass("d-block");
+                }
+            });
+        });
+    });
+
+    //$("#tblPurchaseOrderDetail tfoot tr td").each(function () {
+    //    if ($('#enable_disable').prop('checked')) {
+    //        $('#btnAdd').attr("disabled", true);
+    //    }
+    //    else {
+    //        $('#btnAdd').attr("disabled", false);
+    //    }
+    //});
+});
+
 $("#podetaildiv").on("click", "#btnAdd", function () {
     debugger;
     //Reference the Name and Country TextBoxes.
@@ -17,13 +90,31 @@ $("#podetaildiv").on("click", "#btnAdd", function () {
     //Add Row.
     var row = tBody.insertRow(-1);
 
-    //Add Product cell.
+
+    //Add PurchaseOrderDetail cell.
+    var cell = $(row.insertCell(-1));
+    cell.addClass("d-none");
+
+    //Add PurchaseOrder cell.
+    var cell = $(row.insertCell(-1));
+    cell.addClass("d-none");
+
+    //Add CreatedBy cell.
+    var cell = $(row.insertCell(-1));
+    cell.addClass("d-none");
+
+    //Add Createddate cell.
+    var cell = $(row.insertCell(-1));
+    cell.addClass("d-none");
+
+    //Add ProductId cell.
+
     var cell = $(row.insertCell(-1));
     cell.html(ProductId);
     cell.addClass("d-none");
 
 
-    //Add Product cell.
+    //Add BrandId cell.
     var cell = $(row.insertCell(-1));
     cell.html(BrandId);
     cell.addClass("d-none");
@@ -46,11 +137,11 @@ $("#podetaildiv").on("click", "#btnAdd", function () {
     cell = $(row.insertCell(-1));
     cell.html(txtUnitprice.val());
 
-    //Add unitprice cell.
+    //Add Discount cell.
     cell = $(row.insertCell(-1));
     cell.html(txtDiscount.val());
 
-    //Add unitprice cell.
+    //Add NetTotal cell.
     cell = $(row.insertCell(-1));
     cell.html(txtNetTotal.val());
 
@@ -71,10 +162,55 @@ $("#podetaildiv").on("click", "#btnAdd", function () {
     BrandId.val(0);
 });
 
+$("#podetaildiv").on("click", "#btnupdate", function () {
+
+    var purchaseOrderDetailIdcell = $(this).closest("tr").find(".purchaseOrderDetailId-cell");
+    var purchaseOrderIdcell = $(this).closest("tr").find(".purchaseOrderId-cell");
+    var productIdcell = $(this).closest("tr").find(".productId-cell");
+    var BrandIdcell = $(this).closest("tr").find(".brandId-cell");
+    var qtycell = $(this).closest("tr").find(".qty-cell");
+    var unitpricecell = $(this).closest("tr").find(".unitprice-cell");
+    var discountcell = $(this).closest("tr").find(".discount-cell");
+    var netTotalcell = $(this).closest("tr").find(".nettotal-cell");
+    var CreatedBy = $(this).closest("tr").find(".createdby-cell");
+    var CreatedDt = $(this).closest("tr").find(".createddate-cell");
+
+    var purchaseOrderDetailIdContent = purchaseOrderDetailIdcell.text();
+    var purchaseOrderIdContent = purchaseOrderIdcell.text();
+    var productIdContent = productIdcell.text();
+    var brandIdContent = BrandIdcell.text();
+    var createdByContent = CreatedBy.text();
+    var createdDtContent = CreatedDt.text();
+
+    var qtyContent = qtycell.find("input[type='text']").val();
+    qtycell.html(qtyContent);
+
+    var unitpriceContent = unitpricecell.find("input[type='text']").val();
+    unitpricecell.html(unitpriceContent);
+
+    var discountContent = discountcell.find("input[type='text']").val();
+    discountcell.html(discountContent);
+
+    var netTotalContent = netTotalcell.text();
+
+    let PurchaseOrderDetail = {
+        PurchaseOrderDetailId: purchaseOrderDetailIdContent,
+        PurchaseOrderId:purchaseOrderIdContent,
+        ProductId: productIdContent,
+        BrandId: brandIdContent,
+        Quantity: qtyContent,
+        Discount: discountContent,
+        UnitPrice: unitpriceContent,
+        NetTotal: netTotalContent,
+        CreatedBy: createdByContent,
+        CreatedDateTime: createdDtContent,
+    }
+    updatedPOs.push(PurchaseOrderDetail);
+});
 function Remove(button) {
     //Determine the reference of the Row using the Button.
     var row = $(button).closest("TR");
-    var name = $("TD", row).eq(0).html();
+    var name = $("TD", row).eq(2).html();
     if (confirm("Do you want to delete: " + name)) {
         //Get the reference of the Table.
         var table = $("#tblPurchaseOrderDetail")[0];
@@ -84,39 +220,40 @@ function Remove(button) {
     }
 };
 
-$("#btnSave").on("click",function () {
+$("#btnSave").on("click", function () {
     //Loop through the Table rows and build a JSON array.
     let Podetails = [];
-    let PoHeaders = [];
+    //let PoHeaders = [];
     $("#tblPurchaseOrderDetail TBODY TR").each(function () {
         debugger;
         var row = $(this);
         let PODetail = {
-            ProductId : row.find("TD").eq(0).html(),
-            BrandId : row.find("TD").eq(1).html(),
-            Quantity: row.find("TD").eq(4).html(),
-            UnitPrice: row.find("TD").eq(5).html(),
-            Discount : row.find("TD").eq(6).html(),
-            NetTotal: row.find("TD").eq(7).html(),
+            ProductId: row.find("TD").eq(2).html(),
+            BrandId: row.find("TD").eq(3).html(),
+            Quantity: row.find("TD").eq(8).html(),
+            UnitPrice: row.find("TD").eq(9).html(),
+            Discount: row.find("TD").eq(10).html(),
+            NetTotal: row.find("TD").eq(11).html(),
         };
         //PODetail.Brand = row.find("TD").eq(1).html();
         Podetails.push(PODetail);
     });
-
+    Podetails = Podetails.filter(val => !updatedPOs.includes(val));
     let POHeader = {
         VendorID: $('#vendorID').val(),
         OrderDate: $('#orderDate').val(),
         DeliveryDate: $('#deliveryDate').val(),
         TotalAmount: $('#totalNumber').val(),
-        Doc_No: $('#orderDate').val(),
+        Doc_No: $('#docNo').val(),
         Tax_Percentage: $('#tax').val(),
     }
 
     let PurchaseOrderViewModel = {
-        PurchaseOrder : POHeader,
-        PODetail : Podetails
+        PurchaseOrder: POHeader,
+        PODetail: Podetails,
+        UpdatedPODetail: updatedPOs
     }
-    PoHeaders.push(POHeader);
+    //PoHeaders.push(POHeader);
     //Send the JSON array to Controller using AJAX.
     $.ajax({
         url: "/PurchaseOrder/AddOrEditPurchaseOrder",

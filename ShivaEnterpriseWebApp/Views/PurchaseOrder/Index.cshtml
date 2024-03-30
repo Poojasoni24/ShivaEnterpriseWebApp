@@ -23,7 +23,7 @@
                 <div class="card-body">
                     <h4 class="card-title">Purchase Order Detail</h4>
                     <div class="compnay_btn">
-                        <input class="btn btn-success" type="button" value="Add Purchase Order Detail" onclick="window.location.replace('/PurchaseOrder/AddOrEditPurchaseOrder')" />
+                        <input class="btn btn-success" type="button" value="Add Purchase Order" onclick="window.location.replace('/PurchaseOrder/AddOrEditPurchaseOrder')" />
                     </div>
                     <div class="row">
                         <div class="col-12">
@@ -31,7 +31,7 @@
                                 <table id="order-listing" class="table">
                                     <thead>
                                         <tr>
-                                            <th>Purchase Order Document No.</th>
+                                            <th>DocumentNo</th>
                                             <th>Vendor Name</th>
                                             <th>Delivery Date</th>
                                             <th>Actions</th>
@@ -48,9 +48,10 @@
                                                     <td>@item.Vendor.VendorName</td>                                                  
                                                     <td>@item.DeliveryDate</td>
                                                     <td>
-                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" onclick="loadPOPartial(@(JsonConvert.SerializeObject(item.PurchaseOrderId)))">
+                                                       @*  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" onclick="loadPOPartial(@(JsonConvert.SerializeObject(item.PurchaseOrderId)))">
                                                             view
-                                                        </button>
+                                                        </button> *@
+                                                        <input class="btn btn-primary" type="button" value="Edit" onclick="window.location.replace(`/PurchaseOrder/AddOrEditPurchaseOrder?purchaseorderId=@item.PurchaseOrderId`)" />
                                                         <input class="btn btn-outline-danger" type="button" value="Delete" onclick="onDeletePO(@(JsonConvert.SerializeObject(item)))" />
 
                                                     </td>

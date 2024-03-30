@@ -13,12 +13,19 @@
             <tr>
                 <th class="d-none"></th>
                 <th class="d-none"></th>
+                <th class="d-none"></th>
+                <th class="d-none"></th>
+                <th class="d-none"></th>
+                <th class="d-none"></th>
                 <th style="width:150px">Product</th>
                 <th style="width:150px">Brand</th>
                 <th style="width:150px">Qty</th>
                 <th style="width:150px">Unitprice</th>
                 <th style="width:150px">Discount</th>
                 <th style="width:150px">NetTotal</th>
+                <th class="d-none enable_disable" style="width:150px">
+                    Enable/Disable</th>
+                <th></th>
                 <th></th>
             </tr>
         </thead>
@@ -28,14 +35,20 @@
                 @foreach (var podetail in Model)
                 {
                     <tr>
-                        <td class="d-none">@podetail.Product.ProductId</td>
-                        <td class="d-none">@podetail.Brand.BrandId</td>
-                        <td>@podetail.Product.ProductName</td>
-                        <td>@podetail.Brand.BrandName</td>
-                        <td>@podetail.Quantity</td>
-                        <td>@podetail.UnitPrice</td>
-                        <td>@podetail.Discount</td>
-                        <td>@podetail.NetTotal</td>
+                        <td class="d-none purchaseOrderDetailId-cell">@podetail.PurchaseOrderDetailId</td>
+                        <td class="d-none purchaseOrderId-cell">@podetail.PurchaseOrderId</td>
+                        <td class="d-none productId-cell">@podetail.Product.ProductId</td>
+                        <td class="d-none brandId-cell">@podetail.Brand.BrandId</td>
+                        <td class="d-none createdby-cell">@podetail.CreatedBy</td>
+                        <td class="d-none createddate-cell">@podetail.CreatedDateTime</td>
+                        <td class="product-cell">@podetail.Product.ProductName</td>
+                        <td class="brand-cell">@podetail.Brand.BrandName</td>
+                        <td class="qty-cell">@podetail.Quantity</td>
+                        <td class="unitprice-cell">@podetail.UnitPrice</td>
+                        <td class="discount-cell">@podetail.Discount</td>
+                        <td class="nettotal-cell">@podetail.NetTotal</td>
+                        <td><input class="d-none" id="enable_disable" type="checkbox" value="false"></td>
+                        <td><input class="d-none" id="btnupdate" type="button" value="Update" /></td>
                         <td><input type="button" value="Remove" onclick="Remove(this)" /></td>
                     </tr>
                 }
@@ -46,12 +59,17 @@
             <tr>
                 <td class="d-none"></td>
                 <td class="d-none"></td>
-                <td>@Html.DropDownList(purchaseOrderDetail.ProductId.ToString(), ProductDropdownList, "Select an option", new { id = "ProductId" })</td>
-                <td>@Html.DropDownList(purchaseOrderDetail.BrandId.ToString(), BrandDropdownList, "Select an option",  new { id = "BrandId" })</td>
-                <td><input type="text" id="txtQty" /></td>
-                <td><input type="text" id="txtUnitprice" /></td>
+                <td class="d-none"></td>
+                <td class="d-none"></td>
+                <td class="d-none"></td>
+                <td class="d-none"></td>
+                <td>@Html.DropDownList(purchaseOrderDetail.ProductId.ToString(), ProductDropdownList, "Select an option", new { id = "ProductId" , @class = "form-control", required = "required" })</td>
+                @Html.ValidationMessage(purchaseOrderDetail.ProductId.ToString(), new { @class = "text-danger" })
+                <td>@Html.DropDownList(purchaseOrderDetail.BrandId.ToString(), BrandDropdownList, "Select an option",  new { id = "BrandId"})</td>
+                <td><input type="text" id="txtQty" required /></td>
+                <td><input type="text" id="txtUnitprice"required /></td>
                 <td><input type="text" id="txtDiscount" /></td>               
-                <td><input type="text" id="txtnetTotal" /></td>
+                <td><input type="text" id="txtnetTotal" readonly /></td>
                 <td><input type="button" id="btnAdd" value="Add" /></td>
             </tr>
         </tfoot>

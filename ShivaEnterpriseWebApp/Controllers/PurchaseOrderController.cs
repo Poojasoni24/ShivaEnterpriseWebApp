@@ -61,7 +61,20 @@ namespace ShivaEnterpriseWebApp.Controllers
                 var PurchaseOrderDetail = await purchaseorderService.GetPurchaseOrderById(purchaseorderId, authToken);
                 if (PurchaseOrderDetail != null)
                 {
-                    return View("AddOrEditPurchaseOrder", PurchaseOrderDetail);
+                    PurchaseOrderDetail.Vendor = vendorDataList.Where(x => x.VendorId != null && x.VendorId == PurchaseOrderDetail.VendorID).FirstOrDefault();
+                    var poDetailsByPOId = purchaseorderDetailService.GetPurchaseOrderDetailList(authToken).Result.Where(x=>x.PurchaseOrderId == purchaseorderId).ToList();
+                    poDetailsByPOId.ForEach(x =>
+                    {
+                        x.Product = productService.GetProductById(x.ProductId, authToken).Result;
+                        x.Brand = brandService.GetBrandById(x.BrandId, authToken).Result;
+                    });
+                    var data = new PurchaseOrderViewModel()
+                    { 
+                        PurchaseOrder = PurchaseOrderDetail,
+                        PODetail = poDetailsByPOId
+                    };
+
+                    return View("AddOrEditPurchaseOrder", data);
                 }
             }
             return View("AddOrEditPurchaseOrder");
@@ -86,12 +99,26 @@ namespace ShivaEnterpriseWebApp.Controllers
                 List<Brand> brandDataList = await brandService.GetBrandList(authToken);
                 SelectList brandgroupselectList = new SelectList(brandDataList, "BrandId", "BrandName");
                 ViewBag.BrandSelectList = brandgroupselectList;
+
+                PurchaseOrderViewModel.PODetail = PurchaseOrderViewModel.PODetail.Where(item1 => !PurchaseOrderViewModel.UpdatedPODetail.Select(item2 => item2.PurchaseOrderDetailId).Contains(item1.PurchaseOrderDetailId)).ToList();
                 if (!string.IsNullOrEmpty(purchaseorderId))
                 {
-                    //purchaseorderVM..PurchaseOrderId = new Guid(purchaseorderId);
-                    //purchaseorderVM.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-                    //purchaseorderVM.ModifiedDateTime = DateTime.Now;
-                    //await purchaseorderService.EditPurchaseOrderDetailsAsync(purchaseorderVM, authToken);
+                    PurchaseOrderViewModel.PurchaseOrder.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                    PurchaseOrderViewModel.PurchaseOrder.ModifiedDateTime = DateTime.Now;
+                    var isSuccess = await purchaseorderService.EditPurchaseOrderDetailsAsync(PurchaseOrderViewModel.PurchaseOrder, authToken);
+                    if (isSuccess.success)
+                    {
+                        PurchaseOrderViewModel.UpdatedPODetail.ForEach(
+                            x =>
+                            {
+                                x.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                                x.ModifiedDateTime = DateTime.Now;
+                                x.Product = productService.GetProductById(x.ProductId, authToken).Result;
+                                x.Brand = brandService.GetBrandById(x.BrandId, authToken).Result;
+                            });
+
+                        await purchaseorderDetailService.EditPurchaseOrderDetailDetailsAsync(PurchaseOrderViewModel.UpdatedPODetail, authToken);
+                    }
                 }
                 else
                 {

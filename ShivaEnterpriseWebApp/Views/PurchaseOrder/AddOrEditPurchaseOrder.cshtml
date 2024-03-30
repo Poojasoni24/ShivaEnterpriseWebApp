@@ -69,11 +69,20 @@
                         <label class="form-label">Tax:</label>
                         <input type="text" id="tax" class="form-control" asp-for="PurchaseOrder.Tax_Percentage" value="12">
                     </div>
+                    <input asp-for="PurchaseOrder.CreatedDateTime" class="form-control" type="hidden" />
+                    <input asp-for="PurchaseOrder.CreatedBy" class="form-control" type="hidden" />
                 </div>
             </div>
             <hr style="width:100%" />
             <div id="poDetailPartial">
-                @Html.Partial("_PurchaseOrderDetail")
+                @if (Model != null)
+                {
+                    @Html.Partial("_PurchaseOrderDetail",Model.PODetail)
+                }
+                else
+                {
+                    @Html.Partial("_PurchaseOrderDetail")
+                }
             </div>
 
             <button type="button" class="btn btn-primary" id="btnSave">Submit</button>

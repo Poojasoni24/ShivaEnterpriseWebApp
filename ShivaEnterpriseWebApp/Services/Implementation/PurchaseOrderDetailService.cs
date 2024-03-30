@@ -71,7 +71,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             return (true, result);
         }
 
-        public async Task<(bool success, string message)> EditPurchaseOrderDetailDetailsAsync(PurchaseOrderDetail purchaseorder, string authToken)
+        public async Task<(bool success, string message)> EditPurchaseOrderDetailDetailsAsync(List<PurchaseOrderDetail> purchaseorder, string authToken)
         {
             try
             {
@@ -79,7 +79,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
                 string json = JsonConvert.SerializeObject(purchaseorder);
 
                 StringContent data = new StringContent(json, Encoding.UTF8, "application/json");
-                var url = urlCollections["baseUrl"].ToString() + urlCollections["editpurchaseorderUrl"] + "?id=" + purchaseorder.PurchaseOrderDetailId.ToString();
+                var url = urlCollections["baseUrl"].ToString() + urlCollections["editpurchaseorderUrl"] + "?id=" + purchaseorder.FirstOrDefault().PurchaseOrderId.ToString();
                 var client = new HttpClient();
                 var request = new HttpRequestMessage(new HttpMethod("PUT"), url);
                 request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
