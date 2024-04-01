@@ -99,13 +99,13 @@ $("#podetaildiv").on("click", "#btnAdd", function () {
     var cell = $(row.insertCell(-1));
     cell.addClass("d-none");
 
-    //Add CreatedBy cell.
-    var cell = $(row.insertCell(-1));
-    cell.addClass("d-none");
+    ////Add CreatedBy cell.
+    //var cell = $(row.insertCell(-1));
+    //cell.addClass("d-none");
 
-    //Add Createddate cell.
-    var cell = $(row.insertCell(-1));
-    cell.addClass("d-none");
+    ////Add Createddate cell.
+    //var cell = $(row.insertCell(-1));
+    //cell.addClass("d-none");
 
     //Add ProductId cell.
 
@@ -172,15 +172,15 @@ $("#podetaildiv").on("click", "#btnupdate", function () {
     var unitpricecell = $(this).closest("tr").find(".unitprice-cell");
     var discountcell = $(this).closest("tr").find(".discount-cell");
     var netTotalcell = $(this).closest("tr").find(".nettotal-cell");
-    var CreatedBy = $(this).closest("tr").find(".createdby-cell");
-    var CreatedDt = $(this).closest("tr").find(".createddate-cell");
+    //var CreatedBy = $(this).closest("tr").find(".createdby-cell");
+    //var CreatedDt = $(this).closest("tr").find(".createddate-cell");
 
     var purchaseOrderDetailIdContent = purchaseOrderDetailIdcell.text();
     var purchaseOrderIdContent = purchaseOrderIdcell.text();
     var productIdContent = productIdcell.text();
     var brandIdContent = BrandIdcell.text();
-    var createdByContent = CreatedBy.text();
-    var createdDtContent = CreatedDt.text();
+    //var createdByContent = CreatedBy.text();
+    //var createdDtContent = CreatedDt.text();
 
     var qtyContent = qtycell.find("input[type='text']").val();
     qtycell.html(qtyContent);
@@ -202,8 +202,8 @@ $("#podetaildiv").on("click", "#btnupdate", function () {
         Discount: discountContent,
         UnitPrice: unitpriceContent,
         NetTotal: netTotalContent,
-        CreatedBy: createdByContent,
-        CreatedDateTime: createdDtContent,
+        //CreatedBy: createdByContent,
+        //CreatedDateTime: createdDtContent,
     }
     updatedPOs.push(PurchaseOrderDetail);
 });

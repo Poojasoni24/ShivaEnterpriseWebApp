@@ -15,8 +15,8 @@
                 <th class="d-none"></th>
                 <th class="d-none"></th>
                 <th class="d-none"></th>
-                <th class="d-none"></th>
-                <th class="d-none"></th>
+              @*   <th class="d-none"></th>
+                <th class="d-none"></th> *@
                 <th style="width:150px">Product</th>
                 <th style="width:150px">Brand</th>
                 <th style="width:150px">Qty</th>
@@ -39,8 +39,8 @@
                         <td class="d-none purchaseOrderId-cell">@podetail.PurchaseOrderId</td>
                         <td class="d-none productId-cell">@podetail.Product.ProductId</td>
                         <td class="d-none brandId-cell">@podetail.Brand.BrandId</td>
-                        <td class="d-none createdby-cell">@podetail.CreatedBy</td>
-                        <td class="d-none createddate-cell">@podetail.CreatedDateTime</td>
+                        @* <td class="d-none createdby-cell">@podetail.CreatedBy</td>
+                        <td class="d-none createddate-cell">@podetail.CreatedDateTime</td> *@
                         <td class="product-cell">@podetail.Product.ProductName</td>
                         <td class="brand-cell">@podetail.Brand.BrandName</td>
                         <td class="qty-cell">@podetail.Quantity</td>
@@ -61,8 +61,8 @@
                 <td class="d-none"></td>
                 <td class="d-none"></td>
                 <td class="d-none"></td>
-                <td class="d-none"></td>
-                <td class="d-none"></td>
+              @*   <td class="d-none"></td>
+                <td class="d-none"></td> *@
                 <td>@Html.DropDownList(purchaseOrderDetail.ProductId.ToString(), ProductDropdownList, "Select an option", new { id = "ProductId" , @class = "form-control", required = "required" })</td>
                 @Html.ValidationMessage(purchaseOrderDetail.ProductId.ToString(), new { @class = "text-danger" })
                 <td>@Html.DropDownList(purchaseOrderDetail.BrandId.ToString(), BrandDropdownList, "Select an option",  new { id = "BrandId"})</td>
