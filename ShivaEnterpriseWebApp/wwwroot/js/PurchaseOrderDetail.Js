@@ -181,6 +181,9 @@ $("#podetaildiv").on("click", "#btnupdate", function () {
     var brandIdContent = BrandIdcell.text();
     var createdByContent = CreatedBy.text();
     var createdDtContent = CreatedDt.text();
+    var parts = createdDtContent.split(/[- :]/);
+    // Note: Month is 0-based, so subtract 1 from the month value
+    var dateTimeObject = new Date(parts[2], parts[1] - 1, parts[0], parts[3], parts[4], parts[5]);
 
     var qtyContent = qtycell.find("input[type='text']").val();
     qtycell.html(qtyContent);
@@ -203,7 +206,7 @@ $("#podetaildiv").on("click", "#btnupdate", function () {
         UnitPrice: unitpriceContent,
         NetTotal: netTotalContent,
         CreatedBy: createdByContent,
-        CreatedDateTime: createdDtContent,
+        CreatedDateTime: dateTimeObject,
     }
     updatedPOs.push(PurchaseOrderDetail);
 });
@@ -223,13 +226,26 @@ function Remove(button) {
 $("#btnSave").on("click", function () {
     //Loop through the Table rows and build a JSON array.
     let Podetails = [];
-    //let PoHeaders = [];
+    let PoHeaders = [];
+    var createdDtContent = $('#PurchaseOrder_CreatedDateTime').val();
+    var parts = createdDtContent.split(/[- :]/);
+    // Note: Month is 0-based, so subtract 1 from the month value
+    var dateTimeObject = new Date(parts[2], parts[1] - 1, parts[0], parts[3], parts[4], parts[5]);
+
     $("#tblPurchaseOrderDetail TBODY TR").each(function () {
         debugger;
         var row = $(this);
+        var pOCreatedDt = row.find("TD").eq(5).html();
+        var parts = pOCreatedDt.split(/[- :]/);
+        // Note: Month is 0-based, so subtract 1 from the month value
+        var POdetaildateTimeObject = new Date(parts[2], parts[1] - 1, parts[0], parts[3], parts[4], parts[5]);
         let PODetail = {
+            PurchaseOrderDetailId: row.find("TD").eq(0).html(),
+            PurchaseOrderId: row.find("TD").eq(1).html(),
             ProductId: row.find("TD").eq(2).html(),
             BrandId: row.find("TD").eq(3).html(),
+            CreatedBy: row.find("TD").eq(4).html(),
+            CreatedDateTime:POdetaildateTimeObject,
             Quantity: row.find("TD").eq(8).html(),
             UnitPrice: row.find("TD").eq(9).html(),
             Discount: row.find("TD").eq(10).html(),
@@ -238,14 +254,17 @@ $("#btnSave").on("click", function () {
         //PODetail.Brand = row.find("TD").eq(1).html();
         Podetails.push(PODetail);
     });
-    Podetails = Podetails.filter(val => !updatedPOs.includes(val));
+    
     let POHeader = {
+        PurchaseOrderId: $('#PurchaseOrder_PurchaseOrderId').val(),
         VendorID: $('#vendorID').val(),
         OrderDate: $('#orderDate').val(),
         DeliveryDate: $('#deliveryDate').val(),
         TotalAmount: $('#totalNumber').val(),
         Doc_No: $('#docNo').val(),
         Tax_Percentage: $('#tax').val(),
+        CreatedBy: $('#PurchaseOrder_CreatedBy').val(),
+        CreatedDateTime: dateTimeObject,
     }
 
     let PurchaseOrderViewModel = {
@@ -253,7 +272,7 @@ $("#btnSave").on("click", function () {
         PODetail: Podetails,
         UpdatedPODetail: updatedPOs
     }
-    //PoHeaders.push(POHeader);
+    PoHeaders.push(POHeader);
     //Send the JSON array to Controller using AJAX.
     $.ajax({
         url: "/PurchaseOrder/AddOrEditPurchaseOrder",
