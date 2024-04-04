@@ -178,8 +178,8 @@ $("#podetaildiv").on("click", "#btnupdate", function () {
     var unitpricecell = $(this).closest("tr").find(".unitprice-cell");
     var discountcell = $(this).closest("tr").find(".discount-cell");
     var netTotalcell = $(this).closest("tr").find(".nettotal-cell");
-    var CreatedBy = $(this).closest("tr").find(".createdby-cell");
-    var CreatedDt = $(this).closest("tr").find(".createddate-cell");
+    //var CreatedBy = $(this).closest("tr").find(".createdby-cell");
+    //var CreatedDt = $(this).closest("tr").find(".createddate-cell");
 
     var purchaseOrderDetailIdContent = purchaseOrderDetailIdcell.text();
     var purchaseOrderIdContent = purchaseOrderIdcell.text();
