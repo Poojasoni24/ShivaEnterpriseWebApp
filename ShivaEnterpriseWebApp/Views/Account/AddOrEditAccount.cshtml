@@ -37,23 +37,44 @@
                 <span asp-validation-for="AccountDescription" class="text-danger"></span>
             </div>
             <div class="form-group row">
-                <label asp-for="AccountGroup" class="control-label"></label>
-                <div class="col-md-9">
-                    @Html.DropDownListFor(model => model.AccountGroupId, accountGroupDropdownList, "Select an option", new { @class = "form-control" })
-                </div>
+            <label asp-for="AccountGroup" class="control-label"></label>
+            <div class="col-md-9">
+                <input asp-for="AccountGroup" class="form-control" />
             </div>
+            <span asp-validation-for="AccountGroup" class="text-danger"></span>
+        </div>
             <div class="form-group row">
                 <label asp-for="AccountType" class="control-label"></label>
                 <div class="col-md-9">
-                    @Html.DropDownListFor(model => model.AccountTypeId, accountTypeDropdownList, "Select an option", new { @class = "form-control" })
+                    <input asp-for="AccountType" class="form-control" />
                 </div>
+                <span asp-validation-for="AccountType" class="text-danger"></span>
             </div>
             <div class="form-group row">
                 <label asp-for="AccountCategory" class="control-label"></label>
                 <div class="col-md-9">
+                    <input asp-for="AccountCategory" class="form-control" />
+                </div>
+                <span asp-validation-for="AccountCategory" class="text-danger"></span>
+            </div>
+            @* <div class="form-group row">
+                <label asp-for="AccountGroup" class="control-label"></label>
+                <div class="col-md-9">
+                    @Html.DropDownListFor(model => model.AccountGroupId, accountGroupDropdownList, "Select an option", new { @class = "form-control" })
+                </div>
+            </div> *@
+            @* <div class="form-group row">
+                <label asp-for="AccountType" class="control-label"></label>
+                <div class="col-md-9">
+                    @Html.DropDownListFor(model => model.AccountTypeId, accountTypeDropdownList, "Select an option", new { @class = "form-control" })
+                </div>
+            </div> *@
+            @* <div class="form-group row">
+                <label asp-for="AccountCategory" class="control-label"></label>
+                <div class="col-md-9">
                     @Html.DropDownListFor(model => model.AccountCategoryId, accountCategoryDropdownList, "Select an option", new { @class = "form-control" })
                 </div>
-            </div>
+            </div> *@
             <div class="form-group row">
                 <label asp-for="IsActive" class="control-label"></label>
                 <div class="col-md-9">

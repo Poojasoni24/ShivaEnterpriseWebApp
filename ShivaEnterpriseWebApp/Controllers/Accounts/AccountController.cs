@@ -15,16 +15,21 @@ namespace ShivaEnterpriseWebApp.Controllers
         IAccountTypeServiceImpl accountTypeService = new AccountTypeServiceImpl();
         public async Task<IActionResult> Index()
         {
+            //string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
+            //var getAllAccount = await accountService.GetAccountList(authToken);
+            //foreach (var item in getAllAccount)
+            //{
+            //    item.AccountGroup = await accountgroupService.GetAccountGroupById(item.AccountGroupId, authToken);
+            //    item.AccountType = await accountTypeService.GetAccountTypeById(item.AccountTypeId, authToken);
+            //    item.AccountCategory = await accountcategoryService.GetAccountCategoryById(item.AccountCategoryId, authToken);
+            //}
+
+            //return View("Index", getAllAccount);
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
-            var getAllAccount = await accountService.GetAccountList(authToken);
-            foreach (var item in getAllAccount)
-            {
-                item.AccountGroup = await accountgroupService.GetAccountGroupById(item.AccountGroupId, authToken);
-                item.AccountType = await accountTypeService.GetAccountTypeById(item.AccountTypeId, authToken);
-                item.AccountCategory = await accountcategoryService.GetAccountCategoryById(item.AccountCategoryId, authToken);
-            }
-           
-            return View("Index", getAllAccount);
+            if (authToken == null)
+                return BadRequest("Something went wrong");
+            var accountDetail = await accountService.GetAccountList(authToken);
+            return View("Index", accountDetail);
         }
 
         [HttpGet]
@@ -32,17 +37,17 @@ namespace ShivaEnterpriseWebApp.Controllers
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
             //Add accountgroup dropdown
-            List<AccountGroup> accountGroupDataList = await accountgroupService.GetAccountGroupList(authToken);
-            SelectList groupselectList = new SelectList(accountGroupDataList, "AccountGroupId", "AccountGroupName");
-            ViewBag.accountGroupSelectList = groupselectList;
+            //List<AccountGroup> accountGroupDataList = await accountgroupService.GetAccountGroupList(authToken);
+            //SelectList groupselectList = new SelectList(accountGroupDataList, "AccountGroupId", "AccountGroupName");
+            //ViewBag.accountGroupSelectList = groupselectList;
 
-            List<AccountType> accountTypeDataList = await accountTypeService.GetAccountTypeList(authToken);
-            SelectList typeselectList = new SelectList(accountTypeDataList, "AccountTypeId", "AccountTypeName");
-            ViewBag.accountTypeList = typeselectList;
+            //List<AccountType> accountTypeDataList = await accountTypeService.GetAccountTypeList(authToken);
+            //SelectList typeselectList = new SelectList(accountTypeDataList, "AccountTypeId", "AccountTypeName");
+            //ViewBag.accountTypeList = typeselectList;
 
-            List<AccountCategory> accountcategoryDataList = await accountcategoryService.GetAccountCategoryList(authToken);
-            SelectList categoryselectList = new SelectList(accountcategoryDataList, "AccountCategoryId", "AccountCategoryName");
-            ViewBag.accountCategoryList = categoryselectList;
+            //List<AccountCategory> accountcategoryDataList = await accountcategoryService.GetAccountCategoryList(authToken);
+            //SelectList categoryselectList = new SelectList(accountcategoryDataList, "AccountCategoryId", "AccountCategoryName");
+            //ViewBag.accountCategoryList = categoryselectList;
             if (accountId != Guid.Empty)
             {
                 var accountDetail = await accountService.GetAccountById(accountId, authToken);
@@ -112,12 +117,15 @@ namespace ShivaEnterpriseWebApp.Controllers
                 AccontName = accountData.AccontName,
                 AccountDescription = accountData.AccountDescription,
                 IsActive = accountData.IsActive,
-                AccountCategory = await accountcategoryService.GetAccountCategoryById(accountData.AccountCategoryId, authToken),
-               // AccountCategoryId = accountData.AccountCategoryId,
-                AccountGroup = await accountgroupService.GetAccountGroupById(accountData.AccountGroupId, authToken),
-              //  AccountGroupId = accountData.AccountGroupId,
-                AccountType = await accountTypeService.GetAccountTypeById(accountData.AccountTypeId, authToken),
-               // AccountTypeId = accountData.AccountTypeId,
+                AccountGroup=accountData.AccountGroup,
+                AccountCategory=accountData.AccountCategory,
+                AccountType=accountData.AccountType,
+                // AccountCategory = await accountcategoryService.GetAccountCategoryById(accountData.AccountCategoryId, authToken),
+                // AccountCategoryId = accountData.AccountCategoryId,
+                // AccountGroup = await accountgroupService.GetAccountGroupById(accountData.AccountGroupId, authToken),
+                //  AccountGroupId = accountData.AccountGroupId,
+                // AccountType = await accountTypeService.GetAccountTypeById(accountData.AccountTypeId, authToken),
+                // AccountTypeId = accountData.AccountTypeId,
             });
         }
         

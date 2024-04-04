@@ -17,15 +17,15 @@ namespace ShivaEnterpriseWebApp.Model
         [DataType(DataType.Upload)]
         [FileExtensions(Extensions = "jpg,png,gif,jpeg,bmp,svg")]
         public IFormFile? ImageFile { get; set; }
-        public string ProductCategoryId { get; set; }
-        public string ProductGroupId { get; set; }
-        public string ProductTypeId { get; set; }
-        public List<SelectListItem> ProductsCategoryId { get; set;}
-        public ProductCategory ProductCategory { get; set; }
-        public List<SelectListItem> ProductsGroupId { get; set;}
-        public ProductGroup ProductGroup { get; set; }
-        public List<SelectListItem> ProductsTypeId { get; set;}
-        public ProductType ProductType { get; set; }
+        public string ProductCategory{ get; set; }
+        public string ProductGroup { get; set; }
+        public string ProductType { get; set; }
+        //public List<SelectListItem> ProductsCategoryId { get; set;}
+        //public ProductCategory ProductCategory { get; set; }
+        //public List<SelectListItem> ProductsGroupId { get; set;}
+        //public ProductGroup ProductGroup { get; set; }
+        //public List<SelectListItem> ProductsTypeId { get; set;}
+        //public ProductType ProductType { get; set; }
         public string CreatedBy { get; set; }
         public DateTime CreatedDateTime { get; set; }
         public string? ModifiedBy { get; set; }

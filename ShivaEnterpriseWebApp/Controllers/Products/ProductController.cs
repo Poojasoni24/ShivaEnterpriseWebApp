@@ -25,32 +25,27 @@ namespace ShivaEnterpriseWebApp.Controllers.Products
         public async Task<IActionResult> Index()
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
-            var getAllProduct = await productService.GetProductList(authToken);
-            foreach (var item in getAllProduct)
-            {
-                item.ProductGroup = await productgroupService.GetProductGroupById(item.ProductGroupId, authToken);
-                item.ProductType = await productTypeService.GetProductTypeById(item.ProductTypeId, authToken);
-                item.ProductCategory = await productcategoryService.GetProductCategoryById(item.ProductCategoryId, authToken);
-            }
-
-            return View("Index", getAllProduct);
+            if (authToken == null)
+                return BadRequest("Something went wrong");
+            var productDetail = await productService.GetProductList(authToken);
+            return View("Index", productDetail);
         }
 
         [HttpGet]
         public async Task<ActionResult> AddOrEditProduct(Guid productId)
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
-            List<ProductGroup> productGroupDataList = await productgroupService.GetProductGroupList(authToken);
-            SelectList groupselectList = new SelectList(productGroupDataList, "ProductGroupId", "ProductGroupName");
-            ViewBag.productGroupSelectList = groupselectList;
+            //List<ProductGroup> productGroupDataList = await productgroupService.GetProductGroupList(authToken);
+            //SelectList groupselectList = new SelectList(productGroupDataList, "ProductGroupId", "ProductGroupName");
+            //ViewBag.productGroupSelectList = groupselectList;
 
-            List<ProductType> productTypeDataList = await productTypeService.GetProductTypeList(authToken);
-            SelectList typeselectList = new SelectList(productTypeDataList, "ProductTypeId", "ProductTypeName");
-            ViewBag.productTypeList = typeselectList;
+            //List<ProductType> productTypeDataList = await productTypeService.GetProductTypeList(authToken);
+            //SelectList typeselectList = new SelectList(productTypeDataList, "ProductTypeId", "ProductTypeName");
+            //ViewBag.productTypeList = typeselectList;
 
-            List<ProductCategory> productcategoryDataList = await productcategoryService.GetProductCategoryList(authToken);
-            SelectList categoryselectList = new SelectList(productcategoryDataList, "ProductCategoryId", "ProductCategoryName");
-            ViewBag.productCategoryList = categoryselectList;
+            //List<ProductCategory> productcategoryDataList = await productcategoryService.GetProductCategoryList(authToken);
+            //SelectList categoryselectList = new SelectList(productcategoryDataList, "ProductCategoryId", "ProductCategoryName");
+            //ViewBag.productCategoryList = categoryselectList;
             if (productId != Guid.Empty)
             {
                 var ProductDetail = await productService.GetProductById(productId, authToken);
@@ -144,12 +139,15 @@ namespace ShivaEnterpriseWebApp.Controllers.Products
                 ProductId = productId,
                 ProductCode = productData.ProductCode,
                 ProductName = productData.ProductName,
+                ProductGroup=productData.ProductGroup,
+                ProductType=productData.ProductType,
+                ProductCategory=productData.ProductCategory,
                 ProductDescription = productData.ProductDescription,
                 IsActive = productData.IsActive,
                 ProductImage = productData.ProductImage,
-                ProductCategory = await productcategoryService.GetProductCategoryById(productData.ProductCategoryId, authToken),
-                ProductGroup = await productgroupService.GetProductGroupById(productData.ProductGroupId, authToken),
-                ProductType = await productTypeService.GetProductTypeById(productData.ProductTypeId, authToken),
+                //ProductCategory = await productcategoryService.GetProductCategoryById(productData.ProductCategoryId, authToken),
+                //ProductGroup = await productgroupService.GetProductGroupById(productData.ProductGroupId, authToken),
+                //ProductType = await productTypeService.GetProductTypeById(productData.ProductTypeId, authToken),
                 
             });
         }
