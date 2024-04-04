@@ -113,15 +113,21 @@ namespace ShivaEnterpriseWebApp.Controllers
                     if (isSuccess.success)
                     {
                         purchaseOrderId = PurchaseOrderViewModel.PurchaseOrder.PurchaseOrderId;
-                        PurchaseOrderViewModel.UpdatedPODetail.ForEach(
-                            x =>
-                            {
-                                x.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-                                x.ModifiedDateTime = DateTime.Now;
-                                x.Product = productService.GetProductById(x.ProductId, authToken).Result;
-                                x.Brand = brandService.GetBrandById(x.BrandId, authToken).Result;
-                            });
-                        await purchaseorderDetailService.EditPurchaseOrderDetailDetailsAsync(PurchaseOrderViewModel.UpdatedPODetail, authToken);
+                        var pOObject = await purchaseorderService.GetPurchaseOrderById(purchaseOrderId, authToken);
+                        if (PurchaseOrderViewModel.UpdatedPODetail.Any())
+                        {                            
+                            PurchaseOrderViewModel.UpdatedPODetail.ForEach(
+                                x =>
+                                {
+                                    x.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                                    x.ModifiedDateTime = DateTime.Now;
+                                    x.Product = productService.GetProductById(x.ProductId, authToken).Result;
+                                    x.Brand = brandService.GetBrandById(x.BrandId, authToken).Result;
+                                    x.PurchaseOrder = pOObject;
+                                });
+                            await purchaseorderDetailService.EditPurchaseOrderDetailDetailsAsync(PurchaseOrderViewModel.UpdatedPODetail, authToken);
+                        }
+
                     }
                 }
                 else

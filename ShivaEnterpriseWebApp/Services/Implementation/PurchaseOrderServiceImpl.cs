@@ -94,7 +94,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
                 //close out the client
                 client.Dispose();
 
-                if (response.StatusCode != HttpStatusCode.NoContent)
+                if (response.StatusCode != HttpStatusCode.OK)
                     return (false, result);
 
                 return (true, result);

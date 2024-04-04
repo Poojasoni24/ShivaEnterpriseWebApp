@@ -79,7 +79,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
                 string json = JsonConvert.SerializeObject(purchaseorder);
 
                 StringContent data = new StringContent(json, Encoding.UTF8, "application/json");
-                var url = urlCollections["baseUrl"].ToString() + urlCollections["editpurchaseorderUrl"] + "?id=" + purchaseorder.FirstOrDefault().PurchaseOrderId.ToString();
+                var url = urlCollections["baseUrl"].ToString() + urlCollections["editpurchaseorderdetailUrl"] + "?id=" + purchaseorder.FirstOrDefault().PurchaseOrderId.ToString();
                 var client = new HttpClient();
                 var request = new HttpRequestMessage(new HttpMethod("PUT"), url);
                 request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
@@ -94,7 +94,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
                 //close out the client
                 client.Dispose();
 
-                if (response.StatusCode != HttpStatusCode.NoContent)
+                if (response.StatusCode != HttpStatusCode.OK)
                     return (false, result);
 
                 return (true, result);

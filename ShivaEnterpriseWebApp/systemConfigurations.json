@@ -174,7 +174,7 @@
   "getpurchaseorderdetailbyidUrl": "/api/PurchaseOrderDetail/GetPurchaseOrderDetailById",
   "addpurchaseorderdetailUrl": "/api/PurchaseOrderDetail/AddPurchaseOrderDetail",
   "deletepurchaseorderdetailUrl": "/api/PurchaseOrderDetail/DeletePurchaseOrderDetail",
-  "editpurchaseorderdetailUrl": "/api/PurchaseOrderDetail/EditPurchaseOrderDetail",
+  "editpurchaseorderdetailUrl": "/api/PurchaseOrderDetail/EditProductOrderDetail",
 
   //Customer
   "getallcustomerUrl": "/api/Customer/GetCustomer",

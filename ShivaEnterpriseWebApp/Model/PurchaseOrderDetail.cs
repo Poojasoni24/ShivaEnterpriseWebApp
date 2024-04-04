@@ -29,5 +29,7 @@ namespace ShivaEnterpriseWebApp.Model
         public Product Product { get; set; }
         public Brand Brand { get; set; }
 
+        public PurchaseOrder PurchaseOrder { get; set; }
+
     }
 }
