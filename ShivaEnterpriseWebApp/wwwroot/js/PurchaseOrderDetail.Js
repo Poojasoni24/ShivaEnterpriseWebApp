@@ -22,6 +22,7 @@ $(document).ready(function () {
             self.find("#enable_disable").removeClass("d-none");
             self.find("#enable_disable").addClass("d-block");
             self.find('#enable_disable').on('change', function () {
+                debugger;
                 //var selectedCheckboxes = $('#enable_disable:checked');
                 var isChecked = $(this).prop('checked');
                 var qtycell = $(this).closest("tr").find(".qty-cell");
@@ -56,7 +57,6 @@ $(document).ready(function () {
 
                 }
                 else {
-                    debugger;
                     var qtycontent = qtycell.find("input[type='Number']").val();
                     qtycell.html(qtycontent);
 
@@ -74,7 +74,7 @@ $(document).ready(function () {
                     //self.find("#btnupdate").removeClass("d-block");
                 }
 
-               
+
             });
         });
     });
@@ -83,7 +83,6 @@ $(document).ready(function () {
 });
 
 $("#podetaildiv").on("click", "#btnAdd", function () {
-    debugger;
     //Reference the Name and Country TextBoxes.
     var txtproduct = $("#ProductId").find(":selected").text();
     ProductId = $("#ProductId").find(":selected").val();
@@ -150,6 +149,8 @@ $("#podetaildiv").on("click", "#btnAdd", function () {
     //Add NetTotal cell.
     cell = $(row.insertCell(-1));
     cell.html(txtNetTotal.val());
+    cell.addClass("nettotal-cell");
+
 
     //Add Button cell.
     cell = $(row.insertCell(-1));
@@ -164,8 +165,10 @@ $("#podetaildiv").on("click", "#btnAdd", function () {
     txtUnitprice.val("");
     txtDiscount.val("");
     txtNetTotal.val("");
-    ProductId.val(0);
-    BrandId.val(0);
+    //ProductId.val(0);
+    //BrandId.val(0);
+
+    TotalAmountCalculation();
 });
 
 $("#podetaildiv").on("click", "#btnupdate", function () {
@@ -178,8 +181,8 @@ $("#podetaildiv").on("click", "#btnupdate", function () {
     var unitpricecell = $(this).closest("tr").find(".unitprice-cell");
     var discountcell = $(this).closest("tr").find(".discount-cell");
     var netTotalcell = $(this).closest("tr").find(".nettotal-cell");
-    //var CreatedBy = $(this).closest("tr").find(".createdby-cell");
-    //var CreatedDt = $(this).closest("tr").find(".createddate-cell");
+    var CreatedBy = $(this).closest("tr").find(".createdby-cell");
+    var CreatedDt = $(this).closest("tr").find(".createddate-cell");
 
     var purchaseOrderDetailIdContent = purchaseOrderDetailIdcell.text();
     var purchaseOrderIdContent = purchaseOrderIdcell.text();
@@ -203,16 +206,19 @@ $("#podetaildiv").on("click", "#btnupdate", function () {
 
     var netTotalContent = netTotalcell.find("input[type='text']").val();
     netTotalcell.html(netTotalContent);
-    //$("#tblPurchaseOrderDetail tbody tr").each(function () {
-    //    var counter = 0;
-    //    counter++;
-    //    var self = $(this);
-     
-    //    self.find('td').each(function () {
-    //        tdCounter++;
-    //    });
-    //});
-    $(this).find('#enable_disable').prop('checked', false);
+    $("#tblPurchaseOrderDetail tbody tr").each(function () {
+        var counter = 0;
+        counter++;
+        var self = $(this);
+        var tdCounter = 0;
+        self.find('td').each(function () {
+            tdCounter++;
+            if (self.find('#enable_disable').prop('checked')) {
+                self.find('#enable_disable').prop('checked', false).trigger('change');
+            }
+            
+        });
+    });
 
     TotalAmountCalculation();
 
@@ -313,7 +319,6 @@ $('#txtUnitprice').on('change', function () {
 });
 
 $("#txtDiscount").on('change', function () {
-    debugger;
     var discount = $("#txtDiscount").val();
     var netPrice = $("#txtnetTotal").val();
     var discountAmount = netPrice * (discount / 100);
@@ -328,7 +333,6 @@ function UpdateDiscount() {
 }
 
 function Calculation() {
-    debugger;
     var qty = $("#txtQty").val();
     var unitprice = $("#txtUnitprice").val();
     var netPrice = qty * unitprice;
@@ -336,7 +340,6 @@ function Calculation() {
 }
 
 function CalculationAfterUpdate() {
-    debugger;
     var qty = $("#txtupdatedQty").val();
     var unitprice = $("#txtupdatedUnitprice").val();
     var netPrice = qty * unitprice;
@@ -345,7 +348,6 @@ function CalculationAfterUpdate() {
 }
 
 function TotalAmountCalculation() {
-    debugger;
     var total = 0;
     var tax = $('#tax').val();
     $("#tblPurchaseOrderDetail tbody tr").each(function () {

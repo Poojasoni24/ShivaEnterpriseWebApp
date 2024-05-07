@@ -48,12 +48,14 @@
                     <div class="form-group">
                         <label class="form-label">Order Date:</label>
                         <input type="date" id="orderDate" class="form-control" asp-for="PurchaseOrder.OrderDate">
+                        @Html.ValidationMessageFor(m => m.PurchaseOrder.DeliveryDate)
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="form-label">DeliveryDate:</label>
                         <input type="date" id="deliveryDate" class="form-control" asp-for="PurchaseOrder.DeliveryDate">
+                        @Html.ValidationMessageFor(m => m.PurchaseOrder.DeliveryDate)
                     </div>
                 </div>
             </div>

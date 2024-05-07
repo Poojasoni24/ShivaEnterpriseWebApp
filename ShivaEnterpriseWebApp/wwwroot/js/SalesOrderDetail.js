@@ -61,7 +61,7 @@ $(document).ready(function () {
             });
         });
     });
-$("#sodetaildiv").on("click", "#btnAdd", function () {
+    $("#sodetaildiv").on("click", "#btnsalesAdd", function () {
     debugger;
     //Reference the Name and Country TextBoxes.
     var txtsoproduct = $("#ProductId").find(":selected").text();

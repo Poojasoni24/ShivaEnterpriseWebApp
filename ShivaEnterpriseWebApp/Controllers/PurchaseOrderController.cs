@@ -149,7 +149,8 @@ namespace ShivaEnterpriseWebApp.Controllers
 
                 if (PurchaseOrderViewModel.PODetail.Any(x => x.PurchaseOrderDetailId == Guid.Empty))
                 {
-                    PurchaseOrderViewModel.PODetail.ForEach(
+                    var addNewPO = PurchaseOrderViewModel.PODetail.Where(x => x.PurchaseOrderDetailId == Guid.Empty).ToList();
+                    addNewPO.ForEach(
                         x =>
                         {
                             x.PurchaseOrderId = purchaseOrderId;
@@ -159,7 +160,7 @@ namespace ShivaEnterpriseWebApp.Controllers
                             x.Brand = brandService.GetBrandById(x.BrandId, authToken).Result;
                         });
 
-                    await purchaseorderDetailService.AddPurchaseOrderDetailDetailsAsync(PurchaseOrderViewModel.PODetail, authToken);
+                    await purchaseorderDetailService.AddPurchaseOrderDetailDetailsAsync(addNewPO, authToken);
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -220,12 +221,7 @@ namespace ShivaEnterpriseWebApp.Controllers
             });
         }
 
-        [HttpPost]
-        public JsonResult InsertPodetail([FromBody] List<PurchaseOrderDetail> Podetails)
-        {
-            return Json(Podetails);
-        }
-
+       
     }
 }
 

@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
 namespace ShivaEnterpriseWebApp.Model
 {
-    public class PurchaseOrder
+    public class PurchaseOrder: IValidatableObject
     {
         public Guid PurchaseOrderId { get; set; }
         public Guid VendorID { get; set; }
@@ -21,5 +22,17 @@ namespace ShivaEnterpriseWebApp.Model
         public DateTime CreatedDateTime { get; set; }
         public string? ModifiedBy { get; set; }
         public DateTime? ModifiedDateTime { get; set; }
-        public Vendor Vendor { get; set; }    }
+        public Vendor Vendor { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (DeliveryDate < OrderDate)
+            {
+                yield return new ValidationResult(
+                    errorMessage: "DeliveryDate must be greater than OrderDate",
+                    memberNames: new[] { "DeliveryDate" }
+               );
+            }
+        }
+    }
 }

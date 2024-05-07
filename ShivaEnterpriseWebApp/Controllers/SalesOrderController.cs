@@ -64,7 +64,7 @@ namespace ShivaEnterpriseWebApp.Controllers
             List<Customer> customerDataList = await customerService.GetCustomerList(authToken);
             SelectList customerselectList = new SelectList(customerDataList, "CustomerId", "CustomerName");
             ViewBag.customerSelectList = customerselectList;
-
+    
             List<Product> productDataList = await productService.GetProductList(authToken);
             SelectList productgroupselectList = new SelectList(productDataList, "ProductId", "ProductName");
             ViewBag.ProductSelectList = productgroupselectList;
