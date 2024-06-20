@@ -13,11 +13,20 @@ namespace ShivaEnterpriseWebApp.Controllers
         [HttpGet]
         public async Task<ActionResult> Index()
         {
-            string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
-            if (authToken == null)
-                return BadRequest("Something went wrong");
-            var bankDetail = await bankObj.GetBankList(authToken);
-            return View("Index", bankDetail);
+            try
+            {
+                string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
+                if (authToken == null)
+                    return BadRequest("Something went wrong");
+                var bankDetail = await bankObj.GetBankList(authToken);
+                return View("Index", bankDetail);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+           
         }
 
         [HttpGet]
@@ -41,16 +50,25 @@ namespace ShivaEnterpriseWebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> AddOrEditBank(Guid bankId)
         {
-            string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
-            if (authToken == null)
-                return BadRequest("Something went wrong");
-            if (bankId != Guid.Empty)
-                //if (!string.IsNullOrEmpty(bankId))
+            try
             {
-                var bankDetail = await bankObj.GetBankById(bankId, authToken);
-                return View(bankDetail);
+                string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
+                if (authToken == null)
+                    return BadRequest("Something went wrong");
+                if (bankId != Guid.Empty)
+                //if (!string.IsNullOrEmpty(bankId))
+                {
+                    var bankDetail = await bankObj.GetBankById(bankId, authToken);
+                    return View(bankDetail);
+                }
+                return View();
             }
-            return View();
+            catch (Exception)
+            {
+
+                return View("Index");
+            }
+           
         }
 
         [HttpPost]

@@ -30,5 +30,7 @@ namespace ShivaEnterpriseWebApp.Model
         public DateTime CreatedDateTime { get; set; }
         public string? ModifiedBy { get; set; }
         public DateTime? ModifiedDateTime { get; set; }
+
+        public ICollection<ProductImage> ProductImages  { get; set;}
     }
 }

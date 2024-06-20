@@ -30,7 +30,7 @@ namespace ShivaEnterpriseWebApp.Controllers
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
             List<Company> companyDataList = await Company.GetCompanyDetailsAsync(authToken);
-            SelectList selectList = new SelectList(companyDataList, "Company_Id", "Company_Name");
+            SelectList selectList = new SelectList(companyDataList.Where(x=>x.IsActive).ToList(), "Company_Id", "Company_Name");
             ViewBag.SelectList = selectList;
             if (id != Guid.Empty)
             {
@@ -47,7 +47,7 @@ namespace ShivaEnterpriseWebApp.Controllers
             {
                 string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
                 List<Company> companyDataList = await Company.GetCompanyDetailsAsync(authToken);
-                SelectList selectList = new SelectList(companyDataList, "Company_Id", "Company_Name");
+                SelectList selectList = new SelectList(companyDataList.Where(x => x.IsActive).ToList(), "Company_Id", "Company_Name");
                 ViewBag.SelectList = selectList;
                 if (string.IsNullOrEmpty(id))
                 {

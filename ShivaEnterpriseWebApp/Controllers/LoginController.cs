@@ -155,5 +155,11 @@ namespace ShivaEnterpriseWebApp.Controllers
             }
             return RedirectToAction("Index", "Login");
         }
+
+        [HttpGet]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
     }
 }

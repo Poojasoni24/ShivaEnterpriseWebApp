@@ -1,5 +1,6 @@
 {
-  "baseUrl": "https://localhost:44362",
+  //"baseUrl": "https://localhost:44362",
+  "baseUrl": "http://erpapi.shivaenterpriseind.in",
   "GetCompaniesUrl": "/api/Company/GetCompanies",
   "GetCompanyByIdUrl": "/api/Company/GetCompanyById",
   "AddCompaniesUrl": "/api/Company/AddCompany",
