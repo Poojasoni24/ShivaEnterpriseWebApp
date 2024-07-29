@@ -1,7 +1,15 @@
 ﻿var ProductId, BrandId;
-let updatedPOs = []
+let updatedSOs = []
+
 $(document).ready(function () {
     var counter = 0;
+    $("#tblSalesOrderDetail thead tr").each(function () {
+        var self = $(this);
+        self.find('th').each(function () {
+            self.find(".enable_disable").removeClass("d-none");
+        });
+    });
+
     $("#tblSalesOrderDetail tbody tr").each(function () {
         counter++;
         var self = $(this);
@@ -9,60 +17,73 @@ $(document).ready(function () {
         var tdCounter = 0;
 
         self.find("input[value='Remove']").addClass("d-none");
-        self.find('th').each(function () {
-            self.find(".enable_disable").removeClass("d-none");
-        });
         self.find('td').each(function () {
             tdCounter++;
             $(this).addClass("row_" + counter + tdCounter);
             self.find("#enable_disable").removeClass("d-none");
             self.find("#enable_disable").addClass("d-block");
             self.find('#enable_disable').on('change', function () {
+                debugger;
                 //var selectedCheckboxes = $('#enable_disable:checked');
                 var isChecked = $(this).prop('checked');
                 var qtycell = $(this).closest("tr").find(".qty-cell");
                 var unitpricecell = $(this).closest("tr").find(".unitprice-cell");
                 var discountcell = $(this).closest("tr").find(".discount-cell");
+                var netTotalcell = $(this).closest("tr").find(".nettotal-cell");
                 if (isChecked) {
 
                     var qtycontent = qtycell.text();
                     if (qtycontent != '') {
-                        qtycell.html("<input type='text' id='txtQty' value='" + qtycontent.trim() + "' />");
+                        qtycell.html("<input type='Number' id='txtupdatedQty' value='" + qtycontent.trim() + "' onchange='CalculationAfterUpdate()' />");
                     }
 
                     var unitpricecontent = unitpricecell.text();
                     if (unitpricecontent != '') {
-                        unitpricecell.html("<input type='text' id='txtUnitprice' value='" + unitpricecontent.trim() + "' />");
+                        unitpricecell.html("<input type='Number' id='txtupdatedUnitprice' value='" + unitpricecontent.trim() + "' onchange='CalculationAfterUpdate()'/>");
                     }
 
                     var discountcontent = discountcell.text();
                     if (discountcontent != '') {
-                        discountcell.html("<input type='text' id='txtDiscount' value='" + discountcontent.trim() + "' />");
+                        discountcell.html("<input type='Number' id='txtupdatedDiscount' value='" + discountcontent.trim() + "'onchange='UpdateDiscount()' />");
                     }
 
+                    var netTotalContent = netTotalcell.text();
+                    if (discountcontent != '') {
+                        netTotalcell.html("<input class='form-control' type='text' id='txtupdatednetTotal' value='" + netTotalContent.trim() + "' readonly />");
+                    }
                     self.find("#btnupdate").removeClass("d-none");
+                    $('#btnAdd').attr("disabled", true);
                     //self.find("#btnupdate").addClass("d-block");
 
-                    // Now you have the row, you can perform further operations as needed
+
                 }
                 else {
-                    var qtycontent = qtycell.find("input[type='text']").val();
+                    var qtycontent = qtycell.find("input[type='Number']").val();
                     qtycell.html(qtycontent);
 
-                    var unitpricecontent = unitpricecell.find("input[type='text']").val();
+                    var unitpricecontent = unitpricecell.find("input[type='Number']").val();
                     unitpricecell.html(unitpricecontent);
 
-                    var discountcontent = discountcell.find("input[type='text']").val();
+                    var discountcontent = discountcell.find("input[type='Number']").val();
                     discountcell.html(discountcontent);
 
+                    var netTotalContent = netTotalcell.find("input[type='text']").val();
+                    netTotalcell.html(netTotalContent);
+
                     self.find("#btnupdate").addClass("d-none");
+                    $('#btnAdd').attr("disabled", false);
                     //self.find("#btnupdate").removeClass("d-block");
                 }
+
             });
         });
     });
-    $("#sodetaildiv").on("click", "#btnsalesAdd", function () {
-    debugger;
+
+
+});
+
+
+$("#sodetaildiv").on("click", "#btnAdd", function () {
     //Reference the Name and Country TextBoxes.
     var txtsoproduct = $("#ProductId").find(":selected").text();
     ProductId = $("#ProductId").find(":selected").val();
@@ -79,26 +100,37 @@ $(document).ready(function () {
     //Add Row.
     var row = tBody.insertRow(-1);
 
-    //Add Product cell.
+    var cell = $(row.insertCell(-1));
+    cell.addClass("d-none");
+
+    var cell = $(row.insertCell(-1));
+    cell.addClass("d-none");
+
+    //Add ProductId cell.
     var cell = $(row.insertCell(-1));
     cell.html(ProductId);
     cell.addClass("d-none");
 
-
-    //Add Product cell.
+    //Add BrandId cell.
     var cell = $(row.insertCell(-1));
     cell.html(BrandId);
+    cell.addClass("d-none");
+
+    //Add CreatedBy cell.
+    var cell = $(row.insertCell(-1));
+    cell.addClass("d-none");
+
+    //Add Createddate cell.
+    var cell = $(row.insertCell(-1));
     cell.addClass("d-none");
 
     //Add Product cell.
     var cell = $(row.insertCell(-1));
     cell.html(txtsoproduct);
 
-
     //Add Brand cell.
     var cell = $(row.insertCell(-1));
     cell.html(txtsoBrand);
-
 
     //Add Qty cell.
     var cell = $(row.insertCell(-1));
@@ -108,13 +140,14 @@ $(document).ready(function () {
     cell = $(row.insertCell(-1));
     cell.html(txtsoUnitprice.val());
 
-    //Add unitprice cell.
+    //Add Discount cell.
     cell = $(row.insertCell(-1));
     cell.html(txtsoDiscount.val());
 
-    //Add unitprice cell.
+    //Add NetTotal cell.
     cell = $(row.insertCell(-1));
     cell.html(txtsoNetTotal.val());
+    cell.addClass("nettotal-cell");
 
     //Add Button cell.
     cell = $(row.insertCell(-1));
@@ -131,8 +164,10 @@ $(document).ready(function () {
     txtsoNetTotal.val("");
     ProductId.val(0);
     BrandId.val(0);
-});
-    $("#sodetaildiv").on("click", "#btnupdate", function () {
+    });
+
+
+ $("#sodetaildiv").on("click", "#btnupdate", function () {
 
         var salesOrderDetailIdcell = $(this).closest("tr").find(".salesOrderDetailId-cell");
         var salesOrderIdcell = $(this).closest("tr").find(".salesOrderId-cell");
@@ -193,41 +228,61 @@ function Remove(button) {
 $("#btnSalesSave").on("click", function () {
     //Loop through the Table rows and build a JSON array.
     let Sodetails = [];
+    let SoHeaders = [];
+    var createdDtContent = $('#SalesOrder_CreatedDateTime').val() == "" ? "01-01-0001 00:00:00" : $('#SalesOrder_CreatedDateTime').val();
+    var parts = createdDtContent.split(/[- :]/);
+    // Note: Month is 0-based, so subtract 1 from the month value
+    var dateTimeObject = new Date(parts[2], parts[1] - 1, parts[0], parts[3], parts[4], parts[5]);
+
     $("#tblSalesOrderDetail TBODY TR").each(function () {
         debugger;
         var row = $(this);
+        var soCreatedDt = row.find("TD").eq(5).html() == "" ? "01-01-0001 00:00:00" : row.find("TD").eq(5).html();
+        var parts = soCreatedDt.split(/[- :]/);
+        var sodetaildateTimeObject = new Date(parts[2], parts[1] - 1, parts[0], parts[3], parts[4], parts[5]);
+        // Note: Month is 0-based, so subtract 1 from the month value
         let SODetail = {
-            ProductId: row.find("TD").eq(0).html(),
-            BrandId: row.find("TD").eq(1).html(),
-            Quantity: row.find("TD").eq(4).html(),
-            UnitPrice: row.find("TD").eq(5).html(),
-            Discount: row.find("TD").eq(6).html(),
-            NetTotal: row.find("TD").eq(7).html(),
+            SalesOrderDetailId: row.find("TD").eq(0).html() == "" ? "00000000-0000-0000-0000-000000000000" : row.find("TD").eq(0).html(),
+            SalesOrderId: row.find("TD").eq(1).html() == "" ? "00000000-0000-0000-0000-000000000000" : row.find("TD").eq(1).html(),
+            ProductId: row.find("TD").eq(2).html(),
+            BrandId: row.find("TD").eq(3).html(),
+            CreatedBy: row.find("TD").eq(4).html() == "" ? null : row.find("TD").eq(4).html(),
+            CreatedDateTime: sodetaildateTimeObject,
+            Quantity: row.find("TD").eq(8).html(),
+            UnitPrice: row.find("TD").eq(9).html(),
+            Discount: row.find("TD").eq(10).html(),
+            NetTotal: row.find("TD").eq(11).html(),
         };
-        //PODetail.Brand = row.find("TD").eq(1).html();
         Sodetails.push(SODetail);
     });
     Sodetails = Sodetails.filter(val => !updatedSOs.includes(val));
     let SOHeader = {
-        VendorID: $('#vendorID').val(),
-        OrderDate: $('#orderDate').val(),
-        DeliveryDate: $('#deliveryDate').val(),
-        TotalAmount: $('#totalNumber').val(),
+
+        SalesOrderId: $('#SalesOrder_SalesOrderId').val() == "" ? "00000000-0000-0000-0000-000000000000" : $('#SalesOrder_SalesOrderId').val(),
+        CustomerId: $('#SalesOrder_CustomerId').val(),
+        OrderDate: $('#SalesOrder_orderDate').val(),
+        DeliveryDate: $('#SalesOrder_deliveryDate').val(),
+        TotalAmount: $('#SalesOrder_totalNumber').val(),
         Doc_No: $('#docNo').val(),
-        Tax_Percentage: $('#tax').val(),
+        Tax_Percentage: $('#SalesOrder_tax').val(),
+        CreatedBy: $('#SalesOrder_CreatedBy').val() == "" ? null : $('#SalesOrder_CreatedBy').val(),
+        CreatedDateTime: dateTimeObject,
     }
+
 
     let SalesOrderViewModel = {
         SalesOrder: SOHeader,
         SODetail: Sodetails,
         UpdatedSODetail: updatedSOs
     }
+
+    SoHeaders.push(SOHeader);
     //Send the JSON array to Controller using AJAX.
     $.ajax({
         url: "/SalesOrder/AddOrEditSalesOrder",
         type: "POST",
         contentType: 'application/json',
-        data: JSON.stringify(Sodetails),
+        data: JSON.stringify(SalesOrderViewModel),
         success: function (r) {
             alert(r + " record(s) inserted.");
         }

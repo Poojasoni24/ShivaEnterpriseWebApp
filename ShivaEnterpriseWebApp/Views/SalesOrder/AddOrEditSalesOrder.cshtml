@@ -31,7 +31,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="form-label">Doc_No:</label>
-                        <input type="text" class="form-control" asp-for="SalesOrder.Doc_No">
+                        <input type="text" class="form-control" id="docNo" asp-for="SalesOrder.Doc_No">
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -72,6 +72,9 @@
                             <label class="form-label">Tax:</label>
                             <input type="text" id="tax" class="form-control" asp-for="SalesOrder.Tax_Percentage" value="12">
                         </div>
+                        <input asp-for="SalesOrder.CreatedDateTime" class="form-control" type="hidden" />
+                        <input asp-for="SalesOrder.CreatedBy" class="form-control" type="hidden" />
+                        <input asp-for="SalesOrder.SalesOrderId" class="form-control" type="hidden" />
                     </div>
                 </div>
                 <hr style="width:100%" />
