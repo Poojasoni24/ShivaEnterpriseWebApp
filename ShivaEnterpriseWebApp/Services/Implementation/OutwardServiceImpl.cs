@@ -1,5 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ShivaEnterpriseWebApp.Model;
 using ShivaEnterpriseWebApp.Services.Interface;
@@ -8,23 +7,24 @@ using System.Text;
 
 namespace ShivaEnterpriseWebApp.Services.Implementation
 {
-    public class ProductServiceImpl : IProductServiceImpl
+    public class OutwardServiceImpl : IOutwardServiceImpl
     {
         private readonly JObject urlCollections;
 
-        public ProductServiceImpl()
+        public OutwardServiceImpl()
         {
             urlCollections = JObject.Parse(File.ReadAllText("systemConfigurations.json"));
         }
-        public async Task<(bool success, string message)> AddProductDetailsAsync(Product product, string authToken)
+
+        public async Task<(bool success, string message)> AddOutwardDetailsAsync(Outward outwards, string authToken)
         {
             try
             {
                 //Create json string to prepare input for api                
-                string json = JsonConvert.SerializeObject(product);
+                string json = JsonConvert.SerializeObject(outwards);
 
                 StringContent data = new StringContent(json, Encoding.UTF8, "application/json");
-                var url = urlCollections["baseUrl"].ToString() + urlCollections["addproductUrl"].ToString();
+                var url = urlCollections["baseUrl"].ToString() + urlCollections["addoutwardsUrl"].ToString();
                 var client = new HttpClient();
                 var request = new HttpRequestMessage(new HttpMethod("POST"), url);
                 request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
@@ -50,9 +50,9 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             }
         }
 
-        public async Task<(bool successs, string message)> DeleteProduct(string productId, string authToken)
+        public async Task<(bool successs, string message)> DeleteOutward(string outwardsId, string authToken)
         {
-            var url = urlCollections["baseUrl"].ToString() + urlCollections["deleteproductUrl"] + "?productId=" + productId;
+            var url = urlCollections["baseUrl"].ToString() + urlCollections["deleteoutwardsUrl"] + "?outwardsId=" + outwardsId;
             var client = new HttpClient();
             var request = new HttpRequestMessage(new HttpMethod("POST"), url);
             request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
@@ -72,15 +72,15 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             return (true, result);
         }
 
-        public async Task<(bool success, string message)> EditProductDetailsAsync(Product product, string authToken)
+        public async Task<(bool success, string message)> EditOutwardDetailsAsync(Outward outwards, string authToken)
         {
             try
             {
                 //Create json string to prepare input for api                
-                string json = JsonConvert.SerializeObject(product);
+                string json = JsonConvert.SerializeObject(outwards);
 
                 StringContent data = new StringContent(json, Encoding.UTF8, "application/json");
-                var url = urlCollections["baseUrl"].ToString() + urlCollections["editproductUrl"] + "?id=" + product.ProductId.ToString();
+                var url = urlCollections["baseUrl"].ToString() + urlCollections["editoutwardsUrl"] + "?id=" + outwards.OutwardId.ToString();
                 var client = new HttpClient();
                 var request = new HttpRequestMessage(new HttpMethod("PUT"), url);
                 request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
@@ -106,9 +106,9 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             }
         }
 
-        public async Task<Product> GetProductById(Guid productId, string authToken)
+        public async Task<Outward> GetOutwardById(Guid outwardsId, string authToken)
         {
-            var url = urlCollections["baseUrl"].ToString() + urlCollections["getproductbyidUrl"] + "?productId=" + productId;
+            var url = urlCollections["baseUrl"].ToString() + urlCollections["getoutwardsbyidUrl"] + "?outwardsId=" + outwardsId;
             var client = new HttpClient();
 
             var request = new HttpRequestMessage(new HttpMethod("GET"), url);
@@ -124,14 +124,15 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             //close out the client
             client.Dispose();
 
-            var productDetail = JsonConvert.DeserializeObject<Product>(result);
+            var outwardDetails = JsonConvert.DeserializeObject<Outward>(result);
 
-            return productDetail;
+            return outwardDetails;
+
         }
 
-        public async Task<List<Product>> GetProductList(string authToken)
+        public async Task<List<Outward>> GetOutwardList(string authToken)
         {
-            var url = urlCollections["baseUrl"].ToString() + urlCollections["getallproductUrl"].ToString();
+            var url = urlCollections["baseUrl"].ToString() + urlCollections["getalloutwardsUrl"].ToString();
             var client = new HttpClient();
             var request = new HttpRequestMessage(new HttpMethod("GET"), url);
             request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
@@ -145,14 +146,14 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             //close out the client
             client.Dispose();
 
-            var productDetail = JsonConvert.DeserializeObject<List<Product>>(result);
+            var outwardDetails = JsonConvert.DeserializeObject<List<Outward>>(result);
 
-            return productDetail;
+            return outwardDetails;
         }
 
-        public async Task<List<Product>> getProdutFromSaleOrderId(Guid saleOrderId, string authToken)
+        public async Task<List<Customer>> getCustomerFromSaleOrderId(Guid saleOrderId, string authToken)
         {
-            var url = urlCollections["baseUrl"].ToString() + urlCollections["getproductfromsaleorderidUrl"] + "?saleOrderId=" + saleOrderId;
+            var url = urlCollections["baseUrl"].ToString() + urlCollections["getcustomerfromsaleorderidUrl"] + "?saleOrderId=" + saleOrderId;
             var client = new HttpClient();
 
             var request = new HttpRequestMessage(new HttpMethod("GET"), url);
@@ -168,9 +169,9 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             //close out the client
             client.Dispose();
 
-            var productDetail = JsonConvert.DeserializeObject<List<Product>>(result);
+            var customers = JsonConvert.DeserializeObject<List<Customer>>(result);
 
-            return productDetail;
+            return customers;
 
         }
     }
