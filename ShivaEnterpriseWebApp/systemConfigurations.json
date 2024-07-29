@@ -163,12 +163,19 @@
   "editpurchaseorderUrl": "/api/purchaseOrder/EditPurchaseOrder",
 
 
-  //Purchase Order
+  //Sales Order
   "getallsalesorderUrl": "/api/salesOrder/GetSalesOrder",
   "getsalesorderbyidUrl": "/api/salesOrder/GetSalesOrderById",
   "addsalesorderUrl": "/api/salesOrder/AddSalesOrder",
   "deletesalesorderUrl": "/api/salesOrder/DeleteSalesOrder",
   "editsalesorderUrl": "/api/salesOrder/EditSalesOrder",
+
+  //Sales return
+  "getallSalesReturnUrl": "/api/salesreturn/GetSalesreturn",
+  "getsalesreturnbyidUrl": "/api/salesreturn/GetSalesreturnById",
+  "addsalesreturnUrl": "/api/salesreturn/AddSalesreturn",
+  "deletesalesreturnUrl": "/api/salesreturn/DeleteSalesreturn",
+  "editsalesreturnUrl": "/api/salesreturn/EditSalesreturn",
 
   //Purchase Order Detail
   "getallpurchaseorderdetailUrl": "/api/PurchaseOrderDetail/GetPurchaseOrderDetail",
