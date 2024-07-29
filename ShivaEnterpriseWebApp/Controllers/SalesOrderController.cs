@@ -17,6 +17,7 @@ namespace ShivaEnterpriseWebApp.Controllers
         ICustomerServiceImpl customerService = new CustomerServiceImpl();
         IProductServiceImpl productService = new ProductServiceImpl();
         IBrandServiceImpl brandService = new BrandServiceImpl();
+        ICityServiceImpl cityService = new CityServiceImpl();
         ISalesOrderDetailServiceImpl salesorderDetailService = new SalesOrderDetailServiceImpl();
         private readonly IHostingEnvironment _hostingEnv;
 
@@ -116,11 +117,11 @@ namespace ShivaEnterpriseWebApp.Controllers
 
                     var netTotalAmount = SalesOrderViewModel.SODetail.Sum(x => x.NetTotal);
                     SalesOrderViewModel.SalesOrder.TotalAmount = netTotalAmount + (netTotalAmount * SalesOrderViewModel.SalesOrder.Tax_Percentage / 100);
-                    SalesOrderViewModel.SalesOrder.SalesOrderStatus = "Approve";
+                    SalesOrderViewModel.SalesOrder.SaleOrderStatus = "Approve";
                     SalesOrderViewModel.SalesOrder.CreatedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
                     SalesOrderViewModel.SalesOrder.CreatedDateTime = DateTime.Now;
                     SalesOrderViewModel.SalesOrder.Customer = await customerService.GetCustomerById(SalesOrderViewModel.SalesOrder.CustomerId, authToken);
-
+                    SalesOrderViewModel.SalesOrder.Customer.City = await cityService.GetCityById(SalesOrderViewModel.SalesOrder.Customer.cityId.Value, authToken);
                     var issuccess = await salesorderService.AddSalesOrderDetailsAsync(SalesOrderViewModel.SalesOrder, authToken);
                     if (issuccess.success)
                     {
