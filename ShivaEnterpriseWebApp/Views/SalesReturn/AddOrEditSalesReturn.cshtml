@@ -1,0 +1,80 @@
+﻿@model ShivaEnterpriseWebApp.Model.SalesReturnViewModel
+@{
+    SelectList customerDropdownList = ViewBag.SalesOrders;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add/Edit Sales Return</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .form-label {
+            font-weight: bold;
+        }
+
+        .container {
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Sales Return Form</h1>
+        <form controller="SalesReturns" action="AddOrEditSalesReturns" method="post">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Sales Order ID:</label>
+                        <input type="text" class="form-control" asp-for="SalesReturn.SalesOrderID">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Return Date:</label>
+                        <input type="date" class="form-control" asp-for="SalesReturn.ReturnDate">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Reason for Return:</label>
+                        <textarea class="form-control" asp-for="SalesReturn.ReasonForReturn"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Returned Quantity:</label>
+                        <input type="number" class="form-control" asp-for="SalesReturn.ReturnedQuantity">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Restocking Fee:</label>
+                        <input type="number" step="0.01" class="form-control" asp-for="SalesReturn.RestockingFee">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Comments:</label>
+                        <textarea class="form-control" asp-for="SalesReturn.Comments"></textarea>
+                    </div>
+                </div>
+            </div>
+            <hr style="width:100%" />
+            <div id="poDetailPartial">
+                @Html.Partial("_SalesReturnsDetail")
+            </div>
+            <button type="submit" class="btn btn-primary" id="btnSalesSave">Submit</button>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="~/js/SalesReturn.js"></script>
+</body>
+</html>
