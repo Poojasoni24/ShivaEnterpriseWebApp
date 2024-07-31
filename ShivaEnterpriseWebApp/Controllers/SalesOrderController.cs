@@ -133,9 +133,10 @@ namespace ShivaEnterpriseWebApp.Controllers
                                 x.CreatedDateTime = DateTime.Now;
                                 x.Product = productService.GetProductById(x.ProductId, authToken).Result;
                                 x.Brand = brandService.GetBrandById(x.BrandId, authToken).Result;
+                                x.Tax_Percentage = "12";
                             });
 
-                        await salesorderDetailService.AddSalesOrderDetailDetailsAsync(SalesOrderViewModel.SODetail, authToken);
+                        var data = await salesorderDetailService.AddSalesOrderDetailDetailsAsync(SalesOrderViewModel.SODetail, authToken);
                     }
                 }
                 
