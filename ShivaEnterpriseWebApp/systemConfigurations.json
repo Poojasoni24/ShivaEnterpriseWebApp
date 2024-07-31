@@ -1,5 +1,5 @@
 {
-  "baseUrl": "https://localhost:44362",
+  "baseUrl": "https://localhost:7183",
   //"baseUrl": "http://erpapi.shivaenterpriseind.in",
   "GetCompaniesUrl": "/api/Company/GetCompanies",
   "GetCompanyByIdUrl": "/api/Company/GetCompanyById",
@@ -196,6 +196,22 @@
   "getcustomerbyidUrl": "/api/Customer/GetCustomerById",
   "addcustomerUrl": "/api/Customer/AddCustomer",
   "deletecustomerUrl": "/api/Customer/DeleteCustomer",
-  "editcustomerUrl": "/api/Customer/EditCustomer"
+  "editcustomerUrl": "/api/Customer/EditCustomer",
+
+  //Outwards
+  "getalloutwardsUrl": "/api/Outward/GetOutwards",
+  "getoutwardsbyidUrl": "/api/Outward/GetOutwardsById",
+  "addoutwardsUrl": "/api/Outward/AddOutwards",
+  "deleteoutwardsUrl": "/api/Outward/DeleteOutwards",
+  "editoutwardsUrl": "/api/Outward/EditOutwards",
+  "getcustomerfromsaleorderidUrl": "/api/Outward/GetCustomerFromSaleOrderId",
+  "getproductfromsaleorderidUrl": "/api/Product/GetProductFromSaleOrderId",
+
+  //Inward
+  "getAllInwardsUrl": "/api/Inward/GetInwards",
+  "getInwardByIdUrl": "/api/Inward/GetInwardById",
+  "addInwardUrl": "/api/Inward/AddInwards",
+  "deleteInwardUrl": "/api/Inward/DeleteInwards",
+  "editInwardUrl": "/api/Inward/EditInwards"
 
 }

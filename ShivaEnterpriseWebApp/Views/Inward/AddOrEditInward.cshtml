@@ -1,0 +1,196 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model ShivaEnterpriseWebApp.Model.InwardViewModel
+
+@{
+    SelectList SupplierDropdownList = ViewBag.SupplierSelectList ?? new SelectList(new List<SelectListItem>());
+    SelectList ProductDropdownList = ViewBag.ProductSelectList ?? new SelectList(new List<SelectListItem>());
+    SelectList PurchaseOrderDropdownList = ViewBag.PurchaseOrderSelectList ?? new SelectList(new List<SelectListItem>());
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inward</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Optional custom styles */
+        .form-label {
+            font-weight: bold;
+        }
+
+        .container {
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Inward Form</h1>
+        <form controller="Inward" asp-controller="Inward" asp-action="AddOrEditInward" method="post">
+            @Html.HiddenFor(model => model.InwardId)
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Purchase Order:</label>
+                        @Html.DropDownListFor(model => model.PurchaseOrderId, PurchaseOrderDropdownList, "Select an option", new { @class = "form-control", id = "PurchaseOrderId" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Supplier:</label>
+                        @Html.DropDownListFor(model => model.VendorId, SupplierDropdownList, "Select an option", new { @class = "form-control", id = "VendorId" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Product:</label>
+                        @Html.DropDownListFor(model => model.ProductId, ProductDropdownList, "Select an option", new { @class = "form-control", id = "ProductId" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Receipt Date:</label>
+                        <input type="date" id="ReceiptDate" class="form-control" asp-for="ReceiptDate">
+                        @Html.ValidationMessageFor(m => m.ReceiptDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Received By:</label>
+                        <input type="text" id="ReceivedBy" class="form-control" asp-for="ReceivedBy" value="@Model.ReceivedBy">
+                        @Html.ValidationMessageFor(m => m.ReceivedBy, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Quantity Received:</label>
+                        <input type="number" id="QuantityReceived" class="form-control" asp-for="QuantityReceived" value="@Model.QuantityReceived">
+                        @Html.ValidationMessageFor(m => m.QuantityReceived, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Unit of Measure:</label>
+                        <input type="text" id="UnitOfMeasure" class="form-control" asp-for="UnitOfMeasure" value="@Model.UnitOfMeasure">
+                        @Html.ValidationMessageFor(m => m.UnitOfMeasure, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Batch Number:</label>
+                        <input type="text" id="BatchNumber" class="form-control" asp-for="BatchNumber" value="@Model.BatchNumber">
+                        @Html.ValidationMessageFor(model => model.BatchNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Quality Check Status:</label>
+                        <input type="text" id="QualityCheckStatus" class="form-control" asp-for="QualityCheckStatus" value="@Model.QualityCheckStatus">
+                        @Html.ValidationMessageFor(m => m.QualityCheckStatus, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Quality Check Remarks:</label>
+                        <input type="text" id="QualityCheckRemarks" class="form-control" asp-for="QualityCheckRemarks" value="@Model.QualityCheckRemarks">
+                        @Html.ValidationMessageFor(m => m.QualityCheckRemarks, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Invoice Number:</label>
+                        <input type="text" id="InvoiceNumber" class="form-control" asp-for="InvoiceNumber" value="@Model.InvoiceNumber">
+                        @Html.ValidationMessageFor(m => m.InvoiceNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Invoice Date:</label>
+                        <input type="date" id="InvoiceDate" class="form-control" asp-for="InvoiceDate">
+                        @Html.ValidationMessageFor(m => m.InvoiceDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Cost Per Unit:</label>
+                        <input type="number" id="CostPerUnit" class="form-control" asp-for="CostPerUnit" value="@Model.CostPerUnit">
+                        @Html.ValidationMessageFor(m => m.CostPerUnit, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Total Cost:</label>
+                        <input type="number" id="TotalCost" class="form-control" asp-for="TotalCost" value="@Model.TotalCost">
+                        @Html.ValidationMessageFor(m => m.TotalCost, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Remarks:</label>
+                        <input type="text" id="Remarks" class="form-control" asp-for="Remarks" value="@Model.Remarks">
+                        @Html.ValidationMessageFor(m => m.Remarks, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Created By:</label>
+                        <input type="text" id="CreatedBy" class="form-control" asp-for="CreatedBy" value="@Model.CreatedBy">
+                        @Html.ValidationMessageFor(m => m.CreatedBy, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Created Date:</label>
+                        <input type="date" id="CreatedDate" class="form-control" asp-for="CreatedDate">
+                        @Html.ValidationMessageFor(m => m.CreatedDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Modified By:</label>
+                        <input type="text" id="ModifiedBy" class="form-control" asp-for="ModifiedBy" value="@Model.ModifiedBy">
+                        @Html.ValidationMessageFor(m => m.ModifiedBy, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Modified Date:</label>
+                        <input type="date" id="ModifiedDate" class="form-control" asp-for="ModifiedDate">
+                        @Html.ValidationMessageFor(m => m.ModifiedDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="btnSave">Submit</button>
+        </form>
+    </div>
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="~/js/Inwards.js"></script>
+</body>
+</html>
