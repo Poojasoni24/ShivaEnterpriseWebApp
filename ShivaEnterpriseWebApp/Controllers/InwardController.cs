@@ -53,7 +53,7 @@ namespace ShivaEnterpriseWebApp.Controllers
             SelectList supplierDropdownList = new SelectList(vendorDataList, "VendorId", "VendorName");
             ViewBag.SupplierSelectList = supplierDropdownList;
             List<PurchaseOrder> purchaseOrdersDataList = await _purchaseOrderService.GetPurchaseOrderList(authToken);
-            SelectList purchaseOrderDropdownList = new SelectList(purchaseOrdersDataList, "PurchaseOrderId", "OrderNumber"); // Assuming OrderNumber is a property
+            SelectList purchaseOrderDropdownList = new SelectList(purchaseOrdersDataList, "PurchaseOrderId", "Doc_No");
             ViewBag.PurchaseOrderSelectList = purchaseOrderDropdownList;
 
             if (inwardId != Guid.Empty)
