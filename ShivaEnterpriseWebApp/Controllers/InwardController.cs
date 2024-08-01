@@ -3,10 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using ShivaEnterpriseWebApp.Model;
 using ShivaEnterpriseWebApp.Services.Implementation;
 using ShivaEnterpriseWebApp.Services.Interface;
-using System;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace ShivaEnterpriseWebApp.Controllers
@@ -18,6 +15,7 @@ namespace ShivaEnterpriseWebApp.Controllers
         IVendorServiceImpl _vendorService = new VendorServiceImpl();
         IPurchaseOrderDetailServiceImpl _purchaseOrderDetailService = new PurchaseOrderDetailServiceImpl();
         IPurchaseOrderServiceImpl _purchaseOrderService = new PurchaseOrderServiceImpl();
+        ICityServiceImpl CityService = new CityServiceImpl();
         IHostingEnvironment _hostingEnv;
 
         public InwardController(IHostingEnvironment hostingEnv)
@@ -33,9 +31,11 @@ namespace ShivaEnterpriseWebApp.Controllers
             {
                 foreach (var item in getAllInwards)
                 {
-                    item.Product = await _productService.GetProductById(item.ProductId, authToken);
-                    item.PurchaseOrder = await _purchaseOrderService.GetPurchaseOrderById(item.PurchaseOrderId, authToken);
-                    item.Vendor = await _vendorService.GetVendorById(item.VendorId, authToken);
+                    Product product  = await _productService.GetProductById(item.ProductId, authToken);
+                    item.ProductName = product.ProductName;
+                 
+                    Vendor vendor = await _vendorService.GetVendorById(item.VendorId, authToken);
+                    item.VendorName = vendor.VendorName;
                 }
             }
             return View("Index", getAllInwards);
@@ -45,115 +45,72 @@ namespace ShivaEnterpriseWebApp.Controllers
         [HttpGet]
         public async Task<ActionResult> AddOrEditInward(Guid inwardId)
         {
-            string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
-            List<Product> productDataList = await _productService.GetProductList(authToken);
-            SelectList productDropdownList = new SelectList(productDataList, "ProductId", "ProductName");
-            ViewBag.ProductSelectList = productDropdownList;
-            List<Vendor> vendorDataList = await _vendorService.GetVendorList(authToken);
-            SelectList supplierDropdownList = new SelectList(vendorDataList, "VendorId", "VendorName");
-            ViewBag.SupplierSelectList = supplierDropdownList;
-            List<PurchaseOrder> purchaseOrdersDataList = await _purchaseOrderService.GetPurchaseOrderList(authToken);
-            SelectList purchaseOrderDropdownList = new SelectList(purchaseOrdersDataList, "PurchaseOrderId", "Doc_No");
-            ViewBag.PurchaseOrderSelectList = purchaseOrderDropdownList;
-
-            if (inwardId != Guid.Empty)
+            try
             {
-                var inwardDetail = await _inwardService.GetInwardById(inwardId, authToken);
-                if (inwardDetail != null)
+                string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
+                List<Product> productDataList = await _productService.GetProductList(authToken);
+                SelectList productDropdownList = new SelectList(productDataList, "ProductId", "ProductName");
+                ViewBag.ProductSelectList = productDropdownList;
+
+                List<Vendor> vendorDataList = await _vendorService.GetVendorList(authToken);
+                SelectList supplierDropdownList = new SelectList(vendorDataList, "VendorId", "VendorName");
+                ViewBag.SupplierSelectList = supplierDropdownList;
+
+                List<PurchaseOrder> purchaseOrdersDataList = await _purchaseOrderService.GetPurchaseOrderList(authToken);
+                SelectList purchaseOrderDropdownList = new SelectList(purchaseOrdersDataList, "PurchaseOrderId", "Doc_No");
+                ViewBag.PurchaseOrderSelectList = purchaseOrderDropdownList;
+
+                if (inwardId != Guid.Empty)
                 {
-                    var viewModel = new InwardViewModel
-                    {
-                        InwardId = inwardDetail.InwardId,
-                        PurchaseOrderId = inwardDetail.PurchaseOrderId,
-                        VendorId = inwardDetail.VendorId,
-                        VendorName = inwardDetail.VendorName,
-                        ReceiptDate = inwardDetail.ReceiptDate,
-                        ReceivedBy = inwardDetail.ReceivedBy,
-                        ProductId = inwardDetail.ProductId,
-                        ProductName = inwardDetail.ProductName,
-                        QuantityReceived = inwardDetail.QuantityReceived,
-                        UnitOfMeasure = inwardDetail.UnitOfMeasure,
-                        BatchNumber = inwardDetail.BatchNumber,
-                        QualityCheckStatus = inwardDetail.QualityCheckStatus,
-                        QualityCheckRemarks = inwardDetail.QualityCheckRemarks,
-                        InvoiceNumber = inwardDetail.InvoiceNumber,
-                        InvoiceDate = inwardDetail.InvoiceDate,
-                        CostPerUnit = inwardDetail.CostPerUnit,
-                        TotalCost = inwardDetail.TotalCost,
-                        Remarks = inwardDetail.Remarks,
-                        CreatedBy = inwardDetail.CreatedBy,
-                        CreatedDate = inwardDetail.CreatedDate,
-                        ModifiedBy = inwardDetail.ModifiedBy,
-                        ModifiedDate = inwardDetail.ModifiedDate,
-                        Products = productDataList,
-                        PurchaseOrders = purchaseOrdersDataList,
-                        Vendors = vendorDataList
-                    };
-                    return View("AddOrEditInward", viewModel);
-                }
-            }
+                    var inwardDetail = await _inwardService.GetInwardById(inwardId, authToken);
+                    productDataList = await _inwardService.GetProductByPurchseOrderId(inwardDetail.PurchaseOrderId, authToken);
+                    productDropdownList = new SelectList(productDataList, "ProductId", "ProductName");
 
-            var newInwardViewModel = new InwardViewModel
+                    ViewBag.ProductSelectList = productDropdownList;
+
+                    if (inwardDetail != null)
+                    {
+                        return View("AddOrEditOutward", inwardDetail);
+                    }
+                }
+                return View("AddOrEditInward", new Inward());
+            }
+            catch (Exception ex)
             {
-                Products = productDataList,
-                Vendors = vendorDataList
-            };
-            return View("AddOrEditInward", newInwardViewModel);
+                return View("Index");
+            }
+  
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddOrEditInward(InwardViewModel inwardViewModel)
+        public async Task<ActionResult> AddOrEditInward(Inward inwardDetails)
         {
             try
             {
                 string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
 
-                if (inwardViewModel.InwardId != Guid.Empty)
+                PurchaseOrder purchaseOrder = await _purchaseOrderService.GetPurchaseOrderById(inwardDetails.PurchaseOrderId, authToken);
+                Vendor vendor = await _vendorService.GetVendorById(inwardDetails.VendorId, authToken);
+                Product product = await _productService.GetProductById(inwardDetails.ProductId, authToken);
+                inwardDetails.VendorName = vendor.VendorName;
+                inwardDetails.ProductName = product.ProductName;
+             
+                if (inwardDetails.InwardId != Guid.Empty)
                 {
-                    var existingInward = await _inwardService.GetInwardById(inwardViewModel.InwardId, authToken);
-                    existingInward.PurchaseOrderId = inwardViewModel.PurchaseOrderId;
-                    existingInward.VendorId = inwardViewModel.VendorId;
-                    existingInward.ReceiptDate = inwardViewModel.ReceiptDate;
-                    existingInward.ReceivedBy = inwardViewModel.ReceivedBy;
-                    existingInward.ProductId = inwardViewModel.ProductId;
-                    existingInward.QuantityReceived = inwardViewModel.QuantityReceived;
-                    existingInward.UnitOfMeasure = inwardViewModel.UnitOfMeasure;
-                    existingInward.BatchNumber = inwardViewModel.BatchNumber;
-                    existingInward.QualityCheckStatus = inwardViewModel.QualityCheckStatus;
-                    existingInward.QualityCheckRemarks = inwardViewModel.QualityCheckRemarks;
-                    existingInward.InvoiceNumber = inwardViewModel.InvoiceNumber;
-                    existingInward.InvoiceDate = inwardViewModel.InvoiceDate;
-                    existingInward.CostPerUnit = inwardViewModel.CostPerUnit;
-                    existingInward.TotalCost = inwardViewModel.TotalCost;
-                    existingInward.Remarks = inwardViewModel.Remarks;
-                    existingInward.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-                    existingInward.ModifiedDate = DateTime.Now;
-                    await _inwardService.EditInwardDetailsAsync(existingInward, authToken);
+                    await _inwardService.EditInwardDetailsAsync(inwardDetails, authToken);
                 }
                 else
-                {
-                    var newInward = new Inward
-                    {
-                        InwardId = Guid.NewGuid(),
-                        PurchaseOrderId = inwardViewModel.PurchaseOrderId,
-                        VendorId = inwardViewModel.VendorId,
-                        ReceiptDate = inwardViewModel.ReceiptDate,
-                        ReceivedBy = inwardViewModel.ReceivedBy,
-                        ProductId = inwardViewModel.ProductId,
-                        QuantityReceived = inwardViewModel.QuantityReceived,
-                        UnitOfMeasure = inwardViewModel.UnitOfMeasure,
-                        BatchNumber = inwardViewModel.BatchNumber,
-                        QualityCheckStatus = inwardViewModel.QualityCheckStatus,
-                        QualityCheckRemarks = inwardViewModel.QualityCheckRemarks,
-                        InvoiceNumber = inwardViewModel.InvoiceNumber,
-                        InvoiceDate = inwardViewModel.InvoiceDate,
-                        CostPerUnit = inwardViewModel.CostPerUnit,
-                        TotalCost = inwardViewModel.TotalCost,
-                        Remarks = inwardViewModel.Remarks,
-                        CreatedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value,
-                        CreatedDate = DateTime.Now
-                    };
-                    await _inwardService.AddInwardDetailsAsync(newInward, authToken);
+                { 
+                    inwardDetails.InwardId = Guid.NewGuid();
+                    inwardDetails.CreatedDate = DateTime.Now;
+                    inwardDetails.Product = product;
+                    inwardDetails.Vendor = vendor;
+                    inwardDetails.Vendor.City = await CityService.GetCityById(vendor.cityId, authToken);
+                    inwardDetails.PurchaseOrder = purchaseOrder;
+                    inwardDetails.PurchaseOrder.Vendor = inwardDetails.Vendor;
+
+
+                    await _inwardService.AddInwardDetailsAsync(inwardDetails, authToken);
                 }
 
                 return RedirectToAction(nameof(Index));
@@ -164,12 +121,19 @@ namespace ShivaEnterpriseWebApp.Controllers
                 return View("Index");
             }
         }
-
-        public async Task<IActionResult> Delete(Guid inwardId)
+        [HttpPost]
+        public async Task<ActionResult> RemoveInward(Guid inwardId)
         {
-            string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
-            await _inwardService.DeleteInward(inwardId, authToken);
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
+                await _inwardService.DeleteInward(inwardId, authToken);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "An error occured while remove Outward details." });
+            }
         }
     }
 }
