@@ -209,7 +209,7 @@
 
   //Inward
   "getAllInwardsUrl": "/api/Inward/GetInwards",
-  "getInwardByIdUrl": "/api/Inward/GetInwardById",
+  "getInwardByIdUrl": "/api/Inward/GetInwardsById",
   "addInwardUrl": "/api/Inward/AddInwards",
   "deleteInwardUrl": "/api/Inward/DeleteInwards",
   "editInwardUrl": "/api/Inward/EditInwards"

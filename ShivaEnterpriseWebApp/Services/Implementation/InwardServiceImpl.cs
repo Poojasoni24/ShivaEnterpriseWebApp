@@ -45,7 +45,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
 
         public async Task<(bool success, string message)> DeleteInward(Guid inwardId, string authToken)
         {
-            var url = urlCollections["baseUrl"].ToString() + urlCollections["deleteInwardUrl"] + "?inwardId=" + inwardId;
+            var url = urlCollections["baseUrl"].ToString() + urlCollections["deleteInwardUrl"] + "?inwardsId=" + inwardId;
             var client = new HttpClient();
             var request = new HttpRequestMessage(new HttpMethod("POST"), url);
             request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
@@ -115,6 +115,29 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
 
             var inwardDetail = JsonConvert.DeserializeObject<List<Inward>>(result);
             return inwardDetail;
+        }
+
+        public async Task<List<Product>> GetProductByPurchseOrderId(Guid productId, string authToken)
+        {
+            var url = urlCollections["baseUrl"].ToString() + urlCollections["getproductbyidUrl"] + "?productId=" + productId;
+            var client = new HttpClient();
+
+            var request = new HttpRequestMessage(new HttpMethod("GET"), url);
+            request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
+
+
+            //Pass in the full URL and the json string content
+            var response = await client.SendAsync(request);
+
+            //It would be better to make sure this request actually made it through
+            var result = await response.Content.ReadAsStringAsync();
+
+            //close out the client
+            client.Dispose();
+            var productDetail = JsonConvert.DeserializeObject<List<Product>>(result);
+            //var productDetail = JsonConvert.DeserializeObject<Product>(result);
+
+            return productDetail;
         }
     }
 }

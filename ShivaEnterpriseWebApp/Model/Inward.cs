@@ -2,22 +2,19 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
     public class Inward
     {
         public Guid InwardId { get; set; }
 
-        [Required]
         public Guid PurchaseOrderId { get; set; }
 
-        [Required]
         public Guid VendorId { get; set; }
         public string VendorName { get; set; }
-
-        [Required]
         public DateTime ReceiptDate { get; set; }
         public string ReceivedBy { get; set; }
 
-        [Required]
         public Guid ProductId { get; set; }
         public string ProductName { get; set; }
         public decimal QuantityReceived { get; set; }
@@ -35,9 +32,10 @@
         public string ModifiedBy { get; set; }
         public DateTime ModifiedDate { get; set; }
 
-        public Product Product { get; set; }
+        public Vendor Vendor { get; set; }
 
         public PurchaseOrder PurchaseOrder { get; set; }
-        public Vendor Vendor { get; set; }
+
+        public Product Product { get; set; }
     }
 }

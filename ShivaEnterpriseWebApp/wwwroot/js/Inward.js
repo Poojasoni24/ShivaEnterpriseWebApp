@@ -9,7 +9,7 @@
 
 function myFunction(value) {
     $.ajax({
-        url: '/Inward/GetProductsAndCustomers',
+        url: '/Outward/GetProductsAndCustomers',
         type: 'GET',
         data: { saleOrderId: value },
         success: function (response) {
@@ -44,12 +44,10 @@ function myFunction(value) {
     });
 }
 
-
-
 function onDeleteInward(Inward) {
     swal({
         title: "Are you sure?",
-        text: `Are you sure to delete Inward details ?`,
+        text: `Are you sure to delete inward details ?`,
         //type: "warning",
         buttons: {
             yes: {
@@ -99,4 +97,5 @@ function deleteInwardAJAX(InwardId) {
 function modalclose() {
     window.location.reload();
 }
+
 
