@@ -15,7 +15,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
         {
             urlCollections = JObject.Parse(File.ReadAllText("systemConfigurations.json"));
         }
-        public async Task<(bool success, string message)> AddSalesOrderDetailsAsync(SalesOrder salesorder, string authToken)
+        public async Task<(bool success, string value)> AddSalesOrderDetailsAsync(SalesOrder salesorder, string authToken)
         {
             try
             {

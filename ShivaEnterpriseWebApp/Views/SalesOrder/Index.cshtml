@@ -51,7 +51,7 @@
                                                         @* <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" onclick="loadPOPartial(@(JsonConvert.SerializeObject(item.SalesOrderId)))">
                                                             view
                                                         </button> *@
-                                                        <input class="btn btn-primary" type="button" value="Edit" onclick="window.location.replace(`/SalesOrder/AddOrEditSalesOrder?salesorderId=@item.SalesOrderId`)" />
+                                                        <input class="btn btn-primary" type="button" value="Edit" onclick="window.location.href='/SalesOrder/AddOrEditSalesOrder?salesorderId=@item.SalesOrderId'" />
                                                         <input class="btn btn-outline-danger" type="button" value="Delete" onclick="onDeletePO(@(JsonConvert.SerializeObject(item)))" />
 
                                                     </td>

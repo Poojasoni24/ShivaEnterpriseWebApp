@@ -77,10 +77,22 @@ namespace ShivaEnterpriseWebApp.Controllers
            // if (!string.IsNullOrEmpty(salesorderId))
                 if (salesorderId != Guid.Empty)
                 {
-                var SalesOrderDetail = await salesorderService.GetSalesOrderById(salesorderId, authToken);
-                if (SalesOrderDetail != null)
+                var SalesOrder = await salesorderService.GetSalesOrderById(salesorderId, authToken);
+                var SalesOrderDetail = salesorderDetailService.GetSalesOrderDetailList(authToken).Result.Where(x => x.SalesOrderId == salesorderId).ToList();
+                if (SalesOrder != null &&  SalesOrderDetail != null)
                 {
-                    return View("AddOrEditSalesOrder", SalesOrderDetail);
+                    SalesOrderDetail.ForEach (x =>
+                    {
+                        x.Product = productService.GetProductById(x.ProductId, authToken).Result;
+                        x.Brand = brandService.GetBrandById(x.BrandId, authToken).Result;
+                    }) ;
+
+                    var salesOrderViewModel = new SalesOrderViewModel()
+                    {
+                        SalesOrder = SalesOrder,
+                        SODetail = SalesOrderDetail,
+                    };
+                    return View("AddOrEditSalesOrder", salesOrderViewModel);
                 }
             }
             return View("AddOrEditSalesOrder");
@@ -128,7 +140,7 @@ namespace ShivaEnterpriseWebApp.Controllers
                         SalesOrderViewModel.SODetail.ForEach(
                             x =>
                             {
-                               // x.SalesOrderId = JsonConvert.DeserializeObject<Guid>(issuccess.value);
+                               x.SalesOrderId = JsonConvert.DeserializeObject<Guid>(issuccess.value);
                                 x.CreatedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
                                 x.CreatedDateTime = DateTime.Now;
                                 x.Product = productService.GetProductById(x.ProductId, authToken).Result;
@@ -141,7 +153,7 @@ namespace ShivaEnterpriseWebApp.Controllers
                 }
                 
 
-                return RedirectToAction(nameof(Index));
+                return View("index");
             }
             catch (Exception ex)
             {
