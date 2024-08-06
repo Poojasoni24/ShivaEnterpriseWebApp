@@ -1,6 +1,6 @@
 ﻿@model ShivaEnterpriseWebApp.Model.SalesOrderViewModel
 @{
-    
+
     SelectList customerDropdownList = ViewBag.CustomerSelectList;
 }
 <!DOCTYPE html>
@@ -41,7 +41,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">              
+            <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="form-label">Order Date:</label>
@@ -79,7 +79,15 @@
                 </div>
                 <hr style="width:100%" />
                 <div id="poDetailPartial">
-                    @Html.Partial("_SalesOrderDetail",Model.SODetail)
+                    @if (Model != null && Model.SODetail != null)
+                    {
+                        @Html.Partial("_SalesOrderDetail", Model.SODetail)
+
+                    }
+                    else
+                    {
+                        @Html.Partial("_SalesOrderDetail")
+                    }
                 </div>
 
                 <button type="submit" class="btn btn-primary" id="btnSalesSave">Submit</button>

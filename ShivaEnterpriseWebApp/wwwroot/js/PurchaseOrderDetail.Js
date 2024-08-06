@@ -305,7 +305,8 @@ $("#btnSave").on("click", function () {
         contentType: 'application/json',
         data: JSON.stringify(PurchaseOrderViewModel),
         success: function (r) {
-            alert(r + " record(s) inserted.");
+            Snackbar.show({ text: "Purchase Order Created", textColor: "#FF0000", pos: "bottom-center", showAction: false, backgroundColor: "#F6F2F5" });
+            setTimeout(() => { window.location.replace('/PurchaseOrder', 'PurchaseOrder/AddOrEditPurchaseOrder') }, 1500);
         }
     });
 });

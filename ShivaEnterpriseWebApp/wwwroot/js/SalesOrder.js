@@ -1,31 +1,50 @@
-﻿//function onAddSalesOrder() {
-//    $.ajax({
-//        url: `/SalesOrder/AddOrEditSalesOrder`,
-//        type: 'GET',
-//        success: function (res) {
-//            window.location.replace('/SalesOrder/AddOrEditSalesOrder');
-//        },
-//        async: true,
-//        error: function (err) {
-//            Alert("Some thing went wrong");
-//        }
-//    });
-//}
+﻿//On Click of delete sales order.
+function onDeleteSO(SalesOrder) {
+    swal({
+        title: "Are you sure?",
+        text: `Are you sure to delete ${SalesOrder.Doc_No} ?`,
+        //type: "warning",
+        buttons: {
+            yes: {
+                text: "Delete",
+                value: true
+            },
+            no: {
+                text: "Cancel",
+                value: false
+            }
+        },
+        showCancelButton: false,
+        confirmButtonColor: '#c10909'
+    }).then(res => {
+        if (res) {
+            debugger;
+            deleteSOAJAX(SalesOrder.SalesOrderId);
+        }
+    });
+}
 
-//function onChange() {
-//    $.ajax({
-//        url: `/SalesOrder/IndexChange`,
-//        type: 'GET',
-//        success: function (res) {
-//            window.location.replace('/SalesOrder/IndexChange');
-//        },
-//        async: true,
-//        error: function (err) {
-//            Alert("Some thing went wrong");
-//        }
-//    });
-//}
-
+//AJAX call for delete organization
+function deleteSOAJAX(SalesOrderId) {
+    $.ajax({
+        url: `/SalesOrder/RemoveSalesOrder`,
+        type: 'POST',
+        data: { SalesOrderId: SalesOrderId },
+        success: function (res) {
+            if (res.success) {
+                Snackbar.show({ text: res.message, textColor: "#FF0000", pos: "bottom-center", showAction: false, backgroundColor: "#F6F2F5" });
+                setTimeout(() => { window.location.reload() }, 1500);
+            }
+            else {
+                Snackbar.show({ text: "something went wrong", textColor: "#FF0000", pos: "bottom-center", showAction: false, backgroundColor: "#F6F2F5" });
+                setTimeout(() => { window.location.reload() }, 1500);
+            }
+        },
+        async: true,
+        error: function (err) {
+        }
+    });
+}
 
 $("#SalesOrder_CustomerId").on('change', function () {
     var selectedId = $('#SalesOrder_CustomerId').val();

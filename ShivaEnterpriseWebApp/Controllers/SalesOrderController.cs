@@ -162,5 +162,22 @@ namespace ShivaEnterpriseWebApp.Controllers
             }
 
         }
+
+        [HttpPost]
+        public async Task<ActionResult> RemoveSalesOrder(string SalesOrderId)
+        {
+            try
+            {
+                string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
+                var response = await salesorderService.DeleteSalesOrder(SalesOrderId, authToken);
+
+                return Json(new { success = response.successs, message = response.message });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "An error occured while remove PurchaseOrder." });
+            }
+        }
+
     }
 }

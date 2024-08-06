@@ -49,7 +49,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             }
         }
 
-        public async Task<(bool successs, string message)> DeleteSalesOrder(Guid salesorderId, string authToken)
+        public async Task<(bool successs, string message)> DeleteSalesOrder(string salesorderId, string authToken)
         {
             var url = urlCollections["baseUrl"].ToString() + urlCollections["deletesalesorderUrl"] + "?salesorderId=" + salesorderId;
             var client = new HttpClient();

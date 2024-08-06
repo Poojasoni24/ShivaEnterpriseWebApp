@@ -1,17 +1,3 @@
-//function onAddPurchaseOrder() {
-//    $.ajax({
-
-//        url: `/PurchaseOrder/AddOrEditPurchaseOrder`,
-//        type: 'GET',
-//        success: function (res) {
-//            window.location.replace('/PurchaseOrder/AddOrEditPurchaseOrder');
-//        },
-//        async: true,
-//        error: function (err) {
-//            Alert("Some thing went wrong");
-//        }
-//    });
-//}
 
 
 

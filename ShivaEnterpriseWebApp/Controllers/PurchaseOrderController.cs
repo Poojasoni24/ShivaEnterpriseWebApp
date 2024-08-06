@@ -162,7 +162,7 @@ namespace ShivaEnterpriseWebApp.Controllers
 
                     await purchaseorderDetailService.AddPurchaseOrderDetailDetailsAsync(addNewPO, authToken);
                 }
-                return RedirectToAction(nameof(Index));
+                return View("Index");
             }
             catch (Exception ex)
             {

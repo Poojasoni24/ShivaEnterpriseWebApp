@@ -284,7 +284,8 @@ $("#btnSalesSave").on("click", function () {
         contentType: 'application/json',
         data: JSON.stringify(SalesOrderViewModel),
         success: function (r) {
-            alert(r + " record(s) inserted.");
+            Snackbar.show({ text: "Sales Order Created", textColor: "#FF0000", pos: "bottom-center", showAction: false, backgroundColor: "#F6F2F5" });
+            setTimeout(() => { window.location.replace('/SalesOrder', 'SalesOrder/AddOrEditSalesOrder') }, 1500);
         }
     });
 });

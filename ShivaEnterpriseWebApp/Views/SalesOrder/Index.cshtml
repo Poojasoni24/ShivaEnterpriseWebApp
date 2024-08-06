@@ -52,7 +52,7 @@
                                                             view
                                                         </button> *@
                                                         <input class="btn btn-primary" type="button" value="Edit" onclick="window.location.href='/SalesOrder/AddOrEditSalesOrder?salesorderId=@item.SalesOrderId'" />
-                                                        <input class="btn btn-outline-danger" type="button" value="Delete" onclick="onDeletePO(@(JsonConvert.SerializeObject(item)))" />
+                                                        <input class="btn btn-outline-danger" type="button" value="Delete" onclick="onDeleteSO(@(JsonConvert.SerializeObject(item)))" />
 
                                                     </td>
                                                 </tr>
