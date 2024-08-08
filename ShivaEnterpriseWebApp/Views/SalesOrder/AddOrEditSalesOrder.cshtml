@@ -79,6 +79,7 @@
                 </div>
                 <hr style="width:100%" />
                 <div id="poDetailPartial">
+                    @* @Html.Partial("_SalesOrderDetail", Model.SODetail) *@
                     @if (Model != null && Model.SODetail != null)
                     {
                         @Html.Partial("_SalesOrderDetail", Model.SODetail)

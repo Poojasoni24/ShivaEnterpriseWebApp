@@ -179,7 +179,7 @@
 
   //Purchase Order Detail
   "getallpurchaseorderdetailUrl": "/api/PurchaseOrderDetail/GetPurchaseOrderDetail",
-  "getpurchaseorderdetailbyidUrl": "/api/PurchaseOrderDetail/GetPurchaseOrderDetailById",
+  "getpurchaseorderdetailbyidUrl": "/api/PurchaseOrderDetail/GetProductOrderDetailById",
   "addpurchaseorderdetailUrl": "/api/PurchaseOrderDetail/AddPurchaseOrderDetail",
   "deletepurchaseorderdetailUrl": "/api/PurchaseOrderDetail/DeletePurchaseOrderDetail",
   "editpurchaseorderdetailUrl": "/api/PurchaseOrderDetail/EditProductOrderDetail",
@@ -212,6 +212,11 @@
   "getInwardByIdUrl": "/api/Inward/GetInwardsById",
   "addInwardUrl": "/api/Inward/AddInwards",
   "deleteInwardUrl": "/api/Inward/DeleteInwards",
-  "editInwardUrl": "/api/Inward/EditInwards"
+  "editInwardUrl": "/api/Inward/EditInwards",
+
+  //Stock
+  "getallstockUrl": "/api/Stock/GetAllStock",
+  "addeditstockdetailsUrl": "/api/Stock/AddEditStockDetails",
+  "getstockbyproductidUrl": "/api/Stock/GetStockByProductId"
 
 }

@@ -107,7 +107,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
 
         public async Task<PurchaseOrderDetail> GetPurchaseOrderDetailById(string purchaseorderId, string authToken)
         {
-            var url = urlCollections["baseUrl"].ToString() + urlCollections["getpurchaseorderbyidUrl"] + "?purchaseorderId=" + purchaseorderId;
+            var url = urlCollections["baseUrl"].ToString() + urlCollections["getpurchaseorderdetailbyidUrl"] + "?purchaseOrderDetailId=" + purchaseorderId;
             var client = new HttpClient();
 
             var request = new HttpRequestMessage(new HttpMethod("GET"), url);

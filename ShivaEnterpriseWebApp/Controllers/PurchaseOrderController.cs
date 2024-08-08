@@ -16,6 +16,7 @@ namespace ShivaEnterpriseWebApp.Controllers
         IBrandServiceImpl brandService = new BrandServiceImpl();
         IPurchaseOrderServiceImpl purchaseorderService = new PurchaseOrderServiceImpl();
         IPurchaseOrderDetailServiceImpl purchaseorderDetailService = new PurchaseOrderDetailServiceImpl();
+        IStockServiceImpl stockservice = new StockServiceImpl();
 
 
         private readonly IHostingEnvironment _hostingEnv;
@@ -105,6 +106,18 @@ namespace ShivaEnterpriseWebApp.Controllers
                 PurchaseOrderViewModel.PurchaseOrder.PurchaseOrderStatus = "Approve";
                 PurchaseOrderViewModel.PurchaseOrder.Vendor = await vendorService.GetVendorById(PurchaseOrderViewModel.PurchaseOrder.VendorID, authToken);
 
+                // Stock Implementation
+                List<PurchaseOrderDetail> poBefore = new List<PurchaseOrderDetail>();
+
+                if (PurchaseOrderViewModel.UpdatedPODetail.Count != 0)
+                {
+                    foreach (var PODetail in PurchaseOrderViewModel.UpdatedPODetail)
+                    {
+                        poBefore.Add(await purchaseorderDetailService.GetPurchaseOrderDetailById(PODetail.PurchaseOrderDetailId.ToString(), authToken));
+                    }
+                }
+                // Stock Implementation
+
                 if (PurchaseOrderViewModel.PurchaseOrder.PurchaseOrderId != Guid.Empty)
                 {
                     PurchaseOrderViewModel.PurchaseOrder.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
@@ -115,7 +128,7 @@ namespace ShivaEnterpriseWebApp.Controllers
                         purchaseOrderId = PurchaseOrderViewModel.PurchaseOrder.PurchaseOrderId;
                         var pOObject = await purchaseorderService.GetPurchaseOrderById(purchaseOrderId, authToken);
                         if (PurchaseOrderViewModel.UpdatedPODetail.Any())
-                        {                            
+                        {
                             PurchaseOrderViewModel.UpdatedPODetail.ForEach(
                                 x =>
                                 {
@@ -162,6 +175,61 @@ namespace ShivaEnterpriseWebApp.Controllers
 
                     await purchaseorderDetailService.AddPurchaseOrderDetailDetailsAsync(addNewPO, authToken);
                 }
+
+                // Stock Implementation
+                List<Stock> stock = new List<Stock>();
+                // Edit Stock
+                if (PurchaseOrderViewModel.PurchaseOrder.PurchaseOrderId != Guid.Empty)
+                {
+                    int quantity;
+
+                    for (int i = 0; i < PurchaseOrderViewModel.UpdatedPODetail.Count; i++)
+                    {
+                        if (poBefore.Count != 0)
+                        {
+                            quantity = (int)PurchaseOrderViewModel.UpdatedPODetail[i].Quantity - (int)poBefore[i].Quantity;
+                        }
+                        else
+                        {
+                            quantity = (int)PurchaseOrderViewModel.UpdatedPODetail[i].Quantity;
+                        }
+
+                        stock.Add(new Stock
+                        {
+                            ProductId = PurchaseOrderViewModel.UpdatedPODetail[i].ProductId,
+                            QuantityOnHand = quantity,
+                            ReorderLevel = "Default",
+                            StockCode = PurchaseOrderViewModel.UpdatedPODetail[i].Product is null ? "" : PurchaseOrderViewModel.UpdatedPODetail[i].Product.ProductName,
+                            ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
+
+                        });
+                    }
+                }
+                // Add stock
+                else
+                {
+                    for (int i = 0; i < PurchaseOrderViewModel.PODetail.Count; i++)
+                    {
+                        int quantity = (int)PurchaseOrderViewModel.PODetail[i].Quantity;
+
+                        stock.Add(new Stock
+                        {
+                            ProductId = PurchaseOrderViewModel.PODetail[i].ProductId,
+                            QuantityOnHand = quantity,
+                            ReorderLevel = "Default",
+                            StockCode = PurchaseOrderViewModel.PODetail[i].Product is null ? "" : PurchaseOrderViewModel.PODetail[i].Product.ProductName,
+                            ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
+
+                        });
+                    }
+                }
+
+                if(stock.Count != 0)
+                {
+                    await stockservice.AddEditStockDetailsAsync(stock, authToken);
+                }
+                // Stock Implementation
+
                 return View("Index");
             }
             catch (Exception ex)
@@ -178,6 +246,28 @@ namespace ShivaEnterpriseWebApp.Controllers
             try
             {
                 string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
+
+                // Stock Implementation
+                List<PurchaseOrderDetail> poDetail = await purchaseorderDetailService.GetPurchaseOrderDetailList(authToken);
+                List<PurchaseOrderDetail> poDetailToUpdate = poDetail.Where(po => po.PurchaseOrderId == Guid.Parse(purchaseorderId)).ToList();
+
+                List<Stock> stock = new List<Stock>();
+                for (int i = 0; i < poDetailToUpdate.Count; i++)
+                {
+                    stock.Add(new Stock
+                    {
+                        ProductId = poDetailToUpdate[i].ProductId,
+                        QuantityOnHand = 0 - (int)poDetailToUpdate[i].Quantity,
+                        ReorderLevel = "Default",
+                        StockCode = poDetailToUpdate[i].Product.ProductName,
+                        ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
+
+                    });
+                }
+
+                await stockservice.AddEditStockDetailsAsync(stock, authToken);
+                // Stock Implementation
+
                 var response = await purchaseorderService.DeletePurchaseOrder(purchaseorderId, authToken);
 
                 return Json(new { success = response.successs, message = response.message });
@@ -221,7 +311,7 @@ namespace ShivaEnterpriseWebApp.Controllers
             });
         }
 
-       
+
     }
 }
 

@@ -19,6 +19,7 @@ namespace ShivaEnterpriseWebApp.Controllers
         IBrandServiceImpl brandService = new BrandServiceImpl();
         ICityServiceImpl cityService = new CityServiceImpl();
         ISalesOrderDetailServiceImpl salesorderDetailService = new SalesOrderDetailServiceImpl();
+        IStockServiceImpl stockservice = new StockServiceImpl();
         private readonly IHostingEnvironment _hostingEnv;
 
         public SalesOrderController(IHostingEnvironment hostingEnv)
@@ -65,7 +66,7 @@ namespace ShivaEnterpriseWebApp.Controllers
             List<Customer> customerDataList = await customerService.GetCustomerList(authToken);
             SelectList customerselectList = new SelectList(customerDataList, "CustomerId", "CustomerName");
             ViewBag.customerSelectList = customerselectList;
-    
+
             List<Product> productDataList = await productService.GetProductList(authToken);
             SelectList productgroupselectList = new SelectList(productDataList, "ProductId", "ProductName");
             ViewBag.ProductSelectList = productgroupselectList;
@@ -74,9 +75,9 @@ namespace ShivaEnterpriseWebApp.Controllers
             SelectList brandgroupselectList = new SelectList(brandDataList, "BrandId", "BrandName");
             ViewBag.BrandSelectList = brandgroupselectList;
 
-           // if (!string.IsNullOrEmpty(salesorderId))
-                if (salesorderId != Guid.Empty)
-                {
+            // if (!string.IsNullOrEmpty(salesorderId))
+            if (salesorderId != Guid.Empty)
+            {
                 var SalesOrder = await salesorderService.GetSalesOrderById(salesorderId, authToken);
                 var SalesOrderDetail = salesorderDetailService.GetSalesOrderDetailList(authToken).Result.Where(x => x.SalesOrderId == salesorderId).ToList();
                 if (SalesOrder != null &&  SalesOrderDetail != null)
@@ -106,6 +107,8 @@ namespace ShivaEnterpriseWebApp.Controllers
                 List<SalesOrderDetail> soDetailList = new List<SalesOrderDetail>();
                 string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
 
+                List<SalesOrderDetail> soDetailList = new List<SalesOrderDetail>();
+
                 List<Customer> customerDataList = await customerService.GetCustomerList(authToken);
                 SelectList customergroupselectList = new SelectList(customerDataList, "CustomerId", "CustomerName");
                 ViewBag.customerSelectList = customergroupselectList;
@@ -117,6 +120,91 @@ namespace ShivaEnterpriseWebApp.Controllers
                 List<Brand> brandDataList = await brandService.GetBrandList(authToken);
                 SelectList brandgroupselectList = new SelectList(brandDataList, "BrandId", "BrandName");
                 ViewBag.BrandSelectList = brandgroupselectList;
+
+                // Stock Implementation
+                List<SalesOrderDetail> soBefore = new List<SalesOrderDetail>();
+                if (SalesOrderViewModel.UpdatedSODetail.Count != 0)
+                {
+                    foreach (var SoDetail in SalesOrderViewModel.UpdatedSODetail)
+                    {
+                        SalesOrderDetail soDetail = await salesorderDetailService.GetSalesOrderDetailById(SoDetail.SalesOrderDetailId, authToken);
+                        soBefore.Add(soDetail);
+                    }
+                }
+
+                bool isQuantityLow = false;
+                List<Stock> stock = new List<Stock>();
+                if (SalesOrderViewModel.SalesOrder.SalesOrderId != Guid.Empty)
+                {
+                    for (int i = 0; i < SalesOrderViewModel.UpdatedSODetail.Count; i++)
+                    {
+                        int quantity;
+
+                        if (soBefore.Count != 0)
+                        {
+                            quantity = (int)soBefore[i].Quantity - (int)SalesOrderViewModel.UpdatedSODetail[i].Quantity;
+                        }
+                        else
+                        {
+                            quantity = 0 - (int)SalesOrderViewModel.UpdatedSODetail[i].Quantity;
+                        }
+
+                        Stock stockDetail = await stockservice.GetStockByProductId(SalesOrderViewModel.UpdatedSODetail[i].ProductId, authToken);
+                        if ((stockDetail.QuantityOnHand + quantity) < 0)
+                        {
+                            isQuantityLow = true;
+                            break;
+                        }
+
+                        stock.Add(new Stock
+                        {
+                            ProductId = SalesOrderViewModel.SODetail[i].ProductId,
+                            QuantityOnHand = quantity,
+                            ReorderLevel = "Default",
+                            StockCode = SalesOrderViewModel.SODetail[i].Product is null ? "" : SalesOrderViewModel.SODetail[i].Product.ProductName,
+                            ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
+
+                        });
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < SalesOrderViewModel.SODetail.Count; i++)
+                    {
+                        int quantity = 0 - (int)SalesOrderViewModel.SODetail[i].Quantity;
+
+                        Stock stockDetail = await stockservice.GetStockByProductId(SalesOrderViewModel.SODetail[i].ProductId, authToken);
+                        if(stockDetail.QuantityOnHand < (int)SalesOrderViewModel.SODetail[i].Quantity)
+                        {
+                            isQuantityLow = true;
+                            break;
+                        }
+
+                        stock.Add(new Stock
+                        {
+                            ProductId = SalesOrderViewModel.SODetail[i].ProductId,
+                            QuantityOnHand = quantity,
+                            ReorderLevel = "Default",
+                            StockCode = SalesOrderViewModel.SODetail[i].Product is null ? "" : SalesOrderViewModel.SODetail[i].Product.ProductName,
+                            ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
+
+                        });
+                    }
+                }
+
+                if(isQuantityLow)
+                {
+                    ViewBag.Message = "Product Quantity is less than required.";
+                    return Content("Product Quantity is less than required.");
+                    
+                }
+
+                if (stock.Count > 0)
+                {
+                    await stockservice.AddEditStockDetailsAsync(stock, authToken);
+                }
+                // Stock Implementation
+
                 if (!string.IsNullOrEmpty(salesorderId))
                 {
                     //purchaseorderVM..PurchaseOrderId = new Guid(purchaseorderId);
@@ -151,7 +239,6 @@ namespace ShivaEnterpriseWebApp.Controllers
                         var data = await salesorderDetailService.AddSalesOrderDetailDetailsAsync(SalesOrderViewModel.SODetail, authToken);
                     }
                 }
-                
 
                 return View("index");
             }
@@ -169,7 +256,29 @@ namespace ShivaEnterpriseWebApp.Controllers
             try
             {
                 string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
-                var response = await salesorderService.DeleteSalesOrder(SalesOrderId, authToken);
+
+                // Stock Implementation
+                List<SalesOrderDetail> soDetail = await salesorderDetailService.GetSalesOrderDetailList(authToken);
+                List<SalesOrderDetail> soDetailToUpdate = soDetail.Where(po => po.SalesOrderId == Guid.Parse(SalesOrderId)).ToList();
+
+                List<Stock> stock = new List<Stock>();
+                for (int i = 0; i < soDetailToUpdate.Count; i++)
+                {
+                    stock.Add(new Stock
+                    {
+                        ProductId = soDetailToUpdate[i].ProductId,
+                        QuantityOnHand = (int)soDetailToUpdate[i].Quantity,
+                        ReorderLevel = "Default",
+                        StockCode = soDetailToUpdate[i].Product.ProductName,
+                        ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
+
+                    });
+                }
+
+                await stockservice.AddEditStockDetailsAsync(stock, authToken);
+                // Stock Implementation
+
+                var response = await salesorderService.DeleteSalesOrder(Guid.Parse(SalesOrderId), authToken);
 
                 return Json(new { success = response.successs, message = response.message });
             }

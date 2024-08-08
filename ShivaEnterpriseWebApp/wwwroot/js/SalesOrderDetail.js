@@ -284,8 +284,27 @@ $("#btnSalesSave").on("click", function () {
         contentType: 'application/json',
         data: JSON.stringify(SalesOrderViewModel),
         success: function (r) {
-            Snackbar.show({ text: "Sales Order Created", textColor: "#FF0000", pos: "bottom-center", showAction: false, backgroundColor: "#F6F2F5" });
-            setTimeout(() => { window.location.replace('/SalesOrder', 'SalesOrder/AddOrEditSalesOrder') }, 1500);
+            if (r === "Product Quantity is less than required.") {
+                swal({
+                    title: "Warning!!",
+                    text: r,
+                    //type: "warning",
+                    buttons: {
+                        no: {
+                            text: "Cancel",
+                            value: false
+                        }
+                    },
+                    showCancelButton: false,
+                    confirmButtonColor: '#c10909'
+                }).then(res => {
+                    var isError3 = true;
+                });
+            }
+            else {
+                Snackbar.show({ text: "Sales Order Created", textColor: "#FF0000", pos: "bottom-center", showAction: false, backgroundColor: "#F6F2F5" });
+                setTimeout(() => { window.location.replace('/SalesOrder', 'SalesOrder/AddOrEditSalesOrder') }, 1500);
+            }
         }
     });
 });
