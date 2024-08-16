@@ -1,13 +1,17 @@
-﻿@model ShivaEnterpriseWebApp.Model.SalesReturnViewModel
+﻿@model ShivaEnterpriseWebApp.Model.SalesReturn
+
 @{
-    SelectList customerDropdownList = ViewBag.SalesOrders;
+    SelectList SaleOrderDropdownList = ViewBag.SaleOrderSelectList ?? new SelectList(new List<SelectListItem>());
+    SelectList ProductDropdownList = ViewBag.ProductSelectList ?? new SelectList(new List<SelectListItem>());
+    SelectList BrandDropdownList = ViewBag.BrandSelectList ?? new SelectList(new List<SelectListItem>());
 }
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add/Edit Sales Return</title>
+    <title>Sales Return</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .form-label {
@@ -23,58 +27,152 @@
 <body>
     <div class="container">
         <h1 class="text-center">Sales Return Form</h1>
-        <form controller="SalesReturns" action="AddOrEditSalesReturns" method="post">
+        <form controller="SalesReturn" asp-controller="SalesReturn" asp-action="AddOrEditSalesReturn" method="post">
+            @Html.HiddenFor(model => model.SalesReturnID)
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="form-label">Sales Order ID:</label>
-                        <input type="text" class="form-control" asp-for="SalesReturn.SalesOrderID">
+                        <label class="form-label">Sales Order:</label>
+                        @Html.DropDownListFor(model => model.SalesOrderID, SaleOrderDropdownList, "Select an option", new { @class = "form-control", id = "SalesOrderID", onchange = "fetchSalesOrderDetails(this.value)" })
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="form-label">Return Date:</label>
-                        <input type="date" class="form-control" asp-for="SalesReturn.ReturnDate">
+                        <label class="form-label">Product:</label>
+                        @Html.DropDownListFor(model => model.ProductId, ProductDropdownList, "Select an option", new { id = "ProductId", @class = "form-control" })
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
+                        <label class="form-label">Brand:</label>
+                        @Html.DropDownListFor(model => model.BrandId, BrandDropdownList, "Select an option", new { id = "BrandId", @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Return Date:</label>
+                        <input type="date" id="ReturnDate" class="form-control" asp-for="ReturnDate">
+                        @Html.ValidationMessageFor(m => m.ReturnDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
                         <label class="form-label">Reason for Return:</label>
-                        <textarea class="form-control" asp-for="SalesReturn.ReasonForReturn"></textarea>
+                        <input type="text" id="ReasonForReturn" class="form-control" asp-for="ReasonForReturn" value="@Model.ReasonForReturn">
+                        @Html.ValidationMessageFor(m => m.ReasonForReturn, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Current Quantity:</label>
+                        <input type="number" id="Quantity" class="form-control" asp-for="Quantity" value="@Model.Quantity" disabled>
+                        @Html.ValidationMessageFor(m => m.Quantity, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="form-label">Returned Quantity:</label>
-                        <input type="number" class="form-control" asp-for="SalesReturn.ReturnedQuantity">
+                        <input type="number" id="ReturnedQuantity" class="form-control" asp-for="ReturnedQuantity" value="@Model.ReturnedQuantity">
+                        @Html.ValidationMessageFor(m => m.ReturnedQuantity, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Restocking Fee:</label>
+                        <input type="number" id="RestockingFee" class="form-control" asp-for="RestockingFee" step="0.01" value="@Model.RestockingFee">
+                        @Html.ValidationMessageFor(m => m.RestockingFee, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="form-label">Restocking Fee:</label>
-                        <input type="number" step="0.01" class="form-control" asp-for="SalesReturn.RestockingFee">
-                    </div>
-                </div>
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="form-group">
                         <label class="form-label">Comments:</label>
-                        <textarea class="form-control" asp-for="SalesReturn.Comments"></textarea>
+                        <input type="text" id="Comments" class="form-control" asp-for="Comments" value="@Model.Comments">
+                        @Html.ValidationMessageFor(m => m.Comments, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
-            <hr style="width:100%" />
-            <div id="poDetailPartial">
-                @Html.Partial("_SalesReturnsDetail")
-            </div>
-            <button type="submit" class="btn btn-primary" id="btnSalesSave">Submit</button>
+            <button type="submit" class="btn btn-primary" id="btnSave">Submit</button>
         </form>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="~/js/SalesReturn.js"></script>
+
+    <script>
+        function fetchSalesOrderDetails(salesOrderId) {
+            console.log("fetchSalesOrderDetails called with SalesOrderID: " + salesOrderId);
+
+            $.ajax({
+                url: '/SalesReturn/GetProductAndQuantity',
+                type: 'GET',
+                data: { salesOrderId: salesOrderId },
+                success: function (response) {
+                    console.log("AJAX request successful!");
+                    console.log("Response data:", response); // Debugging line
+
+                    var productDropdown = $('#ProductId');
+                    var brandDropdown = $('#BrandId');
+                    var quantityField = $('#Quantity');
+
+                    // Ensure dropdowns and fields are found
+                    if (productDropdown.length === 0 || brandDropdown.length === 0 || quantityField.length === 0) {
+                        console.error("Dropdowns or quantity field not found.");
+                        return;
+                    }
+
+                    // Clear existing options
+                    productDropdown.empty();
+                    brandDropdown.empty();
+
+                    // Add default option
+                    productDropdown.append('<option value="">Select a product</option>');
+                    brandDropdown.append('<option value="">Select a brand</option>');
+
+                    // Populate product dropdown
+                    $.each(response.products, function (i, item) {
+                        productDropdown.append('<option value="' + item.productId + '">' + item.productName + '</option>');
+                    });
+
+                    // Populate brand dropdown
+                    $.each(response.brands, function (i, item) {
+                        brandDropdown.append('<option value="' + item.brandId + '">' + item.brandName + '</option>');
+                    });
+
+                    // Set quantity field value
+                    if (response.currentQuantity !== undefined) {
+                        quantityField.val(response.currentQuantity);
+                    } else {
+                        console.warn("Current quantity not found in response.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX request failed: " + error);
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            $('#SalesOrderID').change(function () {
+                var selectedValue = $(this).val();
+                if (selectedValue) {
+                    fetchSalesOrderDetails(selectedValue);
+                } else {
+                    // Optionally clear dropdowns and fields if no value is selected
+                    $('#ProductId').empty().append('<option value="">Select a product</option>').prop('disabled', true);
+                    $('#BrandId').empty().append('<option value="">Select a brand</option>').prop('disabled', true);
+                    $('#Quantity').val('');
+                }
+            });
+        });
+    </script>
+
 </body>
 </html>

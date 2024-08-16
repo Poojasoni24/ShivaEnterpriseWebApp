@@ -81,7 +81,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
                 StringContent data = new StringContent(json, Encoding.UTF8, "application/json");
                 var url = urlCollections["baseUrl"].ToString() + urlCollections["editSalesReturnUrl"] + "?id=" + SalesReturn.SalesReturnID.ToString();
                 var client = new HttpClient();
-                var request = new HttpRequestMessage(new HttpMethod("PUT"), url);
+                var request = new HttpRequestMessage(HttpMethod.Put, url);
                 request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
                 request.Content = data;
 

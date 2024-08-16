@@ -16,9 +16,13 @@ namespace ShivaEnterpriseWebApp.Controllers
     {
         ISalesReturnServiceImpl salesReturnService = new SalesReturnServiceImpl();
         ISalesOrderServiceImpl salesOrderService = new SalesOrderServiceImpl();
+        ISalesOrderDetailServiceImpl salesOrderDetailService = new SalesOrderDetailServiceImpl();
         ICustomerServiceImpl customerService = new CustomerServiceImpl();
         IProductServiceImpl productService = new ProductServiceImpl();
         IBrandServiceImpl brandService = new BrandServiceImpl();
+        ICityServiceImpl cityService = new CityServiceImpl();
+        IStateServiceImpl stateService = new StateServiceImpl();
+        ICountryServiceImpl countryService = new CountryServiceImpl();
         ISalesReturnDetailServiceImpl SalesReturnDetailService = new SalesReturnDetailServiceImpl();
         private readonly IHostingEnvironment _hostingEnv;
 
@@ -61,9 +65,11 @@ namespace ShivaEnterpriseWebApp.Controllers
         public async Task<ActionResult> AddOrEditSalesReturn(Guid salesReturnId)
         {
             string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
-            List<SalesOrder> salesOrderDataList = await salesOrderService.GetSalesOrderList(authToken);
-            SelectList salesOrderSelectList = new SelectList(salesOrderDataList, "SalesOrderID", "OrderDate");
-            ViewBag.salesOrderSelectList = salesOrderSelectList;
+
+            List<SalesOrder> saleOrderDataList = await salesOrderService.GetSalesOrderList(authToken);
+            var saleOrders = GetSaleOrders(saleOrderDataList);
+            ViewBag.SaleOrderSelectList = new SelectList(saleOrders, "SalesOrderId", "Doc_No");
+
             List<Product> productDataList = await productService.GetProductList(authToken);
             SelectList productgroupselectList = new SelectList(productDataList, "ProductId", "ProductName");
             ViewBag.ProductSelectList = productgroupselectList;
@@ -74,36 +80,117 @@ namespace ShivaEnterpriseWebApp.Controllers
             if (salesReturnId != Guid.Empty)
             {
                 var salesReturnDetail = await salesReturnService.GetSalesReturnById(salesReturnId, authToken);
+                
+                productDataList = await productService.getProdutFromSaleOrderId(salesReturnDetail.SalesOrderID, authToken);
+                productgroupselectList = new SelectList(productDataList, "ProductId", "ProductName");
+                ViewBag.ProductSelectList = productgroupselectList;
+                var salesOrderDetail = await salesOrderDetailService.getsalesorderdetailbySalesOrderid(salesReturnDetail.SalesOrderID, authToken);
+                salesReturnDetail.ProductId = productDataList[0].ProductId;
+                var brand = brandService.GetBrandById(salesOrderDetail.BrandId, authToken).Result;
+                brandDataList = new List<Brand> { brand };
+                brandgroupselectList = new SelectList(brandDataList, "BrandId", "BrandName");
+                ViewBag.BrandSelectList = brandgroupselectList;
+                salesReturnDetail.Quantity = (int)salesOrderDetail.Quantity;
                 if (salesReturnDetail != null)
                 {
                     return View("AddOrEditSalesReturn", salesReturnDetail);
                 }
             }
-            return View("AddOrEditSalesReturn");
+            return View("AddOrEditSalesReturn", new SalesReturn());
         }
 
+        private List<SalesOrder> GetSaleOrders(List<SalesOrder> so)
+        {
+            // Replace with your actual logic to fetch sale orders
+            List<SalesOrder> so1 = new List<SalesOrder>();
+
+            foreach (SalesOrder so2 in so)
+            {
+                so1.Add(new SalesOrder { SalesOrderId = so2.SalesOrderId, Doc_No = so2.Doc_No });
+            }
+            return so1;
+        }
+
+        //[HttpPost]
+        //public async Task<ActionResult> AddOrEditSalesReturn(SalesReturn salesReturn)
+        //{
+        //    try
+        //    {
+        //        List<SalesReturnDetail> soDetailList = new List<SalesReturnDetail>();
+        //        string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
+        //        List<SalesOrder> salesOrderDataList = await salesOrderService.GetSalesOrderList(authToken);
+        //        SelectList salesOrderSelectList = new SelectList(salesOrderDataList, "SalesOrderID", "OrderDate");
+        //        ViewBag.salesOrderSelectList = salesOrderSelectList;
+
+        //        if (salesReturn.SalesReturnID == null || salesReturn.SalesReturnID == Guid.Empty)
+        //        {
+        //            await salesReturnService.EditSalesReturnDetailsAsync(salesReturn, authToken);
+        //        }
+        //        else
+        //        {
+        //            var isSuccess = await salesReturnService.AddSalesReturnDetailsAsync(salesReturn, authToken);
+        //            if (!isSuccess.success)
+        //            {
+        //                return View("AddOrEditSalesReturn");
+        //            }
+        //        }
+
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return View("Index");
+        //    }
+        //}
+
         [HttpPost]
-        public async Task<ActionResult> AddOrEditSalesReturn(Guid salesReturnId, [FromBody] SalesReturn salesReturn)
+        public async Task<ActionResult> AddOrEditSalesReturn(SalesReturn salesReturn)
         {
             try
             {
-                List<SalesReturnDetail> soDetailList = new List<SalesReturnDetail>();
                 string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
-                List<SalesOrder> salesOrderDataList = await salesOrderService.GetSalesOrderList(authToken);
-                SelectList salesOrderSelectList = new SelectList(salesOrderDataList, "SalesOrderID", "OrderDate");
-                ViewBag.salesOrderSelectList = salesOrderSelectList;
 
-                if (salesReturnId == null || salesReturnId == Guid.Empty)
+                if (salesReturn.SalesReturnID == null || salesReturn.SalesReturnID == Guid.Empty)
                 {
-                    await salesReturnService.EditSalesReturnDetailsAsync(salesReturn, authToken);
-                }
-                else
-                {
+                    salesReturn.SalesReturnID =  Guid.NewGuid();
+                    salesReturn.SalesOrder = await salesOrderService.GetSalesOrderById(salesReturn.SalesOrderID, authToken);
+                    salesReturn.SalesOrder.SaleOrderStatus = "Approve";
+                    salesReturn.SalesOrder.Customer =  await customerService.GetCustomerById(salesReturn.SalesOrder.CustomerId, authToken);
+                    salesReturn.SalesOrder.Customer.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                    salesReturn.SalesOrder.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                    salesReturn.SalesOrder.Customer.City = await cityService.GetCityById(salesReturn.SalesOrder.Customer.cityId.Value, authToken);
+                    salesReturn.SalesOrder.Customer.City.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                    salesReturn.SalesOrder.Customer.City.ModifiedDateTime = DateTime.Now;
+                    salesReturn.SalesOrder.Customer.City.State = await stateService.GetStateById(salesReturn.SalesOrder.Customer.City.State_Id, authToken);
+                    salesReturn.SalesOrder.Customer.City.Country = await countryService.GetCountryById(salesReturn.SalesOrder.Customer.City.State.Country_Id, authToken);
+                    salesReturn.SalesOrder.Customer.City.State.country = salesReturn.SalesOrder.Customer.City.Country;
+                    salesReturn.SalesOrder.Customer.City.State.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                    salesReturn.SalesOrder.Customer.City.State.ModifiedDateTime = DateTime.Now;
+                    //salesReturn.SalesOrder.Customer.City.StateList = await stateService.GetStateList(authToken);
+                    //salesReturn.SalesOrder.Customer.CityList = await cityService.GetCityList(authToken);
+
                     var isSuccess = await salesReturnService.AddSalesReturnDetailsAsync(salesReturn, authToken);
                     if (!isSuccess.success)
                     {
-                        return View("AddOrEditSalesReturn");
+                        return View("AddOrEditSalesReturn", salesReturn);
                     }
+                }
+                else
+                {
+                    salesReturn.SalesOrder = await salesOrderService.GetSalesOrderById(salesReturn.SalesOrderID, authToken);
+                    salesReturn.SalesOrder.SaleOrderStatus = "Approve";
+                    salesReturn.SalesOrder.Customer = await customerService.GetCustomerById(salesReturn.SalesOrder.CustomerId, authToken);
+                    salesReturn.SalesOrder.Customer.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                    salesReturn.SalesOrder.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                    salesReturn.SalesOrder.Customer.City = await cityService.GetCityById(salesReturn.SalesOrder.Customer.cityId.Value, authToken);
+                    salesReturn.SalesOrder.Customer.City.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                    salesReturn.SalesOrder.Customer.City.ModifiedDateTime = DateTime.Now;
+                    salesReturn.SalesOrder.Customer.City.State = await stateService.GetStateById(salesReturn.SalesOrder.Customer.City.State_Id, authToken);
+                    salesReturn.SalesOrder.Customer.City.Country = await countryService.GetCountryById(salesReturn.SalesOrder.Customer.City.State.Country_Id, authToken);
+                    salesReturn.SalesOrder.Customer.City.State.country = salesReturn.SalesOrder.Customer.City.Country;
+                    salesReturn.SalesOrder.Customer.City.State.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                    salesReturn.SalesOrder.Customer.City.State.ModifiedDateTime = DateTime.Now;
+                    await salesReturnService.EditSalesReturnDetailsAsync(salesReturn, authToken);
                 }
 
                 return RedirectToAction(nameof(Index));
@@ -135,5 +222,27 @@ namespace ShivaEnterpriseWebApp.Controllers
                 return View("Index");
             }
         }
+
+        [HttpGet]
+        public async Task<JsonResult> GetProductAndQuantity(Guid salesOrderId)
+        {
+            if (salesOrderId == Guid.Empty)
+            {
+                return Json(new { error = "SalesOrderId is invalid" });
+            }
+
+            string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
+
+            var salesOrderDetail = await salesOrderDetailService.getsalesorderdetailbySalesOrderid(salesOrderId, authToken);
+            var products = await productService.getProdutFromSaleOrderId(salesOrderDetail.SalesOrderId, authToken);
+            //var product = productService.GetProductById(salesOrderDetail.ProductId, authToken).Result;
+            var brand = brandService.GetBrandById(salesOrderDetail.BrandId, authToken).Result;
+            List<Brand> brands = new List<Brand> { brand };
+            var currentQuantity = salesOrderDetail.Quantity;
+
+            return Json(new { products, brands, currentQuantity });
+        }
+
+
     }
 }

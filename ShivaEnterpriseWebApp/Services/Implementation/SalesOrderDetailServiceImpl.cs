@@ -148,5 +148,35 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
 
             return salesorderdetailDetail;
         }
+
+        public async Task<SalesOrderDetail> getsalesorderdetailbySalesOrderid(Guid salesorderId, string authToken)
+        {
+            var url = urlCollections["baseUrl"].ToString() + urlCollections["getsalesorderdetailbySalesOrderidUrl"] + "?salesorderId=" + salesorderId;
+            var client = new HttpClient();
+
+            var request = new HttpRequestMessage(new HttpMethod("GET"), url);
+            request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
+
+
+            //Pass in the full URL and the json string content
+            var response = await client.SendAsync(request);
+
+            //It would be better to make sure this request actually made it through
+            var result = await response.Content.ReadAsStringAsync();
+
+            //close out the client
+            client.Dispose();
+            SalesOrderDetail salesorderdetailDetail = null;
+            try
+            {
+                salesorderdetailDetail = JsonConvert.DeserializeObject<SalesOrderDetail>(result);
+                return salesorderdetailDetail;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return salesorderdetailDetail;
+        }
     }
 }

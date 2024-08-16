@@ -10,9 +10,12 @@ namespace ShivaEnterpriseWebApp.Model
         public DateTime ReturnDate { get; set; }
         public string ReasonForReturn { get; set; }
         public int ReturnedQuantity { get; set; }
+        public int Quantity { get; set; }
         public decimal? RestockingFee { get; set; }
         public string Comments { get; set; }
 
+        public Guid ProductId { get; set; }
+        public Guid BrandId { get; set; }
         public SalesOrder SalesOrder { get; set; }
     }
 }

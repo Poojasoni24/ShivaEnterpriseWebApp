@@ -80,13 +80,13 @@ namespace ShivaEnterpriseWebApp.Controllers
             {
                 var SalesOrder = await salesorderService.GetSalesOrderById(salesorderId, authToken);
                 var SalesOrderDetail = salesorderDetailService.GetSalesOrderDetailList(authToken).Result.Where(x => x.SalesOrderId == salesorderId).ToList();
-                if (SalesOrder != null &&  SalesOrderDetail != null)
+                if (SalesOrder != null && SalesOrderDetail != null)
                 {
-                    SalesOrderDetail.ForEach (x =>
+                    SalesOrderDetail.ForEach(x =>
                     {
                         x.Product = productService.GetProductById(x.ProductId, authToken).Result;
                         x.Brand = brandService.GetBrandById(x.BrandId, authToken).Result;
-                    }) ;
+                    });
 
                     var salesOrderViewModel = new SalesOrderViewModel()
                     {
@@ -107,7 +107,7 @@ namespace ShivaEnterpriseWebApp.Controllers
                 List<SalesOrderDetail> soDetailList = new List<SalesOrderDetail>();
                 string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
 
-                List<SalesOrderDetail> soDetailList = new List<SalesOrderDetail>();
+                // List<SalesOrderDetail> soDetailList = new List<SalesOrderDetail>();
 
                 List<Customer> customerDataList = await customerService.GetCustomerList(authToken);
                 SelectList customergroupselectList = new SelectList(customerDataList, "CustomerId", "CustomerName");
@@ -174,7 +174,7 @@ namespace ShivaEnterpriseWebApp.Controllers
                         int quantity = 0 - (int)SalesOrderViewModel.SODetail[i].Quantity;
 
                         Stock stockDetail = await stockservice.GetStockByProductId(SalesOrderViewModel.SODetail[i].ProductId, authToken);
-                        if(stockDetail.QuantityOnHand < (int)SalesOrderViewModel.SODetail[i].Quantity)
+                        if (stockDetail.QuantityOnHand < (int)SalesOrderViewModel.SODetail[i].Quantity)
                         {
                             isQuantityLow = true;
                             break;
@@ -192,11 +192,11 @@ namespace ShivaEnterpriseWebApp.Controllers
                     }
                 }
 
-                if(isQuantityLow)
+                if (isQuantityLow)
                 {
                     ViewBag.Message = "Product Quantity is less than required.";
                     return Content("Product Quantity is less than required.");
-                    
+
                 }
 
                 if (stock.Count > 0)
@@ -225,16 +225,16 @@ namespace ShivaEnterpriseWebApp.Controllers
                     var issuccess = await salesorderService.AddSalesOrderDetailsAsync(SalesOrderViewModel.SalesOrder, authToken);
                     if (issuccess.success)
                     {
-                        SalesOrderViewModel.SODetail.ForEach(
-                            x =>
-                            {
-                               x.SalesOrderId = JsonConvert.DeserializeObject<Guid>(issuccess.value);
-                                x.CreatedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-                                x.CreatedDateTime = DateTime.Now;
-                                x.Product = productService.GetProductById(x.ProductId, authToken).Result;
-                                x.Brand = brandService.GetBrandById(x.BrandId, authToken).Result;
-                                x.Tax_Percentage = "12";
-                            });
+                        //SalesOrderViewModel.SODetail.ForEach(
+                        //    x =>
+                        //    {
+                        //       x.SalesOrderId = JsonConvert.DeserializeObject<Guid>(issuccess.value);
+                        //        x.CreatedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                        //        x.CreatedDateTime = DateTime.Now;
+                        //        x.Product = productService.GetProductById(x.ProductId, authToken).Result;
+                        //        x.Brand = brandService.GetBrandById(x.BrandId, authToken).Result;
+                        //        x.Tax_Percentage = "12";
+                        //    });
 
                         var data = await salesorderDetailService.AddSalesOrderDetailDetailsAsync(SalesOrderViewModel.SODetail, authToken);
                     }
@@ -242,7 +242,7 @@ namespace ShivaEnterpriseWebApp.Controllers
 
                 return View("index");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 return View("Index");
@@ -278,11 +278,11 @@ namespace ShivaEnterpriseWebApp.Controllers
                 await stockservice.AddEditStockDetailsAsync(stock, authToken);
                 // Stock Implementation
 
-                var response = await salesorderService.DeleteSalesOrder(Guid.Parse(SalesOrderId), authToken);
+                var response = await salesorderService.DeleteSalesOrder(SalesOrderId, authToken);
 
                 return Json(new { success = response.successs, message = response.message });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return Json(new { success = false, message = "An error occured while remove PurchaseOrder." });
             }

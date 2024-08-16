@@ -59,7 +59,7 @@
                                                         @* <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" onclick="loadPOPartial(@(JsonConvert.SerializeObject(item.SalesOrderId)))">
                                                             view
                                                         </button> *@
-                                                        <input class="btn btn-primary" type="button" value="Edit" onclick="window.location.replace(`/SalesOrder/AddOrEditSalesOrder?salesorderId=@item.SalesReturnID`)" />
+                                                        <input class="btn btn-primary" type="button" value="Edit" onclick="window.location.replace(`/SalesReturn/AddOrEditSalesReturn?salesReturnId=@item.SalesReturnID`)" />
                                                         <input class="btn btn-outline-danger" type="button" value="Delete" onclick="onDeletePO(@(JsonConvert.SerializeObject(item)))" />
 
                                                     </td>
@@ -82,5 +82,5 @@
 
 </html>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="~/js/SalesOrder.js"></script>
+<script src="~/js/SalesReturn.js"></script>
 

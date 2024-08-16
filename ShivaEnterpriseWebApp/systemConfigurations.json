@@ -172,10 +172,11 @@
 
   //Sales return
   "getallSalesReturnUrl": "/api/salesreturn/GetSalesreturn",
-  "getsalesreturnbyidUrl": "/api/salesreturn/GetSalesreturnById",
-  "addsalesreturnUrl": "/api/salesreturn/AddSalesreturn",
+  "getSalesReturnbyidUrl": "/api/salesreturn/GetSalesreturnById",
+  "addSalesReturnUrl": "/api/salesreturn/AddSalesreturn",
   "deletesalesreturnUrl": "/api/salesreturn/DeleteSalesreturn",
-  "editsalesreturnUrl": "/api/salesreturn/EditSalesreturn",
+  "editSalesReturnUrl": "/api/salesreturn/EditSalesreturn",
+  "getbrandfromsaleorderidUrl": "/api/Brand/GetBrandById",
 
   //Purchase Order Detail
   "getallpurchaseorderdetailUrl": "/api/PurchaseOrderDetail/GetPurchaseOrderDetail",
