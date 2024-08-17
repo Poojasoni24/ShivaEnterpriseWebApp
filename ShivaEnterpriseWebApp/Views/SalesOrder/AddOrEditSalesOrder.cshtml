@@ -26,7 +26,7 @@
 <body>
     <div class="container">
         <h1 class="text-center">Sales Order Form</h1>
-        <form controller="SalesOrder" action="AddOrEditSalesOrder" method="post">
+        <form asp-controller="SalesOrder" asp-action="AddOrEditSalesOrder" method="post">
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
@@ -37,7 +37,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="form-label">Customer:</label>
-                        @Html.DropDownListFor(model => model.SalesOrder.CustomerId, customerDropdownList, "Select an option", new { @class = "form-control" })
+                        @Html.DropDownListFor(model => model.SalesOrder.CustomerId, customerDropdownList, "Select an option", new { @class = "form-control", id = "SalesOrder_CustomerId" })
                     </div>
                 </div>
             </div>
@@ -45,13 +45,13 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="form-label">Order Date:</label>
-                        <input type="date" class="form-control" asp-for="SalesOrder.OrderDate">
+                        <input type="date" class="form-control" id="SalesOrder_orderDate" asp-for="SalesOrder.OrderDate">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="form-label">DeliveryDate:</label>
-                        <input type="date" class="form-control" asp-for="SalesOrder.DeliveryDate">
+                        <input type="date" class="form-control" id="SalesOrder_deliveryDate" asp-for="SalesOrder.DeliveryDate">
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -64,17 +64,17 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="form-label">Total Amount:</label>
-                            <input type="number" id="totalNumber" class="form-control" asp-for="SalesOrder.TotalAmount">
+                            <input type="number" id="totalNumber" id="SalesOrder_totalNumber" class="form-control" asp-for="SalesOrder.TotalAmount">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="form-label">Tax:</label>
-                            <input type="text" id="tax" class="form-control" asp-for="SalesOrder.Tax_Percentage" value="12">
+                            <input type="text" id="SalesOrder_tax" class="form-control" asp-for="SalesOrder.Tax_Percentage" value="12">
                         </div>
                         <input asp-for="SalesOrder.CreatedDateTime" class="form-control" type="hidden" />
-                        <input asp-for="SalesOrder.CreatedBy" class="form-control" type="hidden" />
-                        <input asp-for="SalesOrder.SalesOrderId" class="form-control" type="hidden" />
+                        <input asp-for="SalesOrder.CreatedBy" id="SalesOrder_CreatedBy" class="form-control" type="hidden" />
+                        <input asp-for="SalesOrder.SalesOrderId" id="SalesOrder_SalesOrderId" class="form-control" type="hidden" />
                     </div>
                 </div>
                 <hr style="width:100%" />

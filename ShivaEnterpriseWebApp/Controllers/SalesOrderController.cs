@@ -203,19 +203,25 @@ namespace ShivaEnterpriseWebApp.Controllers
                 {
                     await stockservice.AddEditStockDetailsAsync(stock, authToken);
                 }
-                // Stock Implementation
 
-                if (!string.IsNullOrEmpty(salesorderId))
+                // Editing logic
+                if (SalesOrderViewModel.SalesOrder.SalesOrderId != Guid.Empty)
                 {
-                    //purchaseorderVM..PurchaseOrderId = new Guid(purchaseorderId);
-                    //purchaseorderVM.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-                    //purchaseorderVM.ModifiedDateTime = DateTime.Now;
-                    //await purchaseorderService.EditPurchaseOrderDetailsAsync(purchaseorderVM, authToken);
+                    // Edit the sales order
+                    var netTotalAmount = SalesOrderViewModel.SODetail.Sum(x => x.NetTotal);
+                    SalesOrderViewModel.SalesOrder.TotalAmount = netTotalAmount + (netTotalAmount * SalesOrderViewModel.SalesOrder.Tax_Percentage / 100);
+                    SalesOrderViewModel.SalesOrder.SaleOrderStatus = "Approve";
+                    SalesOrderViewModel.SalesOrder.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                    SalesOrderViewModel.SalesOrder.ModifiedDateTime = DateTime.Now;
+                    SalesOrderViewModel.SalesOrder.Customer = await customerService.GetCustomerById(SalesOrderViewModel.SalesOrder.CustomerId, authToken);
+                    SalesOrderViewModel.SalesOrder.Customer.City = await cityService.GetCityById(SalesOrderViewModel.SalesOrder.Customer.cityId.Value, authToken);
+                    await salesorderService.EditSalesOrderDetailsAsync(SalesOrderViewModel.SalesOrder, authToken);
                 }
                 else
                 {
-
+                    // Adding a new sales order
                     var netTotalAmount = SalesOrderViewModel.SODetail.Sum(x => x.NetTotal);
+                    SalesOrderViewModel.SalesOrder.SalesOrderId = Guid.NewGuid();
                     SalesOrderViewModel.SalesOrder.TotalAmount = netTotalAmount + (netTotalAmount * SalesOrderViewModel.SalesOrder.Tax_Percentage / 100);
                     SalesOrderViewModel.SalesOrder.SaleOrderStatus = "Approve";
                     SalesOrderViewModel.SalesOrder.CreatedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
@@ -225,22 +231,22 @@ namespace ShivaEnterpriseWebApp.Controllers
                     var issuccess = await salesorderService.AddSalesOrderDetailsAsync(SalesOrderViewModel.SalesOrder, authToken);
                     if (issuccess.success)
                     {
-                        //SalesOrderViewModel.SODetail.ForEach(
-                        //    x =>
-                        //    {
-                        //       x.SalesOrderId = JsonConvert.DeserializeObject<Guid>(issuccess.value);
-                        //        x.CreatedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-                        //        x.CreatedDateTime = DateTime.Now;
-                        //        x.Product = productService.GetProductById(x.ProductId, authToken).Result;
-                        //        x.Brand = brandService.GetBrandById(x.BrandId, authToken).Result;
-                        //        x.Tax_Percentage = "12";
-                        //    });
+                        SalesOrderViewModel.SODetail.ForEach(
+                            x =>
+                            {
+                                x.SalesOrderId = JsonConvert.DeserializeObject<Guid>(issuccess.value);
+                                x.CreatedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                                x.CreatedDateTime = DateTime.Now;
+                                x.Product = productService.GetProductById(x.ProductId, authToken).Result;
+                                x.Brand = brandService.GetBrandById(x.BrandId, authToken).Result;
+                                x.Tax_Percentage = "12";
+                            });
 
-                        var data = await salesorderDetailService.AddSalesOrderDetailDetailsAsync(SalesOrderViewModel.SODetail, authToken);
+                        await salesorderDetailService.AddSalesOrderDetailDetailsAsync(SalesOrderViewModel.SODetail, authToken);
                     }
                 }
 
-                return View("index");
+                return RedirectToAction(nameof(Index));
             }
             catch (Exception)
             {
