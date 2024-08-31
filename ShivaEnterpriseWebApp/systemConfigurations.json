@@ -192,6 +192,13 @@
   "deletesalesorderdetailUrl": "/api/SalesOrderDetail/DeleteSalesOrderDetail",
   "editsalesorderdetailUrl": "/api/SalesOrderDetail/EditSalesOrderDetail",
 
+  //Purchase Order Return
+  "getallPurchaseOrderReturnUrl": "/api/PurchaseReturns/GetPurchaseReturns",
+  "getPurchaseOrderReturnbyidUrl": "/api/PurchaseReturns/GetPurchaseReturnById",
+  "addPurchaseOrderReturnUrl": "/api/PurchaseReturns/AddPurchaseReturn",
+  "deletePurchaseOrderReturnUrl": "/api/PurchaseReturns/DeletePurchaseReturn",
+  "editPurchaseOrderReturnUrl": "/api/PurchaseReturns/EditPurchaseReturn",
+
   //Customer
   "getallcustomerUrl": "/api/Customer/GetCustomer",
   "getcustomerbyidUrl": "/api/Customer/GetCustomerById",
