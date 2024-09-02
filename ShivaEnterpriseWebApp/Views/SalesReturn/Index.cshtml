@@ -31,8 +31,7 @@
                                 <table id="order-listing" class="table">
                                     <thead>
                                         <tr>
-                                            <th>Sales Return ID</th>
-                                            <th>Sales Order ID</th>
+                                            <th>Doc no </th>
                                             <th>Return Date</th>
                                             <th>Reason For Return</th>
                                             <th>Returned Quantity</th>
@@ -48,8 +47,7 @@
                                             {
 
                                                 <tr>
-                                                    <td>@item.SalesReturnID</td>
-                                                    <td>@item.SalesOrderID</td>
+                                                    <td>@item.SalesOrder.Doc_No</td>
                                                     <td>@item.ReturnDate.ToString("yyyy-MM-dd")</td>
                                                     <td>@item.ReasonForReturn</td>
                                                     <td>@item.ReturnedQuantity</td>
@@ -60,7 +58,7 @@
                                                             view
                                                         </button> *@
                                                         <input class="btn btn-primary" type="button" value="Edit" onclick="window.location.replace(`/SalesReturn/AddOrEditSalesReturn?salesReturnId=@item.SalesReturnID`)" />
-                                                        <input class="btn btn-outline-danger" type="button" value="Delete" onclick="onDeletePO(@(JsonConvert.SerializeObject(item)))" />
+                                                        <input class="btn btn-outline-danger" type="button" value="Delete" onclick="onDeleteSR(@(JsonConvert.SerializeObject(item)))" />
 
                                                     </td>
                                                 </tr>

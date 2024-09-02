@@ -45,7 +45,7 @@
 //}
 
 //On Click of delete organization.
-function onDeleteSO(SalesReturn) {
+function onDeleteSR(SalesReturn) {
     swal({
         title: "Are you sure?",
         text: `Are you sure to delete ${SalesReturn.Doc_No} ?`,
