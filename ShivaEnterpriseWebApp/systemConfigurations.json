@@ -177,6 +177,7 @@
   "deletesalesreturnUrl": "/api/salesreturn/DeleteSalesreturn",
   "editSalesReturnUrl": "/api/salesreturn/EditSalesreturn",
   "getbrandfromsaleorderidUrl": "/api/Brand/GetBrandById",
+  "getsalesorderdetailbySalesOrderidUrl": "/api/SalesOrderDetail/GetSalesOrderDetailBySalesOrderId",
 
   //Purchase Order Detail
   "getallpurchaseorderdetailUrl": "/api/PurchaseOrderDetail/GetPurchaseOrderDetail",
@@ -225,6 +226,10 @@
   //Stock
   "getallstockUrl": "/api/Stock/GetAllStock",
   "addeditstockdetailsUrl": "/api/Stock/AddEditStockDetails",
-  "getstockbyproductidUrl": "/api/Stock/GetStockByProductId"
+  "getstockbyproductidUrl": "/api/Stock/GetStockByProductId",
+
+  //Inventory
+  "getallinventoryUrl": "/api/Inventory/GetAllInventory",
+  "addeditinventorydetailsUrl": "/api/Inventory/AddEditInventoryDetails"
 
 }

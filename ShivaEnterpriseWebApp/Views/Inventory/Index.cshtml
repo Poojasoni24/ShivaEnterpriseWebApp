@@ -1,0 +1,66 @@
+﻿@using Newtonsoft.Json
+@using ShivaEnterpriseWebApp.Model
+@model List<ShivaEnterpriseWebApp.Model.Inventory>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<body>
+
+    <!-- partial -->
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title" style="text-align: center;">Inventory Detail</h4>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <table id="order-listing" class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Inventory Code</th>
+                                            <th>Opening Qty</th>
+                                            <th>Closing Qty</th>
+                                            <th>In Quantity</th>
+                                            <th>Out Quantity</th>
+                                            <th>Inventory Cost</th>
+                                            <th>TransactionDate</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model != null)
+                                        {
+                                            @foreach (var item in Model)
+                                            {
+
+                                                <tr>
+                                                    <td style="text-align: center;">@item.InventoryCode</td>
+                                                    <td style="text-align: center;">@item.OpeningQty</td>
+                                                    <td style="text-align: center;">@item.ClosingQty</td>
+                                                    <td style="text-align: center;">@item.InQuantity</td>
+                                                    <td style="text-align: center;">@item.OutQuantity</td>
+                                                    <td style="text-align: center;">@item.InventoryCost</td>
+                                                    <td style="text-align: center;">@item.TransactionDate</td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- content-wrapper ends -->
+    </div>
+
+</body>
+
+</html>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+@* <script src="~/js/Stock.js"></script> *@

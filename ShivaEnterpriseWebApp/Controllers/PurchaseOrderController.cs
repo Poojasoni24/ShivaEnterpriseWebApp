@@ -17,6 +17,7 @@ namespace ShivaEnterpriseWebApp.Controllers
         IPurchaseOrderServiceImpl purchaseorderService = new PurchaseOrderServiceImpl();
         IPurchaseOrderDetailServiceImpl purchaseorderDetailService = new PurchaseOrderDetailServiceImpl();
         IStockServiceImpl stockservice = new StockServiceImpl();
+        IInventoryServiceImpl inventoryservice = new InventoryServiceImpl();
 
 
         private readonly IHostingEnvironment _hostingEnv;
@@ -178,6 +179,7 @@ namespace ShivaEnterpriseWebApp.Controllers
 
                 // Stock Implementation
                 List<Stock> stock = new List<Stock>();
+                List<Inventory> inventory = new List<Inventory>();
                 // Edit Stock
                 if (PurchaseOrderViewModel.PurchaseOrder.PurchaseOrderId != Guid.Empty)
                 {
@@ -203,6 +205,19 @@ namespace ShivaEnterpriseWebApp.Controllers
                             ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
 
                         });
+
+                        inventory.Add(new Inventory
+                        {
+                            InventoryCode = PurchaseOrderViewModel.UpdatedPODetail[i].Product is null ? "" : PurchaseOrderViewModel.UpdatedPODetail[i].Product.ProductName,
+                            ProductId = PurchaseOrderViewModel.UpdatedPODetail[i].ProductId,
+                            OpeningQty = quantity,
+                            ClosingQty = 0,
+                            InQuantity = quantity,
+                            OutQuantity = 0,
+                            InventoryCost = PurchaseOrderViewModel.UpdatedPODetail[i].UnitPrice,
+                            TransactionDate = DateTime.Now,
+                            ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
+                        });
                     }
                 }
                 // Add stock
@@ -221,12 +236,30 @@ namespace ShivaEnterpriseWebApp.Controllers
                             ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
 
                         });
+
+                        inventory.Add(new Inventory
+                        {
+                            InventoryCode = PurchaseOrderViewModel.UpdatedPODetail[i].Product is null ? "" : PurchaseOrderViewModel.UpdatedPODetail[i].Product.ProductName,
+                            ProductId = PurchaseOrderViewModel.UpdatedPODetail[i].ProductId,
+                            OpeningQty = quantity,
+                            ClosingQty = 0,
+                            InQuantity = quantity,
+                            OutQuantity = 0,
+                            InventoryCost = PurchaseOrderViewModel.UpdatedPODetail[i].UnitPrice,
+                            TransactionDate = DateTime.Now,
+                            ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
+                        });
+
                     }
                 }
 
                 if(stock.Count != 0)
                 {
                     await stockservice.AddEditStockDetailsAsync(stock, authToken);
+                }
+                if (inventory.Count != 0)
+                {
+                    await inventoryservice.AddEditInventoryDetailsAsync(inventory, authToken);
                 }
                 // Stock Implementation
 
@@ -259,7 +292,6 @@ namespace ShivaEnterpriseWebApp.Controllers
                         ProductId = poDetailToUpdate[i].ProductId,
                         QuantityOnHand = 0 - (int)poDetailToUpdate[i].Quantity,
                         ReorderLevel = "Default",
-                        StockCode = poDetailToUpdate[i].Product.ProductName,
                         ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
 
                     });

@@ -275,7 +275,6 @@ namespace ShivaEnterpriseWebApp.Controllers
                         ProductId = soDetailToUpdate[i].ProductId,
                         QuantityOnHand = (int)soDetailToUpdate[i].Quantity,
                         ReorderLevel = "Default",
-                        StockCode = soDetailToUpdate[i].Product.ProductName,
                         ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
 
                     });
