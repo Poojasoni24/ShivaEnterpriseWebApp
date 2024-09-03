@@ -285,6 +285,8 @@ namespace ShivaEnterpriseWebApp.Controllers
                 List<PurchaseOrderDetail> poDetailToUpdate = poDetail.Where(po => po.PurchaseOrderId == Guid.Parse(purchaseorderId)).ToList();
 
                 List<Stock> stock = new List<Stock>();
+                List<Inventory> inventory = new List<Inventory>();
+
                 for (int i = 0; i < poDetailToUpdate.Count; i++)
                 {
                     stock.Add(new Stock
@@ -295,9 +297,22 @@ namespace ShivaEnterpriseWebApp.Controllers
                         ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
 
                     });
+
+                    inventory.Add(new Inventory
+                    {
+                        ProductId = poDetailToUpdate[i].ProductId,
+                        OpeningQty = 0 - (int)poDetailToUpdate[i].Quantity,
+                        ClosingQty = 0,
+                        InQuantity = 0 - (int)poDetailToUpdate[i].Quantity,
+                        OutQuantity = 0,
+                        InventoryCost = poDetailToUpdate[i].UnitPrice,
+                        TransactionDate = DateTime.Now,
+                        ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
+                    });
                 }
 
                 await stockservice.AddEditStockDetailsAsync(stock, authToken);
+                await inventoryservice.AddEditInventoryDetailsAsync(inventory, authToken);
                 // Stock Implementation
 
                 var response = await purchaseorderService.DeletePurchaseOrder(purchaseorderId, authToken);
