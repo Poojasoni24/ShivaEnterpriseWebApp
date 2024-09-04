@@ -44,12 +44,11 @@
 //    });
 //}
 
-//On Click of delete organization.
+// Function to confirm deletion
 function onDeleteSR(SalesReturn) {
     swal({
         title: "Are you sure?",
-        text: `Are you sure to delete ${SalesReturn.Doc_No} ?`,
-        //type: "warning",
+        text: `Are you sure to delete?`,
         buttons: {
             yes: {
                 text: "Delete",
@@ -64,29 +63,31 @@ function onDeleteSR(SalesReturn) {
         confirmButtonColor: '#c10909'
     }).then(res => {
         if (res) {
-            deleteSOAJAX(SalesReturn.SalesReturnId);
+            // Ensure proper case here
+            deleteSRAJAX(SalesReturn.SalesReturnID);
         }
     });
 }
 
-//AJAX call for delete organization
-function deletePOAJAX(SalesReturnId) {
+// AJAX call for deleting SalesReturn
+function deleteSRAJAX(SalesReturnID) {
     $.ajax({
-        url: `/SalesReturn/RemoveSalesReturn`,
+        url: `/SalesReturn/DeleteSalesReturn`,
         type: 'POST',
-        data: { SalesReturnId: SalesReturnId },
+        data: { SalesReturnId: SalesReturnID }, // Consistent naming here
         success: function (res) {
             if (res.success) {
                 Snackbar.show({ text: res.message, textColor: "#FF0000", pos: "bottom-center", showAction: false, backgroundColor: "#F6F2F5" });
                 setTimeout(() => { window.location.reload() }, 1500);
             }
             else {
-                Snackbar.show({ text: "something went wrong", textColor: "#FF0000", pos: "bottom-center", showAction: false, backgroundColor: "#F6F2F5" });
+                Snackbar.show({ text: "Something went wrong", textColor: "#FF0000", pos: "bottom-center", showAction: false, backgroundColor: "#F6F2F5" });
                 setTimeout(() => { window.location.reload() }, 1500);
             }
         },
         async: true,
         error: function (err) {
+            console.error(err); // Add error logging here for debugging
         }
     });
 }

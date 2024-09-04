@@ -51,7 +51,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
 
         public async Task<(bool successs, string message)> DeleteSalesReturn(Guid SalesReturnId, string authToken)
         {
-            var url = urlCollections["baseUrl"].ToString() + urlCollections["deleteSalesReturnUrl"] + "?SalesReturnId=" + SalesReturnId;
+            var url = urlCollections["baseUrl"].ToString() + urlCollections["deletesalesreturnUrl"] + "?SalesReturnId=" + SalesReturnId;
             var client = new HttpClient();
             var request = new HttpRequestMessage(new HttpMethod("POST"), url);
             request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
