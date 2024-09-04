@@ -124,12 +124,15 @@ namespace ShivaEnterpriseWebApp.Controllers
 
                 // Stock Implementation
                 List<SalesOrderDetail> soBefore = new List<SalesOrderDetail>();
-                if (SalesOrderViewModel.UpdatedSODetail.Count != 0)
+                if(SalesOrderViewModel != null && SalesOrderViewModel.UpdatedSODetail != null)
                 {
-                    foreach (var SoDetail in SalesOrderViewModel.UpdatedSODetail)
+                    if (SalesOrderViewModel.UpdatedSODetail.Count != 0)
                     {
-                        SalesOrderDetail soDetail = await salesorderDetailService.GetSalesOrderDetailById(SoDetail.SalesOrderDetailId, authToken);
-                        soBefore.Add(soDetail);
+                        foreach (var SoDetail in SalesOrderViewModel.UpdatedSODetail)
+                        {
+                            SalesOrderDetail soDetail = await salesorderDetailService.GetSalesOrderDetailById(SoDetail.SalesOrderDetailId, authToken);
+                            soBefore.Add(soDetail);
+                        }
                     }
                 }
 
@@ -139,49 +142,53 @@ namespace ShivaEnterpriseWebApp.Controllers
 
                 if (SalesOrderViewModel.SalesOrder.SalesOrderId != Guid.Empty)
                 {
-                    for (int i = 0; i < SalesOrderViewModel.UpdatedSODetail.Count; i++)
+                    if (SalesOrderViewModel != null && SalesOrderViewModel.UpdatedSODetail != null)
                     {
-                        int quantity;
 
-                        if (soBefore.Count != 0)
+                        for (int i = 0; i < SalesOrderViewModel.UpdatedSODetail.Count; i++)
                         {
-                            quantity = (int)soBefore[i].Quantity - (int)SalesOrderViewModel.UpdatedSODetail[i].Quantity;
+                            int quantity;
+
+                            if (soBefore.Count != 0)
+                            {
+                                quantity = (int)soBefore[i].Quantity - (int)SalesOrderViewModel.UpdatedSODetail[i].Quantity;
+                            }
+                            else
+                            {
+                                quantity = 0 - (int)SalesOrderViewModel.UpdatedSODetail[i].Quantity;
+                            }
+
+                            Stock stockDetail = await stockservice.GetStockByProductId(SalesOrderViewModel.UpdatedSODetail[i].ProductId, authToken);
+                            if ((stockDetail.QuantityOnHand + quantity) < 0)
+                            {
+                                isQuantityLow = true;
+                                break;
+                            }
+
+                            stock.Add(new Stock
+                            {
+                                ProductId = SalesOrderViewModel.SODetail[i].ProductId,
+                                QuantityOnHand = quantity,
+                                ReorderLevel = "Default",
+                                StockCode = SalesOrderViewModel.SODetail[i].Product is null ? "" : SalesOrderViewModel.SODetail[i].Product.ProductName,
+                                ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
+
+                            });
+
+                            inventory.Add(new Inventory
+                            {
+                                InventoryCode = SalesOrderViewModel.SODetail[i].Product is null ? "" : SalesOrderViewModel.SODetail[i].Product.ProductName,
+                                ProductId = SalesOrderViewModel.SODetail[i].ProductId,
+                                OpeningQty = quantity,
+                                ClosingQty = Math.Abs(quantity),
+                                InQuantity = 0,
+                                OutQuantity = Math.Abs(quantity),
+                                InventoryCost = SalesOrderViewModel.UpdatedSODetail[i].UnitPrice,
+                                TransactionDate = DateTime.Now,
+                                ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
+                            });
+
                         }
-                        else
-                        {
-                            quantity = 0 - (int)SalesOrderViewModel.UpdatedSODetail[i].Quantity;
-                        }
-
-                        Stock stockDetail = await stockservice.GetStockByProductId(SalesOrderViewModel.UpdatedSODetail[i].ProductId, authToken);
-                        if ((stockDetail.QuantityOnHand + quantity) < 0)
-                        {
-                            isQuantityLow = true;
-                            break;
-                        }
-
-                        stock.Add(new Stock
-                        {
-                            ProductId = SalesOrderViewModel.SODetail[i].ProductId,
-                            QuantityOnHand = quantity,
-                            ReorderLevel = "Default",
-                            StockCode = SalesOrderViewModel.SODetail[i].Product is null ? "" : SalesOrderViewModel.SODetail[i].Product.ProductName,
-                            ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
-
-                        });
-
-                        inventory.Add(new Inventory
-                        {
-                            InventoryCode = SalesOrderViewModel.SODetail[i].Product is null ? "" : SalesOrderViewModel.SODetail[i].Product.ProductName,
-                            ProductId = SalesOrderViewModel.SODetail[i].ProductId,
-                            OpeningQty = quantity,
-                            ClosingQty = Math.Abs(quantity),
-                            InQuantity = 0,
-                            OutQuantity = Math.Abs(quantity),
-                            InventoryCost = SalesOrderViewModel.UpdatedSODetail[i].UnitPrice,
-                            TransactionDate = DateTime.Now,
-                            ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
-                        });
-
                     }
                 }
                 else
