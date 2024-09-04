@@ -20,6 +20,7 @@ namespace ShivaEnterpriseWebApp.Controllers
         ICityServiceImpl cityService = new CityServiceImpl();
         ISalesOrderDetailServiceImpl salesorderDetailService = new SalesOrderDetailServiceImpl();
         IStockServiceImpl stockservice = new StockServiceImpl();
+        IInventoryServiceImpl inventoryservice = new InventoryServiceImpl();
         private readonly IHostingEnvironment _hostingEnv;
 
         public SalesOrderController(IHostingEnvironment hostingEnv)
@@ -134,6 +135,8 @@ namespace ShivaEnterpriseWebApp.Controllers
 
                 bool isQuantityLow = false;
                 List<Stock> stock = new List<Stock>();
+                List<Inventory> inventory = new List<Inventory>();
+
                 if (SalesOrderViewModel.SalesOrder.SalesOrderId != Guid.Empty)
                 {
                     for (int i = 0; i < SalesOrderViewModel.UpdatedSODetail.Count; i++)
@@ -165,6 +168,20 @@ namespace ShivaEnterpriseWebApp.Controllers
                             ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
 
                         });
+
+                        inventory.Add(new Inventory
+                        {
+                            InventoryCode = SalesOrderViewModel.SODetail[i].Product is null ? "" : SalesOrderViewModel.SODetail[i].Product.ProductName,
+                            ProductId = SalesOrderViewModel.SODetail[i].ProductId,
+                            OpeningQty = quantity,
+                            ClosingQty = Math.Abs(quantity),
+                            InQuantity = 0,
+                            OutQuantity = Math.Abs(quantity),
+                            InventoryCost = SalesOrderViewModel.UpdatedSODetail[i].UnitPrice,
+                            TransactionDate = DateTime.Now,
+                            ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
+                        });
+
                     }
                 }
                 else
@@ -189,6 +206,19 @@ namespace ShivaEnterpriseWebApp.Controllers
                             ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
 
                         });
+
+                        inventory.Add(new Inventory
+                        {
+                            InventoryCode = SalesOrderViewModel.SODetail[i].Product is null ? "" : SalesOrderViewModel.SODetail[i].Product.ProductName,
+                            ProductId = SalesOrderViewModel.SODetail[i].ProductId,
+                            OpeningQty = quantity,
+                            ClosingQty = Math.Abs(quantity),
+                            InQuantity = 0,
+                            OutQuantity = Math.Abs(quantity),
+                            InventoryCost = SalesOrderViewModel.UpdatedSODetail[i].UnitPrice,
+                            TransactionDate = DateTime.Now,
+                            ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
+                        });
                     }
                 }
 
@@ -202,6 +232,10 @@ namespace ShivaEnterpriseWebApp.Controllers
                 if (stock.Count > 0)
                 {
                     await stockservice.AddEditStockDetailsAsync(stock, authToken);
+                }
+                if (inventory.Count > 0)
+                {
+                    await inventoryservice.AddEditInventoryDetailsAsync(inventory, authToken);
                 }
 
                 // Editing logic
@@ -268,6 +302,8 @@ namespace ShivaEnterpriseWebApp.Controllers
                 List<SalesOrderDetail> soDetailToUpdate = soDetail.Where(po => po.SalesOrderId == Guid.Parse(SalesOrderId)).ToList();
 
                 List<Stock> stock = new List<Stock>();
+                List<Inventory> inventory = new List<Inventory>();
+
                 for (int i = 0; i < soDetailToUpdate.Count; i++)
                 {
                     stock.Add(new Stock
@@ -277,6 +313,18 @@ namespace ShivaEnterpriseWebApp.Controllers
                         ReorderLevel = "Default",
                         ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
 
+                    });
+
+                    inventory.Add(new Inventory
+                    {
+                        ProductId = soDetailToUpdate[i].ProductId,
+                        OpeningQty = (int)soDetailToUpdate[i].Quantity,
+                        ClosingQty = 0 - (int)soDetailToUpdate[i].Quantity,
+                        InQuantity = 0,
+                        OutQuantity = 0 - (int)soDetailToUpdate[i].Quantity,
+                        InventoryCost = soDetailToUpdate[i].UnitPrice,
+                        TransactionDate = DateTime.Now,
+                        ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
                     });
                 }
 
