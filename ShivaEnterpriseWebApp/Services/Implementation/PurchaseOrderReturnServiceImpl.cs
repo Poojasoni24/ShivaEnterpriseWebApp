@@ -15,7 +15,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
         {
             urlCollections = JObject.Parse(File.ReadAllText("systemConfigurations.json"));
         }
-        public async Task<(bool success, string message)> AddpurchaseReturnDetailsAsync(purchaseOrderReturn purchaseReturn, string authToken)
+        public async Task<(bool success, string message)> AddpurchaseReturnDetailsAsync(PurchaseOrderReturn purchaseReturn, string authToken)
         {
             try
             {
@@ -71,7 +71,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             return (true, result);
         }
 
-        public async Task<(bool success, string message)> EditpurchaseReturnDetailsAsync(purchaseOrderReturn purchaseReturn, string authToken)
+        public async Task<(bool success, string message)> EditpurchaseReturnDetailsAsync(PurchaseOrderReturn purchaseReturn, string authToken)
         {
             try
             {
@@ -94,7 +94,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
                 //close out the client
                 client.Dispose();
 
-                if (response.StatusCode != HttpStatusCode.NoContent)
+                if (response.StatusCode != HttpStatusCode.OK)
                     return (false, result);
 
                 return (true, result);
@@ -105,7 +105,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             }
         }
 
-        public async Task<purchaseOrderReturn> GetpurchaseReturnById(Guid purchaseReturnId, string authToken)
+        public async Task<PurchaseOrderReturn> GetpurchaseReturnById(Guid purchaseReturnId, string authToken)
         {
             var url = urlCollections["baseUrl"].ToString() + urlCollections["getPurchaseOrderReturnbyidUrl"] + "?purchaseReturnId=" + purchaseReturnId;
             var client = new HttpClient();
@@ -123,12 +123,12 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             //close out the client
             client.Dispose();
 
-            var purchaseReturnDetail = JsonConvert.DeserializeObject<purchaseOrderReturn>(result);
+            var purchaseReturnDetail = JsonConvert.DeserializeObject<PurchaseOrderReturn>(result);
 
             return purchaseReturnDetail;
         }
 
-        public async Task<List<purchaseOrderReturn>> GetpurchaseReturnList(string authToken)
+        public async Task<List<PurchaseOrderReturn>> GetpurchaseReturnList(string authToken)
         {
             var url = urlCollections["baseUrl"].ToString() + urlCollections["getallPurchaseOrderReturnUrl"].ToString();
             var client = new HttpClient();
@@ -144,7 +144,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             //close out the client
             client.Dispose();
 
-            var purchaseReturnDetail = JsonConvert.DeserializeObject<List<purchaseOrderReturn>>(result);
+            var purchaseReturnDetail = JsonConvert.DeserializeObject<List<PurchaseOrderReturn>>(result);
 
             return purchaseReturnDetail;
         }

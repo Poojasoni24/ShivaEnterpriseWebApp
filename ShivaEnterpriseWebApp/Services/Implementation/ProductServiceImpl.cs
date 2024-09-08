@@ -173,5 +173,30 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             return productDetail;
 
         }
+
+        public async Task<List<Product>> getProdutFromPurchaseOrderId(Guid purchaseOrderID, string authToken)
+        {
+            var url = urlCollections["baseUrl"].ToString() + urlCollections["getproductfromPurchasederidUrl"] + "?purchaseOrderID=" + purchaseOrderID;
+            var client = new HttpClient();
+
+            var request = new HttpRequestMessage(new HttpMethod("GET"), url);
+            request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + authToken);
+
+
+            //Pass in the full URL and the json string content
+            var response = await client.SendAsync(request);
+
+            //It would be better to make sure this request actually made it through
+            var result = await response.Content.ReadAsStringAsync();
+
+            //close out the client
+            client.Dispose();
+
+            var productDetail = JsonConvert.DeserializeObject<List<Product>>(result);
+
+            return productDetail;
+
+        }
+
     }
 }

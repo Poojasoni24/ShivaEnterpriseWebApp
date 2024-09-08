@@ -10,5 +10,6 @@ namespace ShivaEnterpriseWebApp.Services.Interface
         Task<(bool success, string message)> AddProductDetailsAsync(Product product, string authToken);
         Task<(bool success, string message)> EditProductDetailsAsync(Product product, string authToken);
         Task<List<Product>> getProdutFromSaleOrderId(Guid saleOrderId, string authToken);
+        Task<List<Product>> getProdutFromPurchaseOrderId(Guid saleOrderId, string authToken);
     }
 }
