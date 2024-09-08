@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using ShivaEnterpriseWebApp.Model;
 using ShivaEnterpriseWebApp.Services.Implementation;
 using ShivaEnterpriseWebApp.Services.Interface;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -24,6 +25,9 @@ namespace ShivaEnterpriseWebApp.Controllers
         IStateServiceImpl stateService = new StateServiceImpl();
         ICountryServiceImpl countryService = new CountryServiceImpl();
         ISalesReturnDetailServiceImpl SalesReturnDetailService = new SalesReturnDetailServiceImpl();
+        IStockServiceImpl stockservice = new StockServiceImpl();
+        IInventoryServiceImpl inventoryservice = new InventoryServiceImpl();
+
         private readonly IHostingEnvironment _hostingEnv;
 
         public SalesReturnController(IHostingEnvironment hostingEnv)
@@ -174,9 +178,79 @@ namespace ShivaEnterpriseWebApp.Controllers
                     {
                         return View("AddOrEditSalesReturn", salesReturn);
                     }
+
+                    //----Add Stock-----
+                    List<Stock> lst = new List<Stock>();
+                    lst.Add(new Stock()
+                    {
+                        ProductId = salesReturn.ProductId,
+                        QuantityOnHand = salesReturn.ReturnedQuantity,
+                        ReorderLevel = "Default",
+                        ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
+                    });
+
+                    await stockservice.AddEditStockDetailsAsync(lst, authToken);
+                    //----Add Stock-----
+
+                    //--Inventory Add--
+                    List<Inventory> inventory = new List<Inventory>();
+                    inventory.Add(new Inventory
+                    {
+                        ProductId = salesReturn.ProductId,
+                        OpeningQty = salesReturn.ReturnedQuantity,
+                        ClosingQty = 0 - salesReturn.ReturnedQuantity,
+                        InQuantity = 0,
+                        OutQuantity = 0 - salesReturn.ReturnedQuantity,
+                        TransactionDate = DateTime.Now,
+                        InventoryCost = (decimal)salesReturn.RestockingFee,
+                        ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
+                    });
+
+                    if (inventory.Count > 0)
+                    {
+                        await inventoryservice.AddEditInventoryDetailsAsync(inventory, authToken);
+                    }
+                    //--Inventory Add--
+
                 }
                 else
                 {
+                    //---Stock Edit---
+                    List<SalesReturn> saleReturnLst = await salesReturnService.GetSalesReturnList(authToken);
+                    SalesReturn saleReturnDeetail = saleReturnLst.Where(sr => sr.SalesReturnID == salesReturn.SalesReturnID).FirstOrDefault();
+
+                    List<Stock> lst = new List<Stock>();
+                    lst.Add(new Stock()
+                    {
+                        ProductId = saleReturnDeetail.ProductId,
+                        QuantityOnHand = saleReturnDeetail.ReturnedQuantity - salesReturn.ReturnedQuantity,
+                        ReorderLevel = "Default",
+                        ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
+                    });
+
+                    await stockservice.AddEditStockDetailsAsync(lst, authToken);
+                    //---Stock Edit---
+
+                    //--Inventory Edit--
+                    List<Inventory> inventory = new List<Inventory>();
+                    inventory.Add(new Inventory
+                    {
+                        ProductId = saleReturnDeetail.ProductId,
+                        OpeningQty = saleReturnDeetail.ReturnedQuantity - salesReturn.ReturnedQuantity,
+                        ClosingQty = 0 - (saleReturnDeetail.ReturnedQuantity - salesReturn.ReturnedQuantity),
+                        InQuantity = 0,
+                        OutQuantity = 0 - (saleReturnDeetail.ReturnedQuantity - salesReturn.ReturnedQuantity),
+                        TransactionDate = DateTime.Now,
+                        InventoryCost = (decimal)salesReturn.RestockingFee,
+                        ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
+                    });
+
+                    if (inventory.Count > 0)
+                    {
+                        await inventoryservice.AddEditInventoryDetailsAsync(inventory, authToken);
+                    }
+                    //--Inventory Edit--
+
                     salesReturn.SalesOrder = await salesOrderService.GetSalesOrderById(salesReturn.SalesOrderID, authToken);
                     salesReturn.SalesOrder.SaleOrderStatus = "Approve";
                     salesReturn.SalesOrder.Customer = await customerService.GetCustomerById(salesReturn.SalesOrder.CustomerId, authToken);
@@ -207,6 +281,42 @@ namespace ShivaEnterpriseWebApp.Controllers
             try
             {
                 string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
+
+                //---Stock Delete---
+                List<SalesReturn> saleReturnLst = await salesReturnService.GetSalesReturnList(authToken);
+                SalesReturn saleReturn = saleReturnLst.Where(sr => sr.SalesReturnID == salesReturnId).FirstOrDefault();
+
+                List<Stock> lst = new List<Stock>();
+                lst.Add(new Stock()
+                {
+                    ProductId = saleReturn.ProductId,
+                    QuantityOnHand = 0 - saleReturn.ReturnedQuantity,
+                    ReorderLevel = "Default",
+                    ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
+                });
+
+                await stockservice.AddEditStockDetailsAsync(lst, authToken);
+                //---Stock Delete---
+
+                //--Inventory Delete--
+                List<Inventory> inventory = new List<Inventory>();
+                inventory.Add(new Inventory
+                {
+                    ProductId = saleReturn.ProductId,
+                    OpeningQty = 0 - saleReturn.ReturnedQuantity,
+                    ClosingQty = saleReturn.ReturnedQuantity,
+                    InQuantity = 0,
+                    OutQuantity = saleReturn.ReturnedQuantity,
+                    TransactionDate = DateTime.Now,
+                    ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
+                });
+
+                if (inventory.Count > 0)
+                {
+                    await inventoryservice.AddEditInventoryDetailsAsync(inventory, authToken);
+                }
+                //--Inventory Delete--
+
                 var isSuccess = await salesReturnService.DeleteSalesReturn(salesReturnId, authToken);
                 if (isSuccess.successs)
                 {
