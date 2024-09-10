@@ -222,8 +222,8 @@ namespace ShivaEnterpriseWebApp.Controllers
                     List<Stock> lst = new List<Stock>();
                     lst.Add(new Stock()
                     {
-                        ProductId = saleReturnDeetail.ProductId,
-                        QuantityOnHand = saleReturnDeetail.ReturnedQuantity - salesReturn.ReturnedQuantity,
+                        ProductId = salesReturn.ProductId,
+                        QuantityOnHand = salesReturn.ReturnedQuantity - saleReturnDeetail.ReturnedQuantity,
                         ReorderLevel = "Default",
                         ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
                     });
@@ -235,11 +235,11 @@ namespace ShivaEnterpriseWebApp.Controllers
                     List<Inventory> inventory = new List<Inventory>();
                     inventory.Add(new Inventory
                     {
-                        ProductId = saleReturnDeetail.ProductId,
-                        OpeningQty = saleReturnDeetail.ReturnedQuantity - salesReturn.ReturnedQuantity,
-                        ClosingQty = 0 - (saleReturnDeetail.ReturnedQuantity - salesReturn.ReturnedQuantity),
+                        ProductId = salesReturn.ProductId,
+                        OpeningQty = salesReturn.ReturnedQuantity - saleReturnDeetail.ReturnedQuantity,
+                        ClosingQty = 0 - (salesReturn.ReturnedQuantity - saleReturnDeetail.ReturnedQuantity),
                         InQuantity = 0,
-                        OutQuantity = 0 - (saleReturnDeetail.ReturnedQuantity - salesReturn.ReturnedQuantity),
+                        OutQuantity = 0 - (salesReturn.ReturnedQuantity - saleReturnDeetail.ReturnedQuantity),
                         TransactionDate = DateTime.Now,
                         InventoryCost = (decimal)salesReturn.RestockingFee,
                         ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value

@@ -177,8 +177,8 @@ namespace ShivaEnterpriseWebApp.Controllers
 
                             inventory.Add(new Inventory
                             {
-                                InventoryCode = SalesOrderViewModel.SODetail[i].Product is null ? "" : SalesOrderViewModel.SODetail[i].Product.ProductName,
-                                ProductId = SalesOrderViewModel.SODetail[i].ProductId,
+                                //InventoryCode = SalesOrderViewModel.SODetail[i].Product is null ? "" : SalesOrderViewModel.SODetail[i].Product.ProductName,
+                                ProductId = SalesOrderViewModel.UpdatedSODetail[i].ProductId,
                                 OpeningQty = quantity,
                                 ClosingQty = Math.Abs(quantity),
                                 InQuantity = 0,
@@ -216,13 +216,13 @@ namespace ShivaEnterpriseWebApp.Controllers
 
                         inventory.Add(new Inventory
                         {
-                            InventoryCode = SalesOrderViewModel.SODetail[i].Product is null ? "" : SalesOrderViewModel.SODetail[i].Product.ProductName,
+                            //InventoryCode = SalesOrderViewModel.SODetail[i].Product is null ? "" : SalesOrderViewModel.SODetail[i].Product.ProductName,
                             ProductId = SalesOrderViewModel.SODetail[i].ProductId,
                             OpeningQty = quantity,
                             ClosingQty = Math.Abs(quantity),
                             InQuantity = 0,
                             OutQuantity = Math.Abs(quantity),
-                            InventoryCost = SalesOrderViewModel.UpdatedSODetail[i].UnitPrice,
+                            InventoryCost = SalesOrderViewModel.SODetail[i].UnitPrice,
                             TransactionDate = DateTime.Now,
                             ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
                         });
@@ -336,6 +336,8 @@ namespace ShivaEnterpriseWebApp.Controllers
                 }
 
                 await stockservice.AddEditStockDetailsAsync(stock, authToken);
+
+                await inventoryservice.AddEditInventoryDetailsAsync(inventory, authToken);
                 // Stock Implementation
 
                 var response = await salesorderService.DeleteSalesOrder(SalesOrderId, authToken);

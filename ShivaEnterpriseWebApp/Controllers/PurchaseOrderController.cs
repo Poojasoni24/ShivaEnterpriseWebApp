@@ -239,13 +239,13 @@ namespace ShivaEnterpriseWebApp.Controllers
 
                         inventory.Add(new Inventory
                         {
-                            InventoryCode = PurchaseOrderViewModel.UpdatedPODetail[i].Product is null ? "" : PurchaseOrderViewModel.UpdatedPODetail[i].Product.ProductName,
-                            ProductId = PurchaseOrderViewModel.UpdatedPODetail[i].ProductId,
+                            InventoryCode = PurchaseOrderViewModel.PODetail[i].Product is null ? "" : PurchaseOrderViewModel.PODetail[i].Product.ProductName,
+                            ProductId = PurchaseOrderViewModel.PODetail[i].ProductId,
                             OpeningQty = quantity,
                             ClosingQty = 0,
                             InQuantity = quantity,
                             OutQuantity = 0,
-                            InventoryCost = PurchaseOrderViewModel.UpdatedPODetail[i].UnitPrice,
+                            InventoryCost = PurchaseOrderViewModel.PODetail[i].UnitPrice,
                             TransactionDate = DateTime.Now,
                             ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
                         });

@@ -29,6 +29,7 @@
         <h1 class="text-center">Sales Return Form</h1>
         <form controller="SalesReturn" asp-controller="SalesReturn" asp-action="AddOrEditSalesReturn" method="post">
             @Html.HiddenFor(model => model.SalesReturnID)
+            @Html.HiddenFor(model => model.ProductId)
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
