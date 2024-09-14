@@ -89,7 +89,7 @@ namespace ShivaEnterpriseWebApp.Controllers
                 PurchaseOrder purchaseOrder = await purchaseOrderService.GetPurchaseOrderById(purchaseReturnDetail.PurchaseOrderId,authToken);
                 purchaseOrderDataList = new List<PurchaseOrder> { purchaseOrder };
                 purchaseOrderSelectList = new SelectList(purchaseOrderDataList, "PurchaseOrderId", "Doc_No");
-                ViewBag.PurchaseOrderSelectList = purchaseOrder;
+                ViewBag.PurchaseOrderSelectList = purchaseOrderSelectList;
 
                 var vendor = await vendorService.GetVendorById(purchaseOrder.VendorID, authToken);
                 vendorDataList = new List<Vendor> { vendor };
@@ -159,7 +159,7 @@ namespace ShivaEnterpriseWebApp.Controllers
                     //---Stock Add---
 
                     purchaseOrderReturn.PurchaseReturnId = Guid.NewGuid();
-
+                    purchaseOrderReturn.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
                     purchaseOrderReturn.PurchaseOrder = await purchaseOrderService.GetPurchaseOrderById(purchaseOrderReturn.PurchaseOrderId, authToken); ;
                     purchaseOrderReturn.PurchaseOrder.Vendor = await vendorService.GetVendorById(purchaseOrderReturn.PurchaseOrder.VendorID, authToken);
                     purchaseOrderReturn.PurchaseOrder.Vendor.City = await cityService.GetCityById(purchaseOrderReturn.PurchaseOrder.Vendor.cityId, authToken);
@@ -201,6 +201,7 @@ namespace ShivaEnterpriseWebApp.Controllers
                     });
                     //---Stock Edit---
 
+                    purchaseOrderReturn.ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
                     purchaseOrderReturn.PurchaseOrder = await purchaseOrderService.GetPurchaseOrderById(purchaseOrderReturn.PurchaseOrderId, authToken); ;
                     purchaseOrderReturn.PurchaseOrder.Vendor = await vendorService.GetVendorById(purchaseOrderReturn.PurchaseOrder.VendorID, authToken);
                     purchaseOrderReturn.PurchaseOrder.Vendor.City = await cityService.GetCityById(purchaseOrderReturn.PurchaseOrder.Vendor.cityId, authToken);
@@ -246,29 +247,31 @@ namespace ShivaEnterpriseWebApp.Controllers
                 string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
 
                 //---Stock Delete---
-                List<PurchaseOrderReturn> purchaseReturnLst = await purchaseReturnService.GetpurchaseReturnList(authToken);
-                PurchaseOrderReturn purchaseReturnDetail = purchaseReturnLst.Where(pr => pr.PurchaseReturnId == purchaseReturnId).FirstOrDefault();
+                PurchaseOrderReturn purchaseReturnLst = await purchaseReturnService.GetpurchaseReturnById(purchaseReturnId, authToken);
+                //PurchaseOrderReturn purchaseReturnDetail = purchaseReturnLst.Where(pr => pr.PurchaseReturnId == purchaseReturnId).FirstOrDefault();
+                List<Product> prd = await productService.getProdutFromPurchaseOrderId(purchaseReturnLst.PurchaseOrderId, authToken);
+               // PurchaseOrderDetail purchaseOrderDetails = await purchaseOrderDetailService.GetPurchaseOrderDetailsbyPurcahseOrderid(purchaseReturnId, authToken);
 
                 List<Stock> stock = new List<Stock>();
                 List<Inventory> inventory = new List<Inventory>();
 
                 stock.Add(new Stock
                 {
-                    ProductId = purchaseReturnDetail.ProductId,
-                    QuantityOnHand = purchaseReturnDetail.ReturnQuantity,
+                    ProductId = prd[0].ProductId,
+                    QuantityOnHand = purchaseReturnLst.ReturnQuantity,
                     ReorderLevel = "Default",
                     ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
                 });
 
                 inventory.Add(new Inventory
                 {
-                    ProductId = purchaseReturnDetail.ProductId,
-                    OpeningQty = purchaseReturnDetail.ReturnQuantity,
+                    ProductId = prd[0].ProductId,
+                    OpeningQty = purchaseReturnLst.ReturnQuantity,
                     ClosingQty = 0,
-                    InQuantity = purchaseReturnDetail.ReturnQuantity,
+                    InQuantity = purchaseReturnLst.ReturnQuantity,
                     OutQuantity = 0,
                     TransactionDate = DateTime.Now,
-                    InventoryCost = (decimal)purchaseReturnDetail.TotalAmount,
+                    InventoryCost = (decimal)purchaseReturnLst.TotalAmount,
                     ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
                 });
 

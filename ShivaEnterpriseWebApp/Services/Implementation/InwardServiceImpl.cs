@@ -117,7 +117,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             return inwardDetail;
         }
 
-        public async Task<List<Product>> GetProductByPurchseOrderId(Guid productId, string authToken)
+        public async Task<Product> GetProductByPurchseOrderId(Guid productId, string authToken)
         {
             var url = urlCollections["baseUrl"].ToString() + urlCollections["getproductbyidUrl"] + "?productId=" + productId;
             var client = new HttpClient();
@@ -134,7 +134,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
 
             //close out the client
             client.Dispose();
-            var productDetail = JsonConvert.DeserializeObject<List<Product>>(result);
+            var productDetail = JsonConvert.DeserializeObject<Product>(result);
             //var productDetail = JsonConvert.DeserializeObject<Product>(result);
 
             return productDetail;

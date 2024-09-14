@@ -179,11 +179,11 @@ namespace ShivaEnterpriseWebApp.Controllers
                         return View("AddOrEditSalesReturn", salesReturn);
                     }
 
-                    //----Add Stock-----
+                    List<Product> productLst = await productService.getProdutFromSaleOrderId(salesReturn.SalesOrderID, authToken);
                     List<Stock> lst = new List<Stock>();
                     lst.Add(new Stock()
                     {
-                        ProductId = salesReturn.ProductId,
+                        ProductId = productLst[0].ProductId,
                         QuantityOnHand = salesReturn.ReturnedQuantity,
                         ReorderLevel = "Default",
                         ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
@@ -196,7 +196,7 @@ namespace ShivaEnterpriseWebApp.Controllers
                     List<Inventory> inventory = new List<Inventory>();
                     inventory.Add(new Inventory
                     {
-                        ProductId = salesReturn.ProductId,
+                        ProductId = productLst[0].ProductId,
                         OpeningQty = salesReturn.ReturnedQuantity,
                         ClosingQty = 0 - salesReturn.ReturnedQuantity,
                         InQuantity = 0,
@@ -281,15 +281,17 @@ namespace ShivaEnterpriseWebApp.Controllers
             try
             {
                 string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
+                var isSuccess = await salesReturnService.DeleteSalesReturn(salesReturnId, authToken);
 
                 //---Stock Delete---
                 List<SalesReturn> saleReturnLst = await salesReturnService.GetSalesReturnList(authToken);
                 SalesReturn saleReturn = saleReturnLst.Where(sr => sr.SalesReturnID == salesReturnId).FirstOrDefault();
+                List<Product> productLst = await productService.getProdutFromSaleOrderId(saleReturn.SalesOrderID, authToken);
 
                 List<Stock> lst = new List<Stock>();
                 lst.Add(new Stock()
                 {
-                    ProductId = saleReturn.ProductId,
+                    ProductId = productLst[0].ProductId,
                     QuantityOnHand = 0 - saleReturn.ReturnedQuantity,
                     ReorderLevel = "Default",
                     ModifiedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value
@@ -302,7 +304,7 @@ namespace ShivaEnterpriseWebApp.Controllers
                 List<Inventory> inventory = new List<Inventory>();
                 inventory.Add(new Inventory
                 {
-                    ProductId = saleReturn.ProductId,
+                    ProductId = productLst[0].ProductId,
                     OpeningQty = 0 - saleReturn.ReturnedQuantity,
                     ClosingQty = saleReturn.ReturnedQuantity,
                     InQuantity = 0,
@@ -317,7 +319,6 @@ namespace ShivaEnterpriseWebApp.Controllers
                 }
                 //--Inventory Delete--
 
-                var isSuccess = await salesReturnService.DeleteSalesReturn(salesReturnId, authToken);
                 if (isSuccess.successs)
                 {
                     return RedirectToAction(nameof(Index));

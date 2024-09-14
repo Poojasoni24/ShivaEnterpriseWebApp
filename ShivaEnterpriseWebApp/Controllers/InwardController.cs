@@ -63,14 +63,15 @@ namespace ShivaEnterpriseWebApp.Controllers
                 if (inwardId != Guid.Empty)
                 {
                     var inwardDetail = await _inwardService.GetInwardById(inwardId, authToken);
-                    productDataList = await _inwardService.GetProductByPurchseOrderId(inwardDetail.PurchaseOrderId, authToken);
+                    productDataList = new List<Product>();
+                    productDataList.Add(await _inwardService.GetProductByPurchseOrderId(inwardDetail.ProductId, authToken));
                     productDropdownList = new SelectList(productDataList, "ProductId", "ProductName");
 
                     ViewBag.ProductSelectList = productDropdownList;
 
                     if (inwardDetail != null)
                     {
-                        return View("AddOrEditOutward", inwardDetail);
+                        return View("AddOrEditInward", inwardDetail);
                     }
                 }
                 return View("AddOrEditInward", new Inward());
@@ -97,17 +98,22 @@ namespace ShivaEnterpriseWebApp.Controllers
              
                 if (inwardDetails.InwardId != Guid.Empty)
                 {
+                    //inwardDetails.Product = product;
+                    //inwardDetails.Vendor = vendor;
+                    //inwardDetails.PurchaseOrder = purchaseOrder;
+                    //inwardDetails.PurchaseOrder.Vendor = inwardDetails.Vendor;
+
                     await _inwardService.EditInwardDetailsAsync(inwardDetails, authToken);
                 }
                 else
                 { 
                     inwardDetails.InwardId = Guid.NewGuid();
                     inwardDetails.CreatedDate = DateTime.Now;
-                    inwardDetails.Product = product;
-                    inwardDetails.Vendor = vendor;
-                    inwardDetails.Vendor.City = await CityService.GetCityById(vendor.cityId, authToken);
-                    inwardDetails.PurchaseOrder = purchaseOrder;
-                    inwardDetails.PurchaseOrder.Vendor = inwardDetails.Vendor;
+                    //inwardDetails.Product = product;
+                    //inwardDetails.Vendor = vendor;
+                    //inwardDetails.Vendor.City = await CityService.GetCityById(vendor.cityId, authToken);
+                    //inwardDetails.PurchaseOrder = purchaseOrder;
+                    //inwardDetails.PurchaseOrder.Vendor = inwardDetails.Vendor;
 
 
                     await _inwardService.AddInwardDetailsAsync(inwardDetails, authToken);

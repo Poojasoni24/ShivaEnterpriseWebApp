@@ -32,10 +32,10 @@
         public string ModifiedBy { get; set; }
         public DateTime ModifiedDate { get; set; }
 
-        public Vendor Vendor { get; set; }
+        //public Vendor Vendor { get; set; }
 
-        public PurchaseOrder PurchaseOrder { get; set; }
+        //public PurchaseOrder PurchaseOrder { get; set; }
 
-        public Product Product { get; set; }
+        //public Product Product { get; set; }
     }
 }
