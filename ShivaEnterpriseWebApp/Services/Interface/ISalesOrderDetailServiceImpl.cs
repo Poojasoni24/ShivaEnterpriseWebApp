@@ -9,6 +9,6 @@ namespace ShivaEnterpriseWebApp.Services.Interface
         Task<SalesOrderDetail> getsalesorderdetailbySalesOrderid(Guid salesorderdetailId, string authToken);
         Task<(bool successs, string message)> DeleteSalesOrderDetail(Guid salesorderdetailId, string authToken);
         Task<(bool success, string message)> AddSalesOrderDetailDetailsAsync(List<SalesOrderDetail> salesorderdetail, string authToken);
-        Task<(bool success, string message)> EditSalesOrderDetailDetailsAsync(SalesOrderDetail salesorderdetail, string authToken);
+        Task<(bool success, string message)> EditSalesOrderDetailDetailsAsync(List<SalesOrderDetail> salesorderdetail, string authToken);
     }
 }

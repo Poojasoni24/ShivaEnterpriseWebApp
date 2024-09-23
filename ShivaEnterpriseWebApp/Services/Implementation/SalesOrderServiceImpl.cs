@@ -71,7 +71,7 @@ namespace ShivaEnterpriseWebApp.Services.Implementation
             return (true, result);
         }
 
-        public async Task<(bool success, string message)> EditSalesOrderDetailsAsync(SalesOrder salesorder, string authToken)
+        public async Task<(bool success, string value)> EditSalesOrderDetailsAsync(SalesOrder salesorder, string authToken)
         {
             try
             {

@@ -172,7 +172,7 @@ $("#podetaildiv").on("click", "#btnAdd", function () {
 });
 
 $("#podetaildiv").on("click", "#btnupdate", function () {
-
+    debugger
     var purchaseOrderDetailIdcell = $(this).closest("tr").find(".purchaseOrderDetailId-cell");
     var purchaseOrderIdcell = $(this).closest("tr").find(".purchaseOrderId-cell");
     var productIdcell = $(this).closest("tr").find(".productId-cell");

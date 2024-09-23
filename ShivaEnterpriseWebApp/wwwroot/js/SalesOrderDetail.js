@@ -23,7 +23,6 @@ $(document).ready(function () {
             self.find("#enable_disable").removeClass("d-none");
             self.find("#enable_disable").addClass("d-block");
             self.find('#enable_disable').on('change', function () {
-                debugger;
                 //var selectedCheckboxes = $('#enable_disable:checked');
                 var isChecked = $(this).prop('checked');
                 var qtycell = $(this).closest("tr").find(".qty-cell");
@@ -34,17 +33,17 @@ $(document).ready(function () {
 
                     var qtycontent = qtycell.text();
                     if (qtycontent != '') {
-                        qtycell.html("<input type='Number' id='txtupdatedQty' value='" + qtycontent.trim() + "' onchange='CalculationAfterUpdate()' />");
+                        qtycell.html("<input type='Number' id='txtupdatedQty' value='" + qtycontent.trim() + "' onchange='SOCalculationAfterUpdate()' />");
                     }
 
                     var unitpricecontent = unitpricecell.text();
                     if (unitpricecontent != '') {
-                        unitpricecell.html("<input type='Number' id='txtupdatedUnitprice' value='" + unitpricecontent.trim() + "' onchange='CalculationAfterUpdate()'/>");
+                        unitpricecell.html("<input type='Number' id='txtupdatedUnitprice' value='" + unitpricecontent.trim() + "' onchange='SOCalculationAfterUpdate()'/>");
                     }
 
                     var discountcontent = discountcell.text();
                     if (discountcontent != '') {
-                        discountcell.html("<input type='Number' id='txtupdatedDiscount' value='" + discountcontent.trim() + "'onchange='UpdateDiscount()' />");
+                        discountcell.html("<input type='Number' id='txtupdatedDiscount' value='" + discountcontent.trim() + "'onchange='SOUpdateDiscount()' />");
                     }
 
                     var netTotalContent = netTotalcell.text();
@@ -164,54 +163,75 @@ $("#sodetaildiv").on("click", "#btnAdd", function () {
     txtsoNetTotal.val("");
     ProductId.val(0);
     BrandId.val(0);
+});
+
+
+$("#sodetaildiv").on("click", "#btnupdate", function () {
+    debugger;
+    var salesOrderDetailIdcell = $(this).closest("tr").find(".salesOrderDetailId-cell");
+    var salesOrderIdcell = $(this).closest("tr").find(".salesOrderId-cell");
+    var productIdcell = $(this).closest("tr").find(".productId-cell");
+    var BrandIdcell = $(this).closest("tr").find(".brandId-cell");
+    var qtycell = $(this).closest("tr").find(".qty-cell");
+    var unitpricecell = $(this).closest("tr").find(".unitprice-cell");
+    var discountcell = $(this).closest("tr").find(".discount-cell");
+    var netTotalcell = $(this).closest("tr").find(".nettotal-cell");
+    var CreatedBy = $(this).closest("tr").find(".createdby-cell");
+    var CreatedDt = $(this).closest("tr").find(".createddate-cell");
+
+    var salesOrderDetailIdContent = salesOrderDetailIdcell.text();
+    var salesOrderIdContent = salesOrderIdcell.text();
+    var productIdContent = productIdcell.text();
+    var brandIdContent = BrandIdcell.text();
+    var netTotalContent = netTotalcell.text();
+    var createdByContent = CreatedBy.text();
+    var createdDtContent = CreatedDt.text();
+    var parts = createdDtContent.split(/[- :]/);
+    // Note: Month is 0-based, so subtract 1 from the month value
+    var dateTimeObject = new Date(parts[2], parts[1] - 1, parts[0], parts[3], parts[4], parts[5]);
+
+    var qtyContent = qtycell.find("input[type='Number']").val();
+    qtycell.html(qtyContent);
+
+    var unitpriceContent = unitpricecell.find("input[type='Number']").val();
+    unitpricecell.html(unitpriceContent);
+
+    var discountContent = discountcell.find("input[type='Number']").val();
+    discountcell.html(discountContent);
+
+    var netTotalContent = netTotalcell.find("input[type='text']").val();
+    netTotalcell.html(netTotalContent);
+    $("#tblSalesOrderDetail tbody tr").each(function () {
+        var counter = 0;
+        counter++;
+        var self = $(this);
+        var tdCounter = 0;
+        self.find('td').each(function () {
+            tdCounter++;
+            if (self.find('#enable_disable').prop('checked')) {
+                self.find('#enable_disable').prop('checked', false).trigger('change');
+            }
+
+        });
     });
 
+    SOTotalAmountCalculation();
 
- $("#sodetaildiv").on("click", "#btnupdate", function () {
-
-        var salesOrderDetailIdcell = $(this).closest("tr").find(".salesOrderDetailId-cell");
-        var salesOrderIdcell = $(this).closest("tr").find(".salesOrderId-cell");
-        var salesIdcell = $(this).closest("tr").find(".productId-cell");
-        var BrandIdcell = $(this).closest("tr").find(".brandId-cell");
-        var qtycell = $(this).closest("tr").find(".qty-cell");
-        var unitpricecell = $(this).closest("tr").find(".unitprice-cell");
-        var discountcell = $(this).closest("tr").find(".discount-cell");
-        var netTotalcell = $(this).closest("tr").find(".nettotal-cell");
-        //var CreatedBy = $(this).closest("tr").find(".createdby-cell");
-        //var CreatedDt = $(this).closest("tr").find(".createddate-cell");
-
-        var salesOrderDetailIdContent = salesOrderDetailIdcell.text();
-        var salesOrderIdContent = salesOrderIdcell.text();
-        var productIdContent = productIdcell.text();
-        var brandIdContent = BrandIdcell.text();
-        //var createdByContent = CreatedBy.text();
-        //var createdDtContent = CreatedDt.text();
-
-        var qtyContent = qtycell.find("input[type='text']").val();
-        qtycell.html(qtyContent);
-
-        var unitpriceContent = unitpricecell.find("input[type='text']").val();
-        unitpricecell.html(unitpriceContent);
-
-        var discountContent = discountcell.find("input[type='text']").val();
-        discountcell.html(discountContent);
-
-        var netTotalContent = netTotalcell.text();
-
-        let SalesOrderDetail = {
-            SalesOrderDetailId: salesOrderDetailIdContent,
-            SalesOrderId: salesOrderIdContent,
-            ProductId: productIdContent,
-            BrandId: brandIdContent,
-            Quantity: qtyContent,
-            Discount: discountContent,
-            UnitPrice: unitpriceContent,
-            NetTotal: netTotalContent,
-            //CreatedBy: createdByContent,
-            //CreatedDateTime: createdDtContent,
-        }
-        updatedSOs.push(SalesOrderDetail);
-    });
+    let SalesOrderDetail = {
+        SalesOrderDetailId: salesOrderDetailIdContent,
+        SalesOrderId: salesOrderIdContent,
+        ProductId: productIdContent,
+        BrandId: brandIdContent,
+        Quantity: qtyContent,
+        Discount: discountContent,
+        UnitPrice: unitpriceContent,
+        NetTotal: netTotalContent,
+        Tax_Percentage: $('#SalesOrder_tax').val().toString(),
+        CreatedBy: createdByContent,
+        //CreatedDateTime: createdDtContent,
+    }
+    updatedSOs.push(SalesOrderDetail);
+});
 function Remove(button) {
     //Determine the reference of the Row using the Button.
     var row = $(button).closest("TR");
@@ -226,6 +246,7 @@ function Remove(button) {
 };
 
 $("#btnSalesSave").on("click", function () {
+    debugger;
     //Loop through the Table rows and build a JSON array.
     let Sodetails = [];
     let SoHeaders = [];
@@ -235,7 +256,6 @@ $("#btnSalesSave").on("click", function () {
     var dateTimeObject = new Date(parts[2], parts[1] - 1, parts[0], parts[3], parts[4], parts[5]);
 
     $("#tblSalesOrderDetail TBODY TR").each(function () {
-        debugger;
         var row = $(this);
         var soCreatedDt = row.find("TD").eq(5).html() == "" ? "01-01-0001 00:00:00" : row.find("TD").eq(5).html();
         var parts = soCreatedDt.split(/[- :]/);
@@ -255,7 +275,7 @@ $("#btnSalesSave").on("click", function () {
         };
         Sodetails.push(SODetail);
     });
-    Sodetails = Sodetails.filter(val => !updatedSOs.includes(val));
+    //Sodetails = Sodetails.filter(val => !updatedSOs.includes(val));
     let SOHeader = {
 
         SalesOrderId: $('#SalesOrder_SalesOrderId').val() == "" ? "00000000-0000-0000-0000-000000000000" : $('#SalesOrder_SalesOrderId').val(),
@@ -317,9 +337,42 @@ $('#txtsoUnitprice').on('change', function () {
 });
 
 $("#txtsoDiscount").on('change', function () {
-    debugger;
     var discount = $("#txtsoDiscount").val();
     var netPrice = $("#txtsonetTotal").val();
     var discountAmount = netPrice * (discount / 100);
     $("#txtsonetTotal").val(netPrice - discountAmount);
 });
+
+function SOTotalAmountCalculation() {
+    var total = 0;
+    var tax = $('#tax').val();
+    $("#tblSalesOrderDetail tbody tr").each(function () {
+        var Networkcell = parseInt($(this).closest("tr").find(".nettotal-cell").text());
+        total = total + Networkcell;
+    });
+
+    total = total + (total * tax / 100);
+    $('#totalNumber').val(total);
+}
+
+function SOCalculationAfterUpdate() {
+    var qty = $("#txtupdatedQty").val();
+    var unitprice = $("#txtupdatedUnitprice").val();
+    var netPrice = qty * unitprice;
+    $("#txtupdatednetTotal").val(netPrice);
+    SOUpdateDiscount();
+}
+
+function SOUpdateDiscount() {
+    var discount = $("#txtupdatedDiscount").val();
+    var netPrice = $("#txtupdatednetTotal").val();
+    var discountAmount = netPrice * (discount / 100);
+    $("#txtupdatednetTotal").val(netPrice - discountAmount);
+}
+
+function SOCalculation() {
+    var qty = $("#txtQty").val();
+    var unitprice = $("#txtUnitprice").val();
+    var netPrice = qty * unitprice;
+    $("#txtnetTotal").val(netPrice);
+}
