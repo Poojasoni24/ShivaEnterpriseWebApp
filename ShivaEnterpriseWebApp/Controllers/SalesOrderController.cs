@@ -83,6 +83,7 @@ namespace ShivaEnterpriseWebApp.Controllers
                 var SalesOrderDetail = salesorderDetailService.GetSalesOrderDetailList(authToken).Result.Where(x => x.SalesOrderId == salesorderId).ToList();
                 if (SalesOrder != null && SalesOrderDetail != null)
                 {
+                    SalesOrder.Customer = await customerService.GetCustomerById(SalesOrder.CustomerId, authToken);
                     SalesOrderDetail.ForEach(x =>
                     {
                         x.Product = productService.GetProductById(x.ProductId, authToken).Result;
@@ -106,6 +107,7 @@ namespace ShivaEnterpriseWebApp.Controllers
             try
             {
                 var salesOrderId = Guid.Empty;
+                bool isUpdated = false;
                 List<SalesOrderDetail> soDetailList = new List<SalesOrderDetail>();
                 string? authToken = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Hash)?.Value;
 
@@ -275,6 +277,7 @@ namespace ShivaEnterpriseWebApp.Controllers
                             });
 
                             await salesorderDetailService.EditSalesOrderDetailDetailsAsync(SalesOrderViewModel.UpdatedSODetail, authToken);
+                            isUpdated = true;
                         }
 
                     }
@@ -302,26 +305,29 @@ namespace ShivaEnterpriseWebApp.Controllers
                                 x.CreatedDateTime = DateTime.Now;
                                 x.Product = productService.GetProductById(x.ProductId, authToken).Result;
                                 x.Brand = brandService.GetBrandById(x.BrandId, authToken).Result;
+                                x.Tax_Percentage = SalesOrderViewModel.SalesOrder.Tax_Percentage.ToString();
                             });
 
                         await salesorderDetailService.AddSalesOrderDetailDetailsAsync(SalesOrderViewModel.SODetail, authToken);
+                        isUpdated = false;
                     }
                 }
 
-                if (SalesOrderViewModel.SODetail.Any(x => x.SalesOrderDetailId == Guid.Empty))
+                if (SalesOrderViewModel.SODetail.Any(x => x.SalesOrderDetailId == Guid.Empty) && isUpdated)
                 {
                     var addNewSO = SalesOrderViewModel.SODetail.Where(x => x.SalesOrderDetailId == Guid.Empty).ToList();
                     addNewSO.ForEach(
                         x =>
                         {
                             x.SalesOrderId = salesOrderId;
+                            x.Tax_Percentage = SalesOrderViewModel.SalesOrder.Tax_Percentage.ToString();
                             x.CreatedBy = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
                             x.CreatedDateTime = DateTime.Now;
                             x.Product = productService.GetProductById(x.ProductId, authToken).Result;
                             x.Brand = brandService.GetBrandById(x.BrandId, authToken).Result;
                         });
 
-                    await salesorderDetailService.AddSalesOrderDetailDetailsAsync(addNewSO, authToken);
+                   await salesorderDetailService.AddSalesOrderDetailDetailsAsync(addNewSO, authToken);
                 }
 
                 return RedirectToAction(nameof(Index));

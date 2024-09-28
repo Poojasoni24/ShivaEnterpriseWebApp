@@ -15,7 +15,7 @@ $(document).ready(function () {
         var self = $(this);
         self.addClass("row_" + counter);
         var tdCounter = 0;
-
+       
         self.find("input[value='Remove']").addClass("d-none");
         self.find('td').each(function () {
             tdCounter++;
@@ -83,6 +83,7 @@ $(document).ready(function () {
 
 
 $("#sodetaildiv").on("click", "#btnAdd", function () {
+
     //Reference the Name and Country TextBoxes.
     var txtsoproduct = $("#ProductId").find(":selected").text();
     ProductId = $("#ProductId").find(":selected").val();
@@ -90,7 +91,13 @@ $("#sodetaildiv").on("click", "#btnAdd", function () {
     BrandId = $("#BrandId").find(":selected").val();
     var txtsoQty = $("#txtsoQty");
     var txtsoUnitprice = $("#txtsoUnitprice");
+    //debugger;
+    if ($('#customerDiscount').val() != null) {
+        $("#txtsoDiscount").val($("#customerDiscount").val());
+    }
     var txtsoDiscount = $("#txtsoDiscount");
+
+
     var txtsoNetTotal = $("#txtsonetTotal");
 
     //Get the reference of the Table's TBODY element.

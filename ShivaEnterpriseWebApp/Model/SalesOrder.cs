@@ -18,6 +18,7 @@ namespace ShivaEnterpriseWebApp.Model
         public string? ModifiedBy { get; set; }
         public DateTime? ModifiedDateTime { get; set; }
         public Customer Customer { get; set; }
+        public decimal? CustomerDiscount { get; set; }
 
     }
 }
